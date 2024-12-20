@@ -1,45 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   console.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2024/12/20 13:48:16 by lilefebv         ###   ########lyon.fr   */
+/*   Created: 2024/12/20 10:57:10 by lilefebv          #+#    #+#             */
+/*   Updated: 2024/12/20 11:06:22 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-# define FDF_H
+#include "fdf.h"
 
-# include "libft.h"
-# include "mlx.h"
-# include <fcntl.h>
-
-void	print_error(char *str);
-
-typedef struct s_point
+void	print_error(char *str)
 {
-	int	x;
-	int	y;
-	int	color;
-}	t_point;
-
-typedef struct s_camera
-{
-	double	rotation;
-	double	zoom;
-	double	pos_x;
-	double	pos_y;
-}	t_camera;
-
-typedef struct s_map
-{
-	int	**map;
-	int	**color_map;
-	int	length;
-	int	height;
-}	t_map;
-
-#endif
+	ft_printf("%s[Error]%s %s\n", RED, NC, str);
+}

@@ -6,7 +6,7 @@
 #    By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/19 13:55:49 by lilefebv          #+#    #+#              #
-#    Updated: 2024/12/19 18:24:15 by lilefebv         ###   ########lyon.fr    #
+#    Updated: 2024/12/20 11:08:01 by lilefebv         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ INCLUDES = -I includes/ -I $(LIBFTDIR)includes/ -I $(MINILIBXDIR)
 
 # Source files
 SRC_DIR  = srcs/
-SRCS     = fdf.c
+SRCS     = fdf.c console.c
 
 SRCS_BONUS = 
 

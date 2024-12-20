@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:36:03 by lilefebv          #+#    #+#             */
-/*   Updated: 2024/12/19 18:27:30 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2024/12/20 11:07:17 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	main(void)
 	void	*mlx_win;
 	t_data	img;
 
+	print_error("Ceci est un test");
 	mlx = mlx_init();
 	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
 	img.img = mlx_new_image(mlx, 1920, 1080);
