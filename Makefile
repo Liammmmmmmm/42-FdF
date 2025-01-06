@@ -6,7 +6,7 @@
 #    By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/19 13:55:49 by lilefebv          #+#    #+#              #
-#    Updated: 2024/12/20 11:08:01 by lilefebv         ###   ########lyon.fr    #
+#    Updated: 2025/01/06 16:14:55 by lilefebv         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ ERASE2   = $(ERASE)\033[F$(ERASE)
 # Compiler and flags
 CC       = cc
 CFLAGS   = -Wall -Wextra -Werror -g3
-LDFLAGS  = -L$(MINILIBXDIR) -lXext -lX11
+LDFLAGS  = -L$(MINILIBXDIR) -lXext -lX11 -lm
 
 # libs
 LIBFTDIR = libft/
@@ -50,7 +50,7 @@ INCLUDES = -I includes/ -I $(LIBFTDIR)includes/ -I $(MINILIBXDIR)
 
 # Source files
 SRC_DIR  = srcs/
-SRCS     = fdf.c console.c
+SRCS     = fdf.c console.c parsing.c projections/matrix.c projections/projection_point.c
 
 SRCS_BONUS = 
 
@@ -179,7 +179,7 @@ bonus : libft_make $(BONUS)
 
 $(BONUS) : ${LIBFT} $(OBJ_BONUS)
 	@echo "$(GREEN)[Compiling program] $(NC)$(BONUS)"
-	@$(CC) $(CFLAGS) -o $(BONUS) $(OBJ_BONUS) $(LIBFTDIR)libft.a
+	@$(CC) $(CFLAGS) -o $(BONUS) $(OBJ_BONUS) $(LIBFT)
 	@echo "$(YELLOW)\nCompilation of $(YELLOW2)$(BONUS)$(YELLOW) finished successfully!$(NC)";
 	@echo "\n$(NORM_RET)";
 
