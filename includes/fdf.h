@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/06 18:41:10 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/07 14:51:26 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,36 @@
 
 # define PI_10D 3.1415926535
 
+// refaire toute la docsting en anglais
+
+typedef enum e_mouse_buttons
+{
+	LEFT_CLICK = 1,
+	MIDDLE_CLICK,
+	RIGHT_CLICK,
+	SCROLL_UP,
+	SCROLL_DOWN
+}	t_mouse_buttons;
+
+typedef enum e_event {
+	ON_KEYDOWN = 2,
+	ON_KEYUP = 3,
+	ON_MOUSEDOWN = 4,
+	ON_MOUSEUP = 5,
+	ON_MOUSEMOVE = 6,
+	ON_EXPOSE = 12,
+	ON_DESTROY = 17
+}   t_event;
+
+typedef struct	s_img
+{
+	void  *img;      /* pointer qui permet d'identifier l'image */
+	char  *img_str;  /* string contenant tous les pixels de l'image */
+	int   bits;      /* nombre de bits par pixels */
+	int   size_line; /*  taille de la img_str*/
+	int   endian;    /* permet de signifier la fin d'une image*/
+}               t_img;
+
 /**
  * @struct s_point
  * @brief Structure représentant un point dans l'espace 2D avec une couleur.
@@ -30,9 +60,9 @@
  */
 typedef struct s_point
 {
-    int	x;
-    int	y;
-    int	color;
+	int	x;
+	int	y;
+	int	color;
 }	t_point;
 
 /**
@@ -53,17 +83,18 @@ typedef struct s_point
  */
 typedef struct s_camera
 {
-    double	yaw;
-    double	pitch;
-    double	roll;
-    double	distance;
-    double	x;
-    double	y;
-    double	z;
+	double	yaw;
+	double	pitch;
+	double	roll;
+	double	distance;
+	double	x;
+	double	y;
+	double	z;
 	double	proj_x;
-    double	proj_y;
-    double	proj_z;
+	double	proj_y;
+	double	proj_z;
 	double	scale;
+	double	mouse_sensibility;
 }	t_camera;
 
 /**
@@ -91,11 +122,17 @@ typedef struct s_map
  */
 typedef struct s_env
 {
-    t_map		*map;
+	t_map		*map;
 	t_camera	*camera;
 	t_point		**point_list;
+	t_img		*img;
 	void		*mlx;
-	int			is_mouse_down;
+	void		*mlx_win;
+	int			mouse_click_rotation;
+	int			mouse_click_translation;
+	double		mouse_sensibility;
+	int			mouse_last_x;
+	int			mouse_last_y;
 }	t_env;
 
 void	print_error(char *str);
@@ -110,6 +147,6 @@ void	init_pitch_matrix(double matrix[3][3], double pitch);
 void	init_roll_matrix(double matrix[3][3], double roll);
 void	vector_multiply_matrix(double matrix[3][3], double vector[3]);
 
-t_point	*calculate_point_projection(int x, int y, t_map *map, t_camera *cam);
+void	calculate_point_projection(int x, int y, t_env *env);
 
 #endif

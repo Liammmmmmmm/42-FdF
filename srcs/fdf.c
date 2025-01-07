@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:36:03 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/06 18:51:00 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/07 15:24:01 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,79 +29,113 @@ void	print_map(t_map *map)
 	}
 }
 
-typedef struct	s_data {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}				t_data;
-
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+void	ft_free_tab_points(t_point **tab, size_t i)
 {
-	char	*dst;
+	size_t	c;
 
-	x += 1920 / 2;
-	y += 1080 / 2;
-	if (x >= 0 && x < 1920 && y >= 0 && y < 1080)
+	c = 0;
+	while (c < i)
 	{
-		dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-		*(unsigned int*)dst = color;
+		free(tab[c]);
+		c++;
 	}
+	free(tab);
 }
 
-t_data	create_frame(t_env *env)
+void	exit_free(t_env *env)
 {
-	t_data		img;
+	ft_free_tab_points(env->point_list, env->map->length * env->map->height);
+	ft_free_tab_int(env->map->map, env->map->height);
+	ft_free_tab_int(env->map->color_map, env->map->height);
+	free(env->map);
+	env->map = NULL;
+	free(env->camera);
+	env->camera = NULL;
+	mlx_destroy_image(env->mlx, env->img->img);
+	env->img->img = NULL;
+	mlx_destroy_window(env->mlx, env->mlx_win);
+	env->mlx_win = NULL;
+	mlx_destroy_display(env->mlx);
+	free(env->mlx);
+	env->mlx = NULL;
+	free(env);
+	env = NULL;
+}
 
-	img.img = mlx_new_image(env->mlx, 1920, 1080);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-	int y = 0;
+void	put_pixel_image(char *str, int x, int y, int color)
+{
+	unsigned char r;
+	unsigned char g;
+	unsigned char b;
+	int len;
+
+	len = 1920;
+
+	if (x < 0 || x >= len || y < 0 || y >= 1080)
+        return;
+
+	r = (color >> 16) & 0xff;
+	g = (color >> 8) & 0xff;
+	b = color & 0xff;
+
+	str[(x * 4) + (len * 4 * y)] = b;
+	str[(x * 4) + (len * 4 * y) + 1] = g;
+	str[(x * 4) + (len * 4 * y) + 2] = r;
+	str[(x * 4) + (len * 4 * y) + 3] = 0;
+}
+void	render_frame(t_env *env)
+{
+	int y;
+
+	y = 0;
+	if (env == NULL || env->img == NULL || env->img->img_str == NULL)
+        return;
+	ft_bzero(env->img->img_str, 1920 * 1080 * (env->img->bits / 8));
 	while (y < env->map->height)
 	{
 		int x = 0;
 		while (x < env->map->length)
 		{
-			t_point *point = calculate_point_projection(x, y, env->map, env->camera);
-			my_mlx_pixel_put(&img, point->x, point->y, point->color);
-			free(point);
+			calculate_point_projection(x, y, env);
+			put_pixel_image(env->img->img_str, env->point_list[y * env->map->length + x]->x, env->point_list[y * env->map->length + x]->y, env->point_list[y * env->map->length + x]->color);
 			x++;
 		}
 		y++;
 	}
-	return (img);
+	mlx_put_image_to_window(env->mlx, env->mlx_win, env->img->img, 0, 0);
 }
 
 double calc_scale(t_map *map, t_camera *camera)
 {
-    double screen_size = 1920.0;
-    double depth_factor = camera->distance / 10.0;
-    double scale = screen_size / depth_factor;
-    double map_size = fmax(map->length, map->height);
+	double screen_size = 1920.0;
+	double depth_factor = camera->distance / 10.0;
+	double scale = screen_size / depth_factor;
+	double map_size = fmax(map->length, map->height);
 	
-    scale /= map_size;
+	scale /= map_size;
 
-    return scale;
+	return scale;
 }
 
-t_camera	*init_camera(t_map *map)
+t_camera	*init_camera(t_env *env)
 {
 	t_camera	*camera;
 
 	camera = malloc(sizeof(t_camera));
 	if (!camera)
 		return (NULL);
-	camera->x = map->length / 2;
-	camera->y = map->height / 2;
+	camera->x = env->map->length / 2;
+	camera->y = env->map->height / 2;
 	camera->z = 0;
 	// camera->pitch = -PI_10D / 2;
-    // camera->yaw = 0.0;
-    // camera->roll = 0.0;
+	// camera->yaw = 0.0;
+	// camera->roll = 0.0;
 	camera->pitch = atan(sqrt(2.0));
 	camera->yaw = PI_10D / 4.0;
 	camera->roll = 0.0;
 	camera->distance = 30;
-	camera->scale = calc_scale(map, camera);
+	camera->mouse_sensibility = env->mouse_sensibility / camera->distance;
+	camera->scale = calc_scale(env->map, camera);
 	camera->proj_x = camera->x - camera->distance * cos(camera->pitch) * cos(camera->yaw);
 	camera->proj_y = camera->y - camera->distance * cos(camera->pitch) * sin(camera->yaw);
 	camera->proj_z = camera->z - camera->distance * sin(camera->pitch);
@@ -110,39 +144,177 @@ t_camera	*init_camera(t_map *map)
 	return (camera);
 }
 
+void	change_camera_distance(t_env *env, double new_distance)
+{
+	env->camera->distance = new_distance;
+	env->camera->scale = calc_scale(env->map, env->camera);
+	env->camera->proj_x = env->camera->x - env->camera->distance * cos(env->camera->pitch) * cos(env->camera->yaw);
+	env->camera->proj_y = env->camera->y - env->camera->distance * cos(env->camera->pitch) * sin(env->camera->yaw);
+	env->camera->proj_z = env->camera->z - env->camera->distance * sin(env->camera->pitch);
+	env->camera->mouse_sensibility = env->mouse_sensibility / env->camera->distance;
+}
+
+void	zoom(t_env *env, int direction)
+{
+	if (direction == SCROLL_UP && env->camera->distance > 0)
+	{
+		if (env->camera->distance <= 1)
+			change_camera_distance(env, env->camera->distance - 0.1);
+		else
+			change_camera_distance(env, env->camera->distance - 1.0);
+	}
+	else if (direction == SCROLL_DOWN)
+	{
+		if (env->camera->distance < 1)
+			change_camera_distance(env, env->camera->distance + 0.1);
+		else
+			change_camera_distance(env, env->camera->distance + 1.0);
+	}
+}
+
 int	mouse_down(int button, int x, int y, void *param)
 {
+	((t_env*)param)->mouse_last_x = x;
+	((t_env*)param)->mouse_last_y = y;
+	ft_printf("button press %d at %dx%d.\n",button,x,y);
+	if (button == SCROLL_DOWN || button == SCROLL_UP)
+		zoom(param, button);
+	else if (button == LEFT_CLICK || button == RIGHT_CLICK)
+		((t_env*)param)->mouse_click_rotation = 1;
+	else if (button == MIDDLE_CLICK)
+		((t_env*)param)->mouse_click_translation = 1;
+	return (0);
+}
+
+int	mouse_up(int button, int x, int y, void *param)
+{
+	((t_env*)param)->mouse_last_x = x;
+	((t_env*)param)->mouse_last_y = y;
+	// ft_printf("button released %d at %dx%d.\n",button,x,y);
+	if (button == LEFT_CLICK || button == RIGHT_CLICK)
+		((t_env*)param)->mouse_click_rotation = 0;
+	else if (button == MIDDLE_CLICK)
+		((t_env*)param)->mouse_click_translation = 0;
+	return (0);
+}
+
+void	rotate(int x, int y, t_env *env)
+{
+	int	dx;
+	int	dy;
+
+	if (env == NULL || env->camera == NULL)
+		return ;
+	dx = x - env->mouse_last_x;
+	dy = y - env->mouse_last_y;
+	env->camera->yaw += dx * env->camera->mouse_sensibility;
+	env->camera->pitch += dy * env->camera->mouse_sensibility;
+	if (env->camera->yaw > 2 * PI_10D)
+		env->camera->yaw = 0;
+	if (env->camera->yaw < 0)
+		env->camera->yaw = 2 * PI_10D;
+	if (env->camera->pitch > 2 * PI_10D)
+		env->camera->pitch = 0;
+	if (env->camera->pitch < 0)
+		env->camera->pitch = 2 * PI_10D;
+	env->camera->proj_x = env->camera->x - env->camera->distance * cos(env->camera->pitch) * cos(env->camera->yaw);
+	env->camera->proj_y = env->camera->y - env->camera->distance * cos(env->camera->pitch) * sin(env->camera->yaw);
+	env->camera->proj_z = env->camera->z - env->camera->distance * sin(env->camera->pitch);
+}
+
+int	mouse_move(int x, int y, void *param)
+{
+	//ft_printf("mouse move at %dx%d.\n", x, y);
+	if (((t_env*)param)->mouse_click_rotation)
+		rotate(x, y, (t_env*)param);
 	
+	((t_env*)param)->mouse_last_x = x;
+	((t_env*)param)->mouse_last_y = y;
+	return (0);
+}
+
+int	destroy(void *param)
+{
+	if (param != NULL)
+		mlx_loop_end(((t_env*)param)->mlx);
+	return (0);
+}
+
+int	keydown(int keycode, void *param)
+{
+	ft_printf("%d\n", keycode);
+	if (keycode == 65307)
+		mlx_loop_end(((t_env*)param)->mlx);
+	return (0);
 }
 
 void	events(t_env *env)
 {
-	mlx_hook(env->mlx, 4, 0, mouse_down, &env);
+	mlx_hook(env->mlx_win, ON_MOUSEDOWN, 1L<<2, mouse_down, env);
+	mlx_hook(env->mlx_win, ON_MOUSEUP, 1L<<3, mouse_up, env);
+	mlx_hook(env->mlx_win, ON_MOUSEMOVE, 1L<<6, mouse_move, env);
+	mlx_hook(env->mlx_win, ON_DESTROY, 0, destroy, env);
+	mlx_hook(env->mlx_win, ON_KEYDOWN, 1L<<0, keydown, env);
+}
+
+int	init_points(t_env *env)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	env->point_list = malloc(sizeof(t_point*) * env->map->length * env->map->height);
+	if (!env->point_list)
+		return (0);
+	while (y < env->map->height)
+	{
+		x = 0;
+		while (x < env->map->length)
+		{
+			env->point_list[y * env->map->length + x] = malloc(sizeof(t_point));
+			if (!env->point_list[y * env->map->length + x])
+				return (ft_free_tab_points(env->point_list, y * env->map->length + x), 0);
+			x++;
+		}
+		y++;
+	}
+	return (1);
+}
+
+int	render_next_frame(void *env)
+{
+	render_frame(env);
+	return (1);
 }
 
 int	main(int argc, char **argv)
 {
-	void	*mlx_win;
-	t_data	img;
 	t_env	*env;
 
 	if (argc != 2)
 		return (print_error("No map provided"), 1);
-	env = malloc(sizeof(t_env));
+	env = calloc(sizeof(t_env), 1);
 	if (!env)
 		return (print_error("An error occured"), 1);
 	env->map = parse_map(argv[1]);
 	if (!env->map)
 		return (print_error("An error occured"), free(env), 1);
-	env->camera = init_camera(env->camera);
+	env->camera = init_camera(env);
 	if (!env->camera)
-		return (print_error("An error occured"), free(env->map), free(env), 1);
-	// secure malloc
+		return (print_error("An error occured"), exit_free(env), 1);
+	if (init_points(env) == 0)
+		return (print_error("An error occured"), exit_free(env), 1);
+	env->img = malloc(sizeof(t_img));
+	if (!env->img)
+		return (print_error("An error occured"), exit_free(env), 1);
+	env->mouse_sensibility = 1.0;
 	env->mlx = mlx_init();
-	mlx_win = mlx_new_window(env->mlx, 1920, 1080, "Hello world!");
-	img = create_frame(env);
-	mlx_put_image_to_window(env->mlx, mlx_win, img.img, 0, 0);
+	env->mlx_win = mlx_new_window(env->mlx, 1920, 1080, "Hello world!");
+	env->img->img = mlx_new_image(env->mlx, 1920, 1080);
+	env->img->img_str = mlx_get_data_addr(env->img->img, &env->img->bits, &env->img->size_line, &env->img->endian);
 	events(env);
+	mlx_loop_hook(env->mlx, render_next_frame, env);
 	mlx_loop(env->mlx);
-	return (free(env->map), free(env->camera), free(env), 0);
+	exit_free(env);
+	return (0);
 }
