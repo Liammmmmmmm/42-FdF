@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:36:03 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/07 15:24:01 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/07 16:59:19 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,27 +62,6 @@ void	exit_free(t_env *env)
 	env = NULL;
 }
 
-void	put_pixel_image(char *str, int x, int y, int color)
-{
-	unsigned char r;
-	unsigned char g;
-	unsigned char b;
-	int len;
-
-	len = 1920;
-
-	if (x < 0 || x >= len || y < 0 || y >= 1080)
-        return;
-
-	r = (color >> 16) & 0xff;
-	g = (color >> 8) & 0xff;
-	b = color & 0xff;
-
-	str[(x * 4) + (len * 4 * y)] = b;
-	str[(x * 4) + (len * 4 * y) + 1] = g;
-	str[(x * 4) + (len * 4 * y) + 2] = r;
-	str[(x * 4) + (len * 4 * y) + 3] = 0;
-}
 void	render_frame(t_env *env)
 {
 	int y;

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/07 14:51:26 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/07 17:11:49 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,13 @@ typedef struct	s_img
 	int   size_line; /*  taille de la img_str*/
 	int   endian;    /* permet de signifier la fin d'une image*/
 }               t_img;
+
+typedef struct s_color
+{
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
+}	t_color;
 
 /**
  * @struct s_point
@@ -148,5 +155,12 @@ void	init_roll_matrix(double matrix[3][3], double roll);
 void	vector_multiply_matrix(double matrix[3][3], double vector[3]);
 
 void	calculate_point_projection(int x, int y, t_env *env);
+
+/*╔══════════════════════════════════════════════════════════════════════════╗*/
+/*║                               RENDERING                                  ║*/
+/*╚══════════════════════════════════════════════════════════════════════════╝*/
+
+void	put_pixel_image(char *str, int x, int y, int color);
+
 
 #endif

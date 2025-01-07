@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:16:14 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/07 13:25:11 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/07 16:21:16 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	calculate_point_projection(int x, int y, t_env *env)
 
 	vector[0] = x - env->camera->proj_x;
 	vector[1] = y - env->camera->proj_y;
-	vector[2] =env->map->map[y][x] -env->camera->proj_z;
+	vector[2] =env->map->map[y][x] - env->camera->proj_z;
 	init_yaw_matrix(matrix,env->camera->yaw);
 	vector_multiply_matrix(matrix, vector);
 	init_pitch_matrix(matrix,env->camera->pitch);
@@ -28,5 +28,5 @@ void	calculate_point_projection(int x, int y, t_env *env)
 	vector_multiply_matrix(matrix, vector);
 	env->point_list[y * env->map->length + x]->x = (int)((vector[0]) *env->camera->scale);
 	env->point_list[y * env->map->length + x]->y = (int)((vector[1]) *env->camera->scale);
-	env->point_list[y * env->map->length + x]->color =env->map->color_map[y][x];
+	env->point_list[y * env->map->length + x]->color = env->map->color_map[y][x];
 }
