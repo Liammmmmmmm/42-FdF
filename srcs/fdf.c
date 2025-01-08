@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:36:03 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/08 14:12:32 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/08 18:54:39 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,25 +54,33 @@ void	exit_free(t_env *env)
 	env->camera = NULL;
 	mlx_destroy_image(env->mlx, env->img->img);
 	env->img->img = NULL;
+	free(env->img);
 	mlx_destroy_window(env->mlx, env->mlx_win);
 	env->mlx_win = NULL;
 	mlx_destroy_display(env->mlx);
 	free(env->mlx);
 	env->mlx = NULL;
+	free(env->lines);
 	free(env);
 	env = NULL;
 }
 
 double calc_scale(t_map *map, t_camera *camera)
 {
-	double screen_size = 1920.0;
 	double depth_factor = camera->distance / 10.0;
-	double scale = screen_size / depth_factor;
+	double scale = WIN_WIDTH / depth_factor;
 	double map_size = fmax(map->length, map->height);
 	
 	scale /= map_size;
 
 	return scale;
+}
+
+void	calc_cam_proj(t_camera *camera)
+{
+	camera->proj_x = camera->x + camera->distance * cos(camera->pitch) * cos(camera->yaw);
+	camera->proj_y = camera->y + camera->distance * cos(camera->pitch) * sin(camera->yaw);
+	camera->proj_z = camera->z - camera->distance * sin(camera->pitch);
 }
 
 t_camera	*init_camera(t_env *env)
@@ -91,14 +99,10 @@ t_camera	*init_camera(t_env *env)
 	camera->pitch = atan(sqrt(2.0));
 	camera->yaw = PI_10D / 4.0;
 	camera->roll = 0.0;
-	camera->distance = 30;
+	camera->distance = camera->distance = sqrt(pow(env->map->length, 2) + pow(env->map->height, 2)) / 2.0;
 	camera->mouse_sensibility = env->mouse_sensibility / camera->distance;
 	camera->scale = calc_scale(env->map, camera);
-	camera->proj_x = camera->x - camera->distance * cos(camera->pitch) * cos(camera->yaw);
-	camera->proj_y = camera->y - camera->distance * cos(camera->pitch) * sin(camera->yaw);
-	camera->proj_z = camera->z - camera->distance * sin(camera->pitch);
-	#include <stdio.h>
-	printf("x:%.6f y:%.6f z:%.6f\n", camera->proj_x, camera->proj_y, camera->proj_z);
+	calc_cam_proj(camera);
 	return (camera);
 }
 
@@ -106,9 +110,7 @@ void	change_camera_distance(t_env *env, double new_distance)
 {
 	env->camera->distance = new_distance;
 	env->camera->scale = calc_scale(env->map, env->camera);
-	env->camera->proj_x = env->camera->x - env->camera->distance * cos(env->camera->pitch) * cos(env->camera->yaw);
-	env->camera->proj_y = env->camera->y - env->camera->distance * cos(env->camera->pitch) * sin(env->camera->yaw);
-	env->camera->proj_z = env->camera->z - env->camera->distance * sin(env->camera->pitch);
+	calc_cam_proj(env->camera);
 	env->camera->mouse_sensibility = env->mouse_sensibility / env->camera->distance;
 }
 
@@ -171,9 +173,7 @@ void	rotate(int x, int y, t_env *env)
 		env->camera->pitch = 0;
 	if (env->camera->pitch < 0)
 		env->camera->pitch = 2 * PI_10D;
-	env->camera->proj_x = env->camera->x - env->camera->distance * cos(env->camera->pitch) * cos(env->camera->yaw);
-	env->camera->proj_y = env->camera->y - env->camera->distance * cos(env->camera->pitch) * sin(env->camera->yaw);
-	env->camera->proj_z = env->camera->z - env->camera->distance * sin(env->camera->pitch);
+	calc_cam_proj(env->camera);
 }
 
 void get_local_axes(double axes[3][3], double yaw, double pitch, double roll)
@@ -203,12 +203,10 @@ void	translate(int x, int y, t_env *env)
 	delta_cam_move[0] = dx * local_axes[0][0] + dy * local_axes[1][0];
     delta_cam_move[1] = dx * local_axes[0][1] + dy * local_axes[1][1];
 	delta_cam_move[2] = dx * local_axes[0][2] + dy * local_axes[1][2];
-	env->camera->x += delta_cam_move[0];
-	env->camera->y += delta_cam_move[1];
-	env->camera->z += delta_cam_move[2];
-	env->camera->proj_x = env->camera->x - env->camera->distance * cos(env->camera->pitch) * cos(env->camera->yaw);
-	env->camera->proj_y = env->camera->y - env->camera->distance * cos(env->camera->pitch) * sin(env->camera->yaw);
-	env->camera->proj_z = env->camera->z - env->camera->distance * sin(env->camera->pitch);
+	env->camera->x += delta_cam_move[0] * env->mouse_sensibility * env->camera->distance / 100;
+	env->camera->y += delta_cam_move[1] * env->mouse_sensibility * env->camera->distance / 100;
+	env->camera->z += delta_cam_move[2] * env->mouse_sensibility * env->camera->distance / 100;
+	calc_cam_proj(env->camera);
 }
 
 int	mouse_move(int x, int y, void *param)
@@ -240,6 +238,13 @@ int	keydown(int keycode, void *param)
 		((t_env*)param)->z_ratio += 0.1;
 	else if (keycode == 105)
 		display_infos((t_env*)param);
+	else if (keycode == 112)
+	{
+		if (((t_env*)param)->perspective == 1)
+			((t_env*)param)->perspective = 0;
+		else
+			((t_env*)param)->perspective = 1;
+	}
 	return (0);
 }
 
@@ -276,6 +281,17 @@ int	init_points(t_env *env)
 	return (1);
 }
 
+int	init_lines(t_env *env)
+{
+	int	max_lines;
+
+	max_lines = (env->map->height - 1) * env->map->length + (env->map->length - 1) * env->map->height;
+	env->lines = malloc(sizeof(t_line) * max_lines);
+	if (!env->lines)
+		return (0);
+	return (1);
+}
+
 int	render_next_frame(void *env)
 {
 	render_frame(env);
@@ -299,17 +315,18 @@ int	main(int argc, char **argv)
 		return (print_error("An error occured"), exit_free(env), 1);
 	if (init_points(env) == 0)
 		return (print_error("An error occured"), exit_free(env), 1);
+	if (init_lines(env) == 0)
+		return (print_error("An error occured"), exit_free(env), 1);
 	env->img = malloc(sizeof(t_img));
 	if (!env->img)
 		return (print_error("An error occured"), exit_free(env), 1);
-	env->mouse_sensibility = 1.0;
+	env->mouse_sensibility = 0.4;
 	env->z_ratio = 1;
+	env->perspective = 0;
 	env->frames_gen = 0;
-	env->win_width = 1920;
-	env->win_height = 1080;
 	env->mlx = mlx_init();
-	env->mlx_win = mlx_new_window(env->mlx, env->win_width, env->win_height, "Hello world!");
-	env->img->img = mlx_new_image(env->mlx, env->win_width, env->win_height);
+	env->mlx_win = mlx_new_window(env->mlx, WIN_WIDTH, WIN_HEIGHT, "FdF");
+	env->img->img = mlx_new_image(env->mlx, WIN_WIDTH, WIN_HEIGHT);
 	env->img->img_str = mlx_get_data_addr(env->img->img, &env->img->bits, &env->img->size_line, &env->img->endian);
 	events(env);
 	mlx_loop_hook(env->mlx, render_next_frame, env);

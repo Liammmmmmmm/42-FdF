@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/08 15:15:06 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/08 17:48:32 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 # include <math.h>
 
 # define PI_10D 3.1415926535
+
+# define Z_ORDERING 0
+# define WIN_HEIGHT 1080
+# define WIN_WIDTH 1920
 
 // refaire toute la docsting en anglais
 
@@ -140,6 +144,8 @@ typedef struct s_env
 	t_map		*map;
 	t_camera	*camera;
 	t_point		**point_list;
+	t_line		*lines;
+	int			line_amount;
 	t_img		*img;
 	void		*mlx;
 	void		*mlx_win;
@@ -152,6 +158,8 @@ typedef struct s_env
 	int			win_height;
 	double		z_ratio;
 	int			frames_gen;
+	int			perspective;
+	int			z_ordering;
 }	t_env;
 
 void	print_error(char *str);
@@ -176,8 +184,11 @@ void	calculate_point_projection(int x, int y, t_env *env);
 
 void	put_pixel_image(char *str, int x, int y, int color);
 int		calc_gradiant_color(t_point *point_a, t_point *point_b, double ratio);
-int		is_point_in_frame(t_env *env, t_point *point);
+int		is_point_in_frame(t_point *point);
 void	draw_line(t_point *point_a, t_point *point_b, t_env *env);
+void	draw_every_lines(t_env *env);
+void	save_lines(t_env *env);
+void	quicksort_lines(t_line *lines, int low, int high);
 
 void	render_frame(t_env *env);
 

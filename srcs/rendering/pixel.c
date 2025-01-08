@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 16:59:26 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/08 11:28:07 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/08 16:33:34 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	put_pixel_image(char *str, int x, int y, int color)
 	unsigned char b;
 	int len;
 
-	len = 1920;
-	if (x < 0 || x >= len || y < 0 || y >= 1080)
+	len = WIN_WIDTH;
+	if (x < 0 || x >= len || y < 0 || y >= WIN_HEIGHT)
 		return;
 	r = (color >> 16) & 0xff;
 	g = (color >> 8) & 0xff;
