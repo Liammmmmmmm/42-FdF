@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   console.c                                          :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/20 10:57:10 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/08 12:40:52 by lilefebv         ###   ########lyon.fr   */
+/*   Created: 2025/01/08 11:24:26 by lilefebv          #+#    #+#             */
+/*   Updated: 2025/01/08 12:04:29 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	display_infos(t_env *env)
+int	is_point_in_frame(t_env *env, t_point *point)
 {
-	ft_printf("%d frames generees\n", env->frames_gen);
-}
-
-void	print_error(char *str)
-{
-	ft_printf("%s[Error]%s %s\n", RED, NC, str);
+	if (point->x < 0 || point->x >= env->win_width
+		|| point->y < 0 || point->y >= env->win_height)
+		return (0);
+	return (1);
 }

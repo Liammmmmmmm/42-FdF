@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:36:03 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/07 16:59:19 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/08 14:12:32 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	ft_free_tab_points(t_point **tab, size_t i)
 
 void	exit_free(t_env *env)
 {
+	display_infos(env);
 	ft_free_tab_points(env->point_list, env->map->length * env->map->height);
 	ft_free_tab_int(env->map->map, env->map->height);
 	ft_free_tab_int(env->map->color_map, env->map->height);
@@ -60,28 +61,6 @@ void	exit_free(t_env *env)
 	env->mlx = NULL;
 	free(env);
 	env = NULL;
-}
-
-void	render_frame(t_env *env)
-{
-	int y;
-
-	y = 0;
-	if (env == NULL || env->img == NULL || env->img->img_str == NULL)
-        return;
-	ft_bzero(env->img->img_str, 1920 * 1080 * (env->img->bits / 8));
-	while (y < env->map->height)
-	{
-		int x = 0;
-		while (x < env->map->length)
-		{
-			calculate_point_projection(x, y, env);
-			put_pixel_image(env->img->img_str, env->point_list[y * env->map->length + x]->x, env->point_list[y * env->map->length + x]->y, env->point_list[y * env->map->length + x]->color);
-			x++;
-		}
-		y++;
-	}
-	mlx_put_image_to_window(env->mlx, env->mlx_win, env->img->img, 0, 0);
 }
 
 double calc_scale(t_map *map, t_camera *camera)
@@ -155,7 +134,6 @@ int	mouse_down(int button, int x, int y, void *param)
 {
 	((t_env*)param)->mouse_last_x = x;
 	((t_env*)param)->mouse_last_y = y;
-	ft_printf("button press %d at %dx%d.\n",button,x,y);
 	if (button == SCROLL_DOWN || button == SCROLL_UP)
 		zoom(param, button);
 	else if (button == LEFT_CLICK || button == RIGHT_CLICK)
@@ -169,7 +147,6 @@ int	mouse_up(int button, int x, int y, void *param)
 {
 	((t_env*)param)->mouse_last_x = x;
 	((t_env*)param)->mouse_last_y = y;
-	// ft_printf("button released %d at %dx%d.\n",button,x,y);
 	if (button == LEFT_CLICK || button == RIGHT_CLICK)
 		((t_env*)param)->mouse_click_rotation = 0;
 	else if (button == MIDDLE_CLICK)
@@ -182,8 +159,6 @@ void	rotate(int x, int y, t_env *env)
 	int	dx;
 	int	dy;
 
-	if (env == NULL || env->camera == NULL)
-		return ;
 	dx = x - env->mouse_last_x;
 	dy = y - env->mouse_last_y;
 	env->camera->yaw += dx * env->camera->mouse_sensibility;
@@ -201,12 +176,47 @@ void	rotate(int x, int y, t_env *env)
 	env->camera->proj_z = env->camera->z - env->camera->distance * sin(env->camera->pitch);
 }
 
+void get_local_axes(double axes[3][3], double yaw, double pitch, double roll)
+{
+	double	yaw_matrix[3][3];
+	double	pitch_matrix[3][3];
+	double	roll_matrix[3][3];
+	double	temp_matrix[3][3];
+
+    init_yaw_matrix(yaw_matrix, yaw);
+    init_pitch_matrix(pitch_matrix, pitch);
+    init_roll_matrix(roll_matrix, roll);
+    multiply_matrix_3x3(temp_matrix, roll_matrix, pitch_matrix);
+    multiply_matrix_3x3(axes, temp_matrix, yaw_matrix);
+}
+
+void	translate(int x, int y, t_env *env)
+{
+	int 	dx;
+    int		dy;
+	double	local_axes[3][3];
+	double	delta_cam_move[3];
+
+	get_local_axes(local_axes, env->camera->yaw, env->camera->pitch, env->camera->roll);
+    dx = x - env->mouse_last_x;
+    dy = y - env->mouse_last_y;
+	delta_cam_move[0] = dx * local_axes[0][0] + dy * local_axes[1][0];
+    delta_cam_move[1] = dx * local_axes[0][1] + dy * local_axes[1][1];
+	delta_cam_move[2] = dx * local_axes[0][2] + dy * local_axes[1][2];
+	env->camera->x += delta_cam_move[0];
+	env->camera->y += delta_cam_move[1];
+	env->camera->z += delta_cam_move[2];
+	env->camera->proj_x = env->camera->x - env->camera->distance * cos(env->camera->pitch) * cos(env->camera->yaw);
+	env->camera->proj_y = env->camera->y - env->camera->distance * cos(env->camera->pitch) * sin(env->camera->yaw);
+	env->camera->proj_z = env->camera->z - env->camera->distance * sin(env->camera->pitch);
+}
+
 int	mouse_move(int x, int y, void *param)
 {
-	//ft_printf("mouse move at %dx%d.\n", x, y);
 	if (((t_env*)param)->mouse_click_rotation)
 		rotate(x, y, (t_env*)param);
-	
+	if (((t_env*)param)->mouse_click_translation)
+		translate(x, y, (t_env*)param);
 	((t_env*)param)->mouse_last_x = x;
 	((t_env*)param)->mouse_last_y = y;
 	return (0);
@@ -224,6 +234,12 @@ int	keydown(int keycode, void *param)
 	ft_printf("%d\n", keycode);
 	if (keycode == 65307)
 		mlx_loop_end(((t_env*)param)->mlx);
+	else if (keycode == 91 && ((t_env*)param)->z_ratio > 0)
+		((t_env*)param)->z_ratio -= 0.1;
+	else if (keycode == 93)
+		((t_env*)param)->z_ratio += 0.1;
+	else if (keycode == 105)
+		display_infos((t_env*)param);
 	return (0);
 }
 
@@ -287,9 +303,13 @@ int	main(int argc, char **argv)
 	if (!env->img)
 		return (print_error("An error occured"), exit_free(env), 1);
 	env->mouse_sensibility = 1.0;
+	env->z_ratio = 1;
+	env->frames_gen = 0;
+	env->win_width = 1920;
+	env->win_height = 1080;
 	env->mlx = mlx_init();
-	env->mlx_win = mlx_new_window(env->mlx, 1920, 1080, "Hello world!");
-	env->img->img = mlx_new_image(env->mlx, 1920, 1080);
+	env->mlx_win = mlx_new_window(env->mlx, env->win_width, env->win_height, "Hello world!");
+	env->img->img = mlx_new_image(env->mlx, env->win_width, env->win_height);
 	env->img->img_str = mlx_get_data_addr(env->img->img, &env->img->bits, &env->img->size_line, &env->img->endian);
 	events(env);
 	mlx_loop_hook(env->mlx, render_next_frame, env);

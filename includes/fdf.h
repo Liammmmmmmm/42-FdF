@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/07 17:11:49 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/08 15:15:06 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,16 @@ typedef struct s_point
 {
 	int	x;
 	int	y;
+	int	z;
 	int	color;
 }	t_point;
+
+typedef struct s_line
+{
+    t_point *start;
+    t_point *end;
+    float depth;
+}	t_line;
 
 /**
  * @struct s_camera
@@ -140,9 +148,14 @@ typedef struct s_env
 	double		mouse_sensibility;
 	int			mouse_last_x;
 	int			mouse_last_y;
+	int			win_width;
+	int			win_height;
+	double		z_ratio;
+	int			frames_gen;
 }	t_env;
 
 void	print_error(char *str);
+void	display_infos(t_env *env);
 t_map	*parse_map(char	*map_name);
 
 /*╔══════════════════════════════════════════════════════════════════════════╗*/
@@ -153,6 +166,7 @@ void	init_yaw_matrix(double matrix[3][3], double yaw);
 void	init_pitch_matrix(double matrix[3][3], double pitch);
 void	init_roll_matrix(double matrix[3][3], double roll);
 void	vector_multiply_matrix(double matrix[3][3], double vector[3]);
+void	multiply_matrix_3x3(double res[3][3], double a[3][3], double b[3][3]);
 
 void	calculate_point_projection(int x, int y, t_env *env);
 
@@ -161,6 +175,10 @@ void	calculate_point_projection(int x, int y, t_env *env);
 /*╚══════════════════════════════════════════════════════════════════════════╝*/
 
 void	put_pixel_image(char *str, int x, int y, int color);
+int		calc_gradiant_color(t_point *point_a, t_point *point_b, double ratio);
+int		is_point_in_frame(t_env *env, t_point *point);
+void	draw_line(t_point *point_a, t_point *point_b, t_env *env);
 
+void	render_frame(t_env *env);
 
 #endif
