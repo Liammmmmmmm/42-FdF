@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:18:42 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/10 15:52:57 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/10 16:48:24 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,16 @@ void	rotate(int x, int y, t_env *env)
 		env->camera->pitch = -PI_10D;
 	if (env->camera->pitch < -PI_10D)
 		env->camera->pitch = PI_10D;
+	calc_cam_proj(env, env->camera);
+}
+
+void	roll(int direction, t_env *env)
+{
+	env->camera->roll += direction * 0.1;
+	if (env->camera->roll > PI_10D)
+		env->camera->roll = -PI_10D;
+	if (env->camera->roll < -PI_10D)
+		env->camera->roll = PI_10D;
 	calc_cam_proj(env, env->camera);
 }
 

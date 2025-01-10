@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/10 16:00:55 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/10 16:48:54 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,6 +213,7 @@ double	calc_scale(t_map *map, t_camera *camera);
 void	zoom(t_env *env, int direction);
 void	rotate(int x, int y, t_env *env);
 void	translate(int x, int y, t_env *env);
+void	roll(int direction, t_env *env);
 
 /*╔══════════════════════════════════════════════════════════════════════════╗*/
 /*║                                  EVENTS                                  ║*/

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:34:24 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/10 15:49:02 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/10 16:56:45 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ int	init_camera(t_env *env)
 	env->camera->x = env->map->length / 2;
 	env->camera->y = env->map->height / 2;
 	env->camera->z = 0;
-	env->camera->pitch = 0;
-	env->camera->yaw = 0;
-	env->camera->roll = 0.0;
-	// env->camera->pitch = atan(sqrt(2.0));
-	// env->camera->yaw = PI_10D / 4.0;
+	// env->camera->pitch = 0;
+	// env->camera->yaw = 0;
 	// env->camera->roll = 0.0;
+	env->camera->pitch = atan(sqrt(2.0));
+	env->camera->yaw = -PI_10D / 4.0;
+	env->camera->roll = 0.0;
 	env->camera->distance = sqrt(pow(env->map->length, 2) + pow(env->map->height, 2)) / 2.0; // sqrt(pow(env->map->length, 2) + pow(env->map->height, 2)) / 2.0
 	env->camera->mouse_sensibility = env->mouse_sensibility / env->camera->distance;
 	env->camera->scale = calc_scale(env->map, env->camera);
@@ -80,6 +80,7 @@ int	init_all(t_env *env, char **argv)
 	env->z_ratio = 1;
 	env->cam_around_focus = 1;
 	env->perspective = 2;
+	env->z_ordering = 0;
 	env->frames_gen = 0;
 	env->mlx = mlx_init();
 	env->mlx_win = mlx_new_window(env->mlx, WIN_WIDTH, WIN_HEIGHT, "FdF");

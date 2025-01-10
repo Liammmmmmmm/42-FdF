@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:26:16 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/10 14:49:24 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/10 16:55:02 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,11 @@ int	keydown(int keycode, void *param)
 		((t_env*)param)->perspective = 1;
 	else if (keycode == 102)
 		((t_env*)param)->cam_around_focus = flip_flop(((t_env*)param)->cam_around_focus);
+	else if (keycode == 122)
+		((t_env*)param)->z_ordering = flip_flop(((t_env*)param)->z_ordering);
+	else if (keycode == 113)
+		roll(-1, (t_env*)param);
+	else if (keycode == 101)
+		roll(1, (t_env*)param);
 	return (0);
 }
