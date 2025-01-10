@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 16:08:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/08 16:36:46 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/09 15:28:14 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ void	save_lines(t_env *env)
 		while (++x < env->map->length)
 		{
 			if (x < env->map->length - 1 && (is_point_in_frame(env->point_list[y * env->map->length + x]) || is_point_in_frame(env->point_list[y * env->map->length + x + 1])))
-				save_line(env, env->point_list[y * env->map->length + x], env->point_list[y * env->map->length + x + 1], i++);
+				save_line(env, &env->point_list[y * env->map->length + x], &env->point_list[y * env->map->length + x + 1], i++);
 			if (y < env->map->height - 1 && (is_point_in_frame(env->point_list[y * env->map->length + x]) || is_point_in_frame(env->point_list[(y + 1) * env->map->length + x])))
-				save_line(env, env->point_list[y * env->map->length + x], env->point_list[(y + 1) * env->map->length + x], i++);
+				save_line(env, &env->point_list[y * env->map->length + x], &env->point_list[(y + 1) * env->map->length + x], i++);
 		}
 	}
 	env->line_amount = i;

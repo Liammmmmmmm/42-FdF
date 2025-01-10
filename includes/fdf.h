@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/08 17:48:32 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/10 11:03:55 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 # include "mlx.h"
 # include <fcntl.h>
 # include <math.h>
+
+
+#include <stdio.h> // a retirer
 
 # define PI_10D 3.1415926535
 
@@ -114,6 +117,15 @@ typedef struct s_camera
 	double	proj_z;
 	double	scale;
 	double	mouse_sensibility;
+	int		fov;
+	int		zfar;
+	int		znear;
+	double	right;
+	double	left;
+	double	top;
+	double	bottom;
+	double	far;
+	double	near;
 }	t_camera;
 
 /**
@@ -143,7 +155,7 @@ typedef struct s_env
 {
 	t_map		*map;
 	t_camera	*camera;
-	t_point		**point_list;
+	t_point		*point_list;
 	t_line		*lines;
 	int			line_amount;
 	t_img		*img;
@@ -160,31 +172,67 @@ typedef struct s_env
 	int			frames_gen;
 	int			perspective;
 	int			z_ordering;
+	int			cam_around_focus;
 }	t_env;
 
 void	print_error(char *str);
 void	display_infos(t_env *env);
-t_map	*parse_map(char	*map_name);
+void	exit_free(t_env *env);
+int		flip_flop(int nb);
 
 /*╔══════════════════════════════════════════════════════════════════════════╗*/
-/*║                              PROJECTIONS                                 ║*/
+/*║                                   ENV                                    ║*/
+/*╚══════════════════════════════════════════════════════════════════════════╝*/
+
+t_map	*parse_map(char	*map_name);
+int		init_all(t_env *env, char **argv);
+
+/*╔══════════════════════════════════════════════════════════════════════════╗*/
+/*║                                PROJECTIONS                               ║*/
 /*╚══════════════════════════════════════════════════════════════════════════╝*/
 
 void	init_yaw_matrix(double matrix[3][3], double yaw);
 void	init_pitch_matrix(double matrix[3][3], double pitch);
 void	init_roll_matrix(double matrix[3][3], double roll);
-void	vector_multiply_matrix(double matrix[3][3], double vector[3]);
+void	init_orthogonal_matrix(double matrix[4][4], t_env *env);
+void	init_perspective_matrix(double matrix[4][4], t_env *env);
+void	vector_multiply_matrix_3x3(double matrix[3][3], double vector[3]);
+void	vector_multiply_matrix_4x4(double matrix[4][4], double vector[4]);
 void	multiply_matrix_3x3(double res[3][3], double a[3][3], double b[3][3]);
 
 void	calculate_point_projection(int x, int y, t_env *env);
 
 /*╔══════════════════════════════════════════════════════════════════════════╗*/
-/*║                               RENDERING                                  ║*/
+/*║                                  CAMERA                                  ║*/
+/*╚══════════════════════════════════════════════════════════════════════════╝*/
+
+void	calc_cam_proj(t_env *env, t_camera *camera);
+void 	get_local_axes(double axes[3][3], double yaw, double pitch, double roll);
+double	calc_scale(t_map *map, t_camera *camera);
+
+void	zoom(t_env *env, int direction);
+void	rotate(int x, int y, t_env *env);
+void	translate(int x, int y, t_env *env);
+
+/*╔══════════════════════════════════════════════════════════════════════════╗*/
+/*║                                  EVENTS                                  ║*/
+/*╚══════════════════════════════════════════════════════════════════════════╝*/
+
+int		mouse_down(int button, int x, int y, void *param);
+int		mouse_up(int button, int x, int y, void *param);
+int		mouse_move(int x, int y, void *param);
+int		keydown(int keycode, void *param);
+int		destroy(void *param);
+
+void	events(t_env *env);
+
+/*╔══════════════════════════════════════════════════════════════════════════╗*/
+/*║                                 RENDERING                                ║*/
 /*╚══════════════════════════════════════════════════════════════════════════╝*/
 
 void	put_pixel_image(char *str, int x, int y, int color);
 int		calc_gradiant_color(t_point *point_a, t_point *point_b, double ratio);
-int		is_point_in_frame(t_point *point);
+int		is_point_in_frame(t_point point);
 void	draw_line(t_point *point_a, t_point *point_b, t_env *env);
 void	draw_every_lines(t_env *env);
 void	save_lines(t_env *env);

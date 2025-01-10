@@ -6,7 +6,7 @@
 #    By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/19 13:55:49 by lilefebv          #+#    #+#              #
-#    Updated: 2025/01/08 15:44:32 by lilefebv         ###   ########lyon.fr    #
+#    Updated: 2025/01/09 13:11:42 by lilefebv         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,9 +50,13 @@ INCLUDES = -I includes/ -I $(LIBFTDIR)includes/ -I $(MINILIBXDIR)
 
 # Source files
 SRC_DIR  = srcs/
-SRCS     = fdf.c console.c parsing.c                                                       \
-           projections/matrix.c projections/projection_point.c                             \
-           rendering/utils.c rendering/pixel.c rendering/frame.c rendering/lines.c
+SRCS     = fdf.c console.c utils.c                                                 \
+           projections/matrix.c projections/projection_point.c                      \
+           rendering/utils.c rendering/pixel.c rendering/frame.c rendering/lines.c   \
+		   events/actions.c events/hooks.c                                            \
+		   env/inits.c env/parsing.c                                                   \
+		   camera/calcs.c camera/movements.c
+		   
 
 SRCS_BONUS = 
 
