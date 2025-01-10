@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:20:17 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/09 15:56:19 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/10 15:54:13 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,13 @@ void	calc_cam_proj(t_env *env, t_camera *camera)
 		camera->proj_y = camera->y;
 		camera->proj_z = camera->z;
 	}
-	printf("distance : %.6f | focus : x:%.6f, y:%.6f, z:%.6f | proj x:%.6f, y:%.6f, z:%.6f | pitch:%.6f, yaw:%.6f, roll:%.6f\n", camera->distance, camera->x, camera->y, camera->z, camera->proj_x, camera->proj_y, camera->proj_z, camera->pitch, camera->yaw, camera->roll);
+	// printf("distance : %.6f | focus : x:%.6f, y:%.6f, z:%.6f | proj x:%.6f, y:%.6f, z:%.6f | pitch:%.6f, yaw:%.6f, roll:%.6f\n", camera->distance, camera->x, camera->y, camera->z, camera->proj_x, camera->proj_y, camera->proj_z, camera->pitch, camera->yaw, camera->roll);
 }
 
 double	calc_scale(t_map *map, t_camera *camera)
 {
-	// double depth_factor = camera->distance / 10.0;
-	(void)camera;
-	double scale = WIN_WIDTH / 3;
+	double depth_factor = camera->distance / 10.0;
+	double scale = WIN_WIDTH / depth_factor;
 	double map_size = sqrt(map->length * map->height);
 	
 	scale /= map_size;

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:34:24 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/10 10:47:54 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/10 15:49:02 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,19 @@ int	init_camera(t_env *env)
 	// env->camera->pitch = atan(sqrt(2.0));
 	// env->camera->yaw = PI_10D / 4.0;
 	// env->camera->roll = 0.0;
-	env->camera->distance = 30.0; // sqrt(pow(env->map->length, 2) + pow(env->map->height, 2)) / 2.0
+	env->camera->distance = sqrt(pow(env->map->length, 2) + pow(env->map->height, 2)) / 2.0; // sqrt(pow(env->map->length, 2) + pow(env->map->height, 2)) / 2.0
 	env->camera->mouse_sensibility = env->mouse_sensibility / env->camera->distance;
 	env->camera->scale = calc_scale(env->map, env->camera);
 
 	env->camera->fov = 60;
 	env->camera->zfar = 100000;
 	env->camera->znear = 1;
-	env->camera->right = sqrt(env->map->length * env->map->height);
-	env->camera->left = sqrt(env->map->length * env->map->height);
-	env->camera->top = sqrt(env->map->length * env->map->height);
-	env->camera->bottom = sqrt(env->map->length * env->map->height);
-	env->camera->far = 100000;
-	env->camera->near = 1;
+	env->camera->right = env->map->length;
+	env->camera->left = 0;
+	env->camera->top = 100;
+	env->camera->bottom = 0;
+	env->camera->far = env->map->height;
+	env->camera->near = 0;
 	calc_cam_proj(env, env->camera);
 	return (1);
 }
@@ -79,7 +79,7 @@ int	init_all(t_env *env, char **argv)
 	env->mouse_sensibility = 0.4;
 	env->z_ratio = 1;
 	env->cam_around_focus = 1;
-	env->perspective = 0;
+	env->perspective = 2;
 	env->frames_gen = 0;
 	env->mlx = mlx_init();
 	env->mlx_win = mlx_new_window(env->mlx, WIN_WIDTH, WIN_HEIGHT, "FdF");

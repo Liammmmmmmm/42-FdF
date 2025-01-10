@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:51:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/09 13:31:09 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/10 16:11:26 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,5 @@ void	render_frame(t_env *env)
 		quicksort_lines(env->lines, 0, env->line_amount - 1);
 	draw_every_lines(env);
 	mlx_put_image_to_window(env->mlx, env->mlx_win, env->img->img, 0, 0);
-//	ft_printf("%p\n", &env->frames_gen);
-//	env->frames_gen += 1;
+	env->frames_gen += 1;
 }

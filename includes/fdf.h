@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/10 11:03:55 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/10 16:00:55 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,10 @@ typedef struct s_color
  */
 typedef struct s_point
 {
-	int	x;
-	int	y;
-	int	z;
-	int	color;
+	int		x;
+	int		y;
+	double	z;
+	int		color;
 }	t_point;
 
 typedef struct s_line

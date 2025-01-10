@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:18:42 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/09 16:08:34 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/10 15:52:57 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	rotate(int x, int y, t_env *env)
 
 	dx = x - env->mouse_last_x;
 	dy = y - env->mouse_last_y;
-	env->camera->yaw += dx * env->camera->mouse_sensibility;
-	env->camera->pitch += dy * env->camera->mouse_sensibility;
+	env->camera->pitch += dx * env->camera->mouse_sensibility;
+	env->camera->yaw += dy * env->camera->mouse_sensibility;
 	if (env->camera->yaw > PI_10D)
 		env->camera->yaw = -PI_10D;
 	if (env->camera->yaw < -PI_10D)

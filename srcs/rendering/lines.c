@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 16:08:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/09 15:28:14 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/10 15:04:12 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,19 @@ void	save_line(t_env *env, t_point *point_a, t_point *point_b, int i)
 	env->lines[i].depth = (point_a->z + point_b->z) / 2;
 }
 
+int	is_valid_line(t_env *env, t_point *point_a, t_point *point_b)
+{
+	int	one_point_in_frame;
+	int	one_point_pos_z;
+
+	one_point_in_frame = (is_point_in_frame(*point_a) || is_point_in_frame(*point_b));
+	one_point_pos_z = (((*point_a).z > 0 && (*point_b).z > 0) || env->perspective == 2);
+
+	if (!one_point_in_frame || !one_point_pos_z)
+		return 0;
+    return 1;	
+}
+
 void	save_lines(t_env *env)
 {
 	int	y;
@@ -88,9 +101,9 @@ void	save_lines(t_env *env)
 		x = -1;
 		while (++x < env->map->length)
 		{
-			if (x < env->map->length - 1 && (is_point_in_frame(env->point_list[y * env->map->length + x]) || is_point_in_frame(env->point_list[y * env->map->length + x + 1])))
+			if (x < env->map->length - 1 && is_valid_line(env, &env->point_list[y * env->map->length + x], &env->point_list[y * env->map->length + x + 1]))
 				save_line(env, &env->point_list[y * env->map->length + x], &env->point_list[y * env->map->length + x + 1], i++);
-			if (y < env->map->height - 1 && (is_point_in_frame(env->point_list[y * env->map->length + x]) || is_point_in_frame(env->point_list[(y + 1) * env->map->length + x])))
+			if (y < env->map->height - 1 && is_valid_line(env, &env->point_list[y * env->map->length + x], &env->point_list[(y + 1) * env->map->length + x]))
 				save_line(env, &env->point_list[y * env->map->length + x], &env->point_list[(y + 1) * env->map->length + x], i++);
 		}
 	}
