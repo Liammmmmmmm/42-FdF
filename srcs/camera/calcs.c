@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:20:17 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/10 15:54:13 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/12 11:19:46 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	calc_cam_proj(t_env *env, t_camera *camera)
 		camera->proj_y = camera->y;
 		camera->proj_z = camera->z;
 	}
-	// printf("distance : %.6f | focus : x:%.6f, y:%.6f, z:%.6f | proj x:%.6f, y:%.6f, z:%.6f | pitch:%.6f, yaw:%.6f, roll:%.6f\n", camera->distance, camera->x, camera->y, camera->z, camera->proj_x, camera->proj_y, camera->proj_z, camera->pitch, camera->yaw, camera->roll);
 }
 
 double	calc_scale(t_map *map, t_camera *camera)

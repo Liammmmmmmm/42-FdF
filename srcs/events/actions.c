@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:26:16 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/10 16:55:02 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/12 14:35:00 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,16 @@ int	keydown(int keycode, void *param)
 	ft_printf("%d\n", keycode);
 	if (keycode == 65307)
 		mlx_loop_end(((t_env*)param)->mlx);
-	else if (keycode == 91 && ((t_env*)param)->z_ratio > 0)
+	else if (keycode == 45 && ((t_env*)param)->z_ratio > 0.01)
 		((t_env*)param)->z_ratio -= 0.1;
-	else if (keycode == 93)
+	else if (keycode == 61)
 		((t_env*)param)->z_ratio += 0.1;
-	else if (keycode == 105)
-		display_infos((t_env*)param);
 	else if (keycode == 112)
 		((t_env*)param)->perspective = 1;
 	else if (keycode == 111)
 		((t_env*)param)->perspective = 0;
 	else if (keycode == 108)
 		((t_env*)param)->perspective = 2;
-	else if (keycode == 112)
-		((t_env*)param)->perspective = 1;
 	else if (keycode == 102)
 		((t_env*)param)->cam_around_focus = flip_flop(((t_env*)param)->cam_around_focus);
 	else if (keycode == 122)
@@ -81,5 +77,19 @@ int	keydown(int keycode, void *param)
 		roll(-1, (t_env*)param);
 	else if (keycode == 101)
 		roll(1, (t_env*)param);
+	else if (keycode == 99)
+	{
+		if (((t_env*)param)->display_infos == 2)
+			((t_env*)param)->display_infos = 0;
+		else
+			((t_env*)param)->display_infos = 2;
+	}
+	else if (keycode == 105)
+	{
+		if (((t_env*)param)->display_infos == 1)
+			((t_env*)param)->display_infos = 0;
+		else
+			((t_env*)param)->display_infos = 1;
+	}
 	return (0);
 }

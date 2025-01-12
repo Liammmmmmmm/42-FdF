@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 10:57:10 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/10 16:41:19 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/12 17:02:03 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void print_camera_info(t_camera *camera)
 	ft_printf("    Focus Point : " CYAN "(%f, %f, %f)" NC "\n", camera->x, camera->y, camera->z);
 	ft_printf("    Real pos    : " CYAN "(%f, %f, %f)" NC "\n", camera->proj_x, camera->proj_y, camera->proj_z);
 	ft_printf("  " GREEN "Parameters:" NC "\n");
-	ft_printf("    Distance      : " PURPLE "%f" NC "\n", (int)camera->distance);
+	ft_printf("    Distance      : " PURPLE "%f" NC "\n", camera->distance);
 	ft_printf("    Scale         : " PURPLE "%f" NC "\n", camera->scale);
 	ft_printf("    Mouse Sens.   : " PURPLE "%f" NC "\n", camera->mouse_sensibility);
 	ft_printf("    FOV           : " PURPLE "%d" NC "\n", camera->fov);
@@ -46,11 +46,9 @@ void print_map_info(t_map *map)
 
 void print_env_info(t_env *env)
 {
-	ft_printf(BOLD BLUE "[Environment Info]" NC "\n");
-	ft_printf("  " GREEN "Map:" NC "\n");
     print_map_info(env->map);
-	ft_printf("  " GREEN "Camera:" NC "\n");
     print_camera_info(env->camera);
+	ft_printf(BOLD BLUE "[Environment Info]" NC "\n");
 	ft_printf("  " GREEN "Mouse:" NC "\n");
 	ft_printf("    Click Rotation    : " CYAN "%d" NC "\n", env->mouse_click_rotation);
 	ft_printf("    Click Translation : " CYAN "%d" NC "\n", env->mouse_click_translation);
