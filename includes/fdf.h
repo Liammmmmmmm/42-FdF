@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/12 14:16:19 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/13 14:22:41 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,30 @@ typedef enum e_mouse_buttons
 	SCROLL_UP,
 	SCROLL_DOWN
 }	t_mouse_buttons;
+
+typedef enum e_keys
+{
+	KEY_SPACE = 32,
+	KEY_INF = 44,
+	KEY_MINUS = 45,
+	KEY_SUP = 46,
+	KEY_PLUS = 61,
+	KEY_A = 97,
+	KEY_C = 99,
+	KEY_D = 100,
+	KEY_E = 101,
+	KEY_F = 102,
+	KEY_I = 105,
+	KEY_L = 108,
+	KEY_O = 111,
+	KEY_P = 112,
+	KEY_Q = 113,
+	KEY_S = 115,
+	KEY_W = 119,
+	KEY_Z = 122,
+	KEY_SHIFT = 65505,
+	KEY_ESC = 65307
+}	t_keys;
 
 typedef enum e_event {
 	ON_KEYDOWN = 2,
@@ -90,6 +114,7 @@ void	zoom(t_env *env, int direction);
 void	rotate(int x, int y, t_env *env);
 void	translate(int x, int y, t_env *env);
 void	roll(int direction, t_env *env);
+void	wasd_move(int key, t_env *env);
 
 /*╔══════════════════════════════════════════════════════════════════════════╗*/
 /*║                                  EVENTS                                  ║*/

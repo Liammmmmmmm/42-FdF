@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:18:42 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/10 16:48:24 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/13 14:30:36 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	change_camera_distance(t_env *env, double new_distance)
 
 void	zoom(t_env *env, int direction)
 {
-	if (direction == SCROLL_UP && env->camera->distance > 0)
+	if (direction == SCROLL_UP && env->camera->distance > 0.1)
 	{
 		if (env->camera->distance <= 1)
 			change_camera_distance(env, env->camera->distance - 0.1);

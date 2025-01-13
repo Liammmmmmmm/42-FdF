@@ -6,7 +6,7 @@
 #    By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/19 13:55:49 by lilefebv          #+#    #+#              #
-#    Updated: 2025/01/12 14:19:54 by lilefebv         ###   ########lyon.fr    #
+#    Updated: 2025/01/13 14:25:02 by lilefebv         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ SRCS     = fdf.c console.c utils.c                                              
            rendering/utils.c rendering/pixel.c rendering/frame.c rendering/lines.c rendering/draw_string.c   \
 		   events/actions.c events/hooks.c                                            \
 		   env/inits.c env/parsing.c                                                   \
-		   camera/calcs.c camera/movements.c
+		   camera/calcs.c camera/movements.c camera/key_movements.c
 		   
 
 SRCS_BONUS = 
