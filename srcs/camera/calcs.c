@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:20:17 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/12 11:19:46 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/13 13:51:27 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void get_local_axes(double axes[3][3], double yaw, double pitch, double roll)
     init_yaw_matrix(yaw_matrix, yaw);
     init_pitch_matrix(pitch_matrix, pitch);
     init_roll_matrix(roll_matrix, roll);
-    multiply_matrix_3x3(temp_matrix, roll_matrix, pitch_matrix);
-    multiply_matrix_3x3(axes, temp_matrix, yaw_matrix);
+    multiply_matrix_3x3(temp_matrix, yaw_matrix, pitch_matrix);
+    multiply_matrix_3x3(axes, temp_matrix, roll_matrix);
 }
 
 
