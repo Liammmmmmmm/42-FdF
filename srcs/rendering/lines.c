@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 16:08:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/13 16:03:10 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/13 18:26:33 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ void	draw_line(t_point *point_a, t_point *point_b, t_env *env)
 		{
 			temp = point_a->x - 1;
 			while (++temp <= point_b->x)
-				put_pixel_image(env->img->img_str, temp, m * (temp - point_a->x) + point_a->y, calc_gradiant_color(point_a, point_b, (double)(temp - point_a->x) / dx));
+				put_pixel_image(env->img->img_str, temp, m * (temp - point_a->x) + point_a->y, calc_gradiant_point(point_a, point_b, (double)(temp - point_a->x) / dx));
 		}
 		else
 		{
 			temp = point_b->x - 1;
 			while (++temp <= point_a->x)
-				put_pixel_image(env->img->img_str, temp, m * (temp - point_b->x) + point_b->y, calc_gradiant_color(point_b, point_a, (1 - (double)(temp - point_b->x) / dx)));
+				put_pixel_image(env->img->img_str, temp, m * (temp - point_b->x) + point_b->y, calc_gradiant_point(point_a, point_b, (double)(temp - point_a->x) / dx));
 		}
 	}
 	else
@@ -48,13 +48,15 @@ void	draw_line(t_point *point_a, t_point *point_b, t_env *env)
 		{
 			temp = point_a->y - 1;
 			while (++temp <= point_b->y)
-				put_pixel_image(env->img->img_str, m * (temp - point_a->y) + point_a->x, temp, calc_gradiant_color(point_a, point_b, (double)(temp - point_a->y) / dy));
+				put_pixel_image(env->img->img_str, m * (temp - point_a->y) + point_a->x, temp, calc_gradiant_point(point_a, point_b, (double)(temp - point_a->y) / dy));
 		}
 		else
 		{
 			temp = point_b->y - 1;
 			while (++temp <= point_a->y)
-				put_pixel_image(env->img->img_str, m * (temp - point_b->y) + point_b->x, temp, calc_gradiant_color(point_b, point_a, (1 - (double)(temp - point_b->y) / dy)));
+			{
+				put_pixel_image(env->img->img_str, m * (temp - point_b->y) + point_b->x, temp, calc_gradiant_point(point_a, point_b, (double)(temp - point_a->y) / dy));
+			}
 		}
 	}
 }

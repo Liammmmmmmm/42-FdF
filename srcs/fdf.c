@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:36:03 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/09 13:38:06 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/13 16:34:54 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	render_next_frame(t_env *env)
 	render_frame(env);
 	//t_camera *camera = env->camera;
 //	ft_printf("%p\n", &env->camera->y);
-	// ft_printf("distance : %d | focus : x:%d, y:%d, z:%d | proj x:%d, y:%d, z:%d | pitch:%d, yaw:%d, roll:%d\n", camera->distance, camera->x, camera->y, camera->z, camera->proj_x, camera->proj_y, camera->proj_z, camera->pitch, camera->yaw, camera->roll);
+	// ft_printf("distance : %d | focus : x:%d, y:%d, z:%d | proj x:%d, y:%d, z:%d | pitch:%d, yaw:%d, roll:%d\n", camera->distance, camera->x, camera->y, camera->z, camera->proj_x, camera->proj_y, camera->proj_z, camera->yaw, camera->pitch, camera->roll);
 	return (1);
 }
 

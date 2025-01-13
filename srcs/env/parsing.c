@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 10:42:51 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/13 15:29:37 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/13 16:47:39 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,14 @@ int	fill_line(char *line, t_map *map, int i)
 	while (splited[y])
 	{
 		map->map[i][y] = ft_atoi(splited[y]);
+		if (map->map[i][y] > map->highest)
+			map->highest = map->map[i][y];
 		have_color = ft_strnstr(splited[y], ",0x", 15);
 		if (have_color)
+		{
 			map->color_map[i][y] = ft_atoi_base(ft_str_tolower(have_color + 3), "0123456789abcdef");
+			map->have_color = 1;
+		}
 		else
 			map->color_map[i][y] = 0xffffff;
 		y++;

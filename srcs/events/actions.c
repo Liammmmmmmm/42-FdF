@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:26:16 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/13 16:08:27 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/13 17:12:58 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,7 @@ int	keydown(int keycode, void *param)
 		((t_env*)param)->camera->fov += 1;
 	else if (keycode == KEY_W || keycode == KEY_A || keycode == KEY_S || keycode == KEY_D || keycode == KEY_SHIFT || keycode == KEY_SPACE)
 		wasd_move(keycode, (t_env*)param);
+	else if (keycode == KEY_G)
+		((t_env*)param)->color_by_height = flip_flop(((t_env*)param)->color_by_height);
 	return (0);
 }

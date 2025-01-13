@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 10:57:10 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/12 17:02:03 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/13 16:34:54 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void print_camera_info(t_camera *camera)
 {
 	ft_printf(BOLD BLUE "[Camera Info]" NC "\n");
 	ft_printf("  " GREEN "Rotation:" NC "\n");
-	ft_printf("    Yaw   : " YELLOW "%f°" NC "\n", (camera->yaw * 180 / PI_10D));
-	ft_printf("    Pitch : " YELLOW "%f°" NC "\n", (camera->pitch * 180 / PI_10D));
+	ft_printf("    Yaw   : " YELLOW "%f°" NC "\n", (camera->pitch * 180 / PI_10D));
+	ft_printf("    Pitch : " YELLOW "%f°" NC "\n", (camera->yaw * 180 / PI_10D));
 	ft_printf("    Roll  : " YELLOW "%f°" NC "\n", (camera->roll * 180 / PI_10D));
 	ft_printf("  " GREEN "Position:" NC "\n");
 	ft_printf("    Focus Point : " CYAN "(%f, %f, %f)" NC "\n", camera->x, camera->y, camera->z);

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:18:42 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/13 14:30:36 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/13 17:33:09 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,18 @@ void	rotate(int x, int y, t_env *env)
 	int	dx;
 	int	dy;
 
-	dx = x - env->mouse_last_x;
+	dx = -(x - env->mouse_last_x);
 	dy = y - env->mouse_last_y;
-	env->camera->pitch += dx * env->camera->mouse_sensibility;
-	env->camera->yaw += dy * env->camera->mouse_sensibility;
-	if (env->camera->yaw > PI_10D)
-		env->camera->yaw = -PI_10D;
-	if (env->camera->yaw < -PI_10D)
-		env->camera->yaw = PI_10D;
+	env->camera->yaw += dx * env->camera->mouse_sensibility;
+	env->camera->pitch += dy * env->camera->mouse_sensibility;
 	if (env->camera->pitch > PI_10D)
 		env->camera->pitch = -PI_10D;
 	if (env->camera->pitch < -PI_10D)
 		env->camera->pitch = PI_10D;
+	if (env->camera->yaw > PI_10D)
+		env->camera->yaw = -PI_10D;
+	if (env->camera->yaw < -PI_10D)
+		env->camera->yaw = PI_10D;
 	calc_cam_proj(env, env->camera);
 }
 
@@ -75,7 +75,7 @@ void	translate(int x, int y, t_env *env)
 	double	local_axes[3][3];
 	double	delta_cam_move[3];
 
-	get_local_axes(local_axes, env->camera->yaw, env->camera->pitch, env->camera->roll);
+	get_local_axes(local_axes, env->camera->pitch, env->camera->yaw, env->camera->roll);
     dx = x - env->mouse_last_x;
     dy = y - env->mouse_last_y;
 	delta_cam_move[0] = dx * local_axes[0][0] + dy * local_axes[1][0];

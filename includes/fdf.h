@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/13 16:04:58 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/13 17:10:03 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@
 # define Z_ORDERING 0
 # define WIN_HEIGHT 1080
 # define WIN_WIDTH 1920
+
+# define COLOR_MIN 0xFFFFFF
+# define COLOR_MAX 0x7B13AB
 
 // refaire toute la docsting en anglais
 
@@ -53,6 +56,7 @@ typedef enum e_keys
 	KEY_D = 100,
 	KEY_E = 101,
 	KEY_F = 102,
+	KEY_G = 103,
 	KEY_I = 105,
 	KEY_L = 108,
 	KEY_O = 111,
@@ -79,6 +83,7 @@ void	print_error(char *str);
 void	display_infos(t_env *env);
 void	exit_free(t_env *env);
 int		flip_flop(int nb);
+int		get_biggest(int a, int b);
 
 /*╔══════════════════════════════════════════════════════════════════════════╗*/
 /*║                                   ENV                                    ║*/
@@ -91,8 +96,8 @@ int		init_all(t_env *env, char **argv);
 /*║                                PROJECTIONS                               ║*/
 /*╚══════════════════════════════════════════════════════════════════════════╝*/
 
-void	init_yaw_matrix(double matrix[3][3], double yaw);
-void	init_pitch_matrix(double matrix[3][3], double pitch);
+void	init_pitch_matrix(double matrix[3][3], double yaw);
+void	init_yaw_matrix(double matrix[3][3], double pitch);
 void	init_roll_matrix(double matrix[3][3], double roll);
 void	init_orthogonal_matrix(double matrix[4][4], t_env *env);
 void	init_perspective_matrix(double matrix[4][4], t_env *env);
@@ -133,7 +138,8 @@ void	events(t_env *env);
 /*╚══════════════════════════════════════════════════════════════════════════╝*/
 
 void	put_pixel_image(char *str, int x, int y, int color);
-int		calc_gradiant_color(t_point *point_a, t_point *point_b, double ratio);
+int		calc_gradiant_point(t_point *point_a, t_point *point_b, double ratio);
+int		calc_gradiant_color(int color_a, int color_b, double ratio);
 int		is_point_in_frame(t_point point);
 void	draw_line(t_point *point_a, t_point *point_b, t_env *env);
 void	draw_every_lines(t_env *env);

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/13 15:28:37 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/13 17:00:39 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ typedef struct s_env
 	int				cam_around_focus;
 	unsigned char	font[96][5];
 	int				display_infos;
+	int				color_by_height;
 }	t_env;
 
 #endif

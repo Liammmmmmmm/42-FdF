@@ -6,14 +6,14 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 15:07:24 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/13 13:27:14 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/13 17:20:03 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 // // axe z
-// void	init_yaw_matrix(double matrix[3][3], double yaw)
+// void	init_pitch_matrix(double matrix[3][3], double yaw)
 // {
 // 	matrix[0][0] = cos(yaw);
 // 	matrix[0][1] = -sin(yaw);
@@ -27,7 +27,7 @@
 // }
 
 // // axe x
-// void init_pitch_matrix(double matrix[3][3], double pitch) {
+// void init_yaw_matrix(double matrix[3][3], double pitch) {
 // 	matrix[0][0] = cos(pitch);
 // 	matrix[0][1] = 0;
 // 	matrix[0][2] = sin(pitch);
@@ -53,7 +53,7 @@
 // }
 
 // // axe y
-// void	init_pitch_matrix(double matrix[3][3], double pitch) {
+// void	init_yaw_matrix(double matrix[3][3], double pitch) {
 // 	matrix[0][0] = 1;
 // 	matrix[0][1] = 0;
 // 	matrix[0][2] = 0;
@@ -80,13 +80,13 @@
 
 
 // axe x
-void init_pitch_matrix(double matrix[3][3], double pitch) {
-	pitch = pitch - PI_10D / 2;
-	matrix[0][0] = cos(pitch);
-	matrix[0][1] = -sin(pitch);
+void init_yaw_matrix(double matrix[3][3], double yaw) {
+	yaw = yaw + PI_10D / 2;
+	matrix[0][0] = cos(yaw);
+	matrix[0][1] = -sin(yaw);
 	matrix[0][2] = 0;
-	matrix[1][0] = sin(pitch);
-	matrix[1][1] = cos(pitch);
+	matrix[1][0] = sin(yaw);
+	matrix[1][1] = cos(yaw);
 	matrix[1][2] = 0;
 	matrix[2][0] = 0;
 	matrix[2][1] = 0;
@@ -107,18 +107,18 @@ void init_roll_matrix(double matrix[3][3], double roll) {
 }
 
 // axe z
-void	init_yaw_matrix(double matrix[3][3], double yaw)
+void	init_pitch_matrix(double matrix[3][3], double pitch)
 {
-	yaw = yaw + PI_10D / 2;
+	pitch = pitch - PI_10D / 2;
 	matrix[0][0] = 1;
 	matrix[0][1] = 0;
 	matrix[0][2] = 0;
 	matrix[1][0] = 0;
-	matrix[1][1] = cos(yaw);
-	matrix[1][2] = -sin(yaw);
+	matrix[1][1] = cos(pitch);
+	matrix[1][2] = -sin(pitch);
 	matrix[2][0] = 0;
-	matrix[2][1] = sin(yaw);
-	matrix[2][2] = cos(yaw);
+	matrix[2][1] = sin(pitch);
+	matrix[2][2] = cos(pitch);
 }
 
 

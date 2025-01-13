@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:51:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/13 16:04:45 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/13 18:30:15 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	display_infos_win(t_env *env)
 	text_pos.y = 10;
 	text_pos.color = 0xFFFFFF;
 	if (env->display_infos == 2)
-		draw_string_to_image(env->img, env->font, text_pos, "INFOS : Controls\n  Camera :\n    [ESC] Close window\n    [LMB]/[RMB] Rotate\n    [MMB] Translate\n    [SCROLL] Zoom/dezoom\n    [F] Toogle freecam\n    [W] Move forward\n    [A] Move left\n    [S] Move backward\n    [D] Move right\n    [SPACE] Move up\n    [SHIFT] Move down\n    [Q] Roll left\n    [E] Roll right\n    [<] Reduce FOV\n    [>] Increase FOV\n  Render :\n    [-] Shrink z axe\n    [+] Extend z axe\n    [L] \"Normal\" view\n    [P] Perspective\n    [O] Orthogonal\n    [Z] Enable z ordering\n  Other :\n    [C] Toogle controls menu\n    [I] Toogle informations menu");
+		draw_string_to_image(env->img, env->font, text_pos, "INFOS : Controls\n  Camera :\n    [ESC] Close window\n    [LMB]/[RMB] Rotate\n    [MMB] Translate\n    [SCROLL] Zoom/dezoom\n    [F] Toogle freecam\n    [W] Move forward\n    [A] Move left\n    [S] Move backward\n    [D] Move right\n    [SPACE] Move up\n    [SHIFT] Move down\n    [Q] Roll left\n    [E] Roll right\n    [<] Reduce FOV\n    [>] Increase FOV\n  Render :\n    [-] Shrink z axe\n    [+] Extend z axe\n    [G] Toogle height color\n    [L] \"Normal\" view\n    [P] Perspective\n    [O] Orthogonal\n    [Z] Enable z ordering\n  Other :\n    [C] Toogle controls menu\n    [I] Toogle informations menu");
 	if (env->display_infos == 1)
 	{
 		if (env->perspective == 1)
@@ -58,9 +58,7 @@ void	render_frame(t_env *env)
 	ft_bzero(env->img->img_str, WIN_WIDTH * WIN_HEIGHT * (env->img->bits / 8));
 	calculate_every_projection(env);
 	save_lines(env);
-	if (env->z_ordering && env->perspective == 2)
-		quicksort_lines(env->lines, 0, env->line_amount - 1, 1);
-	else if(env->z_ordering)
+	if(env->z_ordering)
 		quicksort_lines(env->lines, 0, env->line_amount - 1, 0);
 	draw_every_lines(env);
 	display_infos_win(env);

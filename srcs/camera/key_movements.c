@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 14:00:39 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/13 15:49:09 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/13 16:34:54 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	wasd_move(int key, t_env *env)
 		local_y = -1 * env->camera->distance;
 	else if (key == KEY_SPACE)
 		local_y = 1 * env->camera->distance;
-	get_local_axes(local_axes, env->camera->yaw, env->camera->pitch, env->camera->roll);
+	get_local_axes(local_axes, env->camera->pitch, env->camera->yaw, env->camera->roll);
 	delta_cam_move[0] = local_x * local_axes[0][0] + local_y * local_axes[1][0] + local_z * local_axes[2][0];
     delta_cam_move[1] = local_x * local_axes[0][1] + local_y * local_axes[1][1] + local_z * local_axes[2][1];
 	delta_cam_move[2] = local_x * local_axes[0][2] + local_y * local_axes[1][2] + local_z * local_axes[2][2];
