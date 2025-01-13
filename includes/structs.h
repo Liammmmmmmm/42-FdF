@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/12 14:16:24 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/13 15:28:37 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ typedef struct s_map
 	int	**color_map;
 	int	length;
 	int	height;
+	int	highest;
+	int	have_color;
 }	t_map;
 
 /**

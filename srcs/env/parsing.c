@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 10:42:51 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/07 12:58:27 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/13 15:29:37 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,8 @@ t_map	*parse_map(char	*map_name)
 	map->length = 0;
 	if (count_file_lines(map_name, map) == 0)
 		return (free(map), NULL);
+	map->have_color = 0;
+	map->highest = -2147483648;
 	if (init_map_values(map_name, map) == 0)
 		return (free(map), NULL);
 	return (map);

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/13 14:22:41 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/13 16:04:58 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int		is_point_in_frame(t_point point);
 void	draw_line(t_point *point_a, t_point *point_b, t_env *env);
 void	draw_every_lines(t_env *env);
 void	save_lines(t_env *env);
-void	quicksort_lines(t_line *lines, int low, int high);
+void	quicksort_lines(t_line *lines, int low, int high, int order);
 
 void 	draw_string_to_image(t_img *img, unsigned char font[96][5], t_point p, const char *str);
 void 	draw_char_to_image(t_img *img, unsigned char font[96][5], t_point p, char c);

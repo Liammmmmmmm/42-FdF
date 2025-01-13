@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:16:14 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/10 15:34:13 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/13 15:44:14 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,10 @@ void	calculate_point_projection(int x, int y, t_env *env)
 	if (env->perspective != 2)
 	{
 		vector_multiply_matrix_4x4(proj_matrix, vector);
-		env->point_list[y * env->map->length + x].x = (int)(((vector[0] / vector[3] + 1) / 2) * WIN_WIDTH);
-		env->point_list[y * env->map->length + x].y = (int)(((1 - (vector[1] / vector[3])) / 2) * WIN_HEIGHT);
+	
+			env->point_list[y * env->map->length + x].x = (int)(((vector[0] / vector[3] + 1) / 2) * WIN_WIDTH);
+			env->point_list[y * env->map->length + x].y = (int)(((1 - (vector[1] / vector[3])) / 2) * WIN_HEIGHT);
+		
 	}
 	else
 	{
@@ -54,6 +56,8 @@ void	calculate_point_projection(int x, int y, t_env *env)
 		env->point_list[y * env->map->length + x].y = (int)(vector[1] * env->camera->scale + WIN_HEIGHT / 2); // + WIN_HEIGHT / 2
 	}
 	env->point_list[y * env->map->length + x].z = vector[2] / vector[3];
+	if (env->point_list[y * env->map->length + x].z > 0 && vector[3] < 0)
+		env->point_list[y * env->map->length + x].z = vector[2] / -vector[3];
 	env->point_list[y * env->map->length + x].color = env->map->color_map[y][x];
 
 	//printf("x:%.6f, y:%.6f x:%.6f, y:%.6f\n", (((vector[0] / vector[3] + 1) / 2)), (((1 - vector[1] / vector[3]) / 2) * WIN_HEIGHT), vector[0], vector[1]);

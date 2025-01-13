@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:26:16 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/13 14:24:37 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/13 16:08:27 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int	destroy(void *param)
 
 int	keydown(int keycode, void *param)
 {
-	ft_printf("%d\n", keycode);
 	if (keycode == KEY_ESC)
 		mlx_loop_end(((t_env*)param)->mlx);
 	else if (keycode == KEY_MINUS && ((t_env*)param)->z_ratio > 0.01)

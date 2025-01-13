@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:51:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/13 15:23:12 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/13 16:04:45 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,10 @@ void	render_frame(t_env *env)
 	ft_bzero(env->img->img_str, WIN_WIDTH * WIN_HEIGHT * (env->img->bits / 8));
 	calculate_every_projection(env);
 	save_lines(env);
-	if (env->z_ordering)
-		quicksort_lines(env->lines, 0, env->line_amount - 1);
+	if (env->z_ordering && env->perspective == 2)
+		quicksort_lines(env->lines, 0, env->line_amount - 1, 1);
+	else if(env->z_ordering)
+		quicksort_lines(env->lines, 0, env->line_amount - 1, 0);
 	draw_every_lines(env);
 	display_infos_win(env);
 	mlx_put_image_to_window(env->mlx, env->mlx_win, env->img->img, 0, 0);

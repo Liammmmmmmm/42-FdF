@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:34:24 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/12 13:56:17 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/13 15:25:53 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,6 @@ int	init_all(t_env *env, char **argv)
 	env->img->img_str = mlx_get_data_addr(env->img->img, &env->img->bits, &env->img->size_line, &env->img->endian);
 	ft_memcpy(env->font, font, sizeof(env->font));
 	env->display_infos = 2;
+	
 	return (1);
 }
