@@ -6,11 +6,27 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 14:00:39 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/13 16:34:54 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/14 11:54:38 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+static void	init_key(int key, int *local_x, int *local_y, int *local_z)
+{
+	if (key == KEY_W)
+		*local_z = -1;
+	else if (key == KEY_S)
+		*local_z = 1;
+	else if (key == KEY_A)
+		*local_x = -1;
+	else if (key == KEY_D)
+		*local_x = 1;
+	else if (key == KEY_SHIFT)
+		*local_y = -1;
+	else if (key == KEY_SPACE)
+		*local_y = 1;
+}
 
 void	wasd_move(int key, t_env *env)
 {
@@ -23,18 +39,10 @@ void	wasd_move(int key, t_env *env)
 	local_x = 0;
 	local_y = 0;
 	local_z = 0;
-	if (key == KEY_W)
-		local_z = -1 * env->camera->distance;
-	else if (key == KEY_S)
-		local_z = 1 * env->camera->distance;
-	else if (key == KEY_A)
-		local_x = -1 * env->camera->distance;
-	else if (key == KEY_D)
-		local_x = 1 * env->camera->distance;
-	else if (key == KEY_SHIFT)
-		local_y = -1 * env->camera->distance;
-	else if (key == KEY_SPACE)
-		local_y = 1 * env->camera->distance;
+	init_key(key, &local_x, &local_y, &local_z);
+	local_x *= env->camera->distance;
+	local_y *= env->camera->distance;
+	local_z *= env->camera->distance;
 	get_local_axes(local_axes, env->camera->pitch, env->camera->yaw, env->camera->roll);
 	delta_cam_move[0] = local_x * local_axes[0][0] + local_y * local_axes[1][0] + local_z * local_axes[2][0];
     delta_cam_move[1] = local_x * local_axes[0][1] + local_y * local_axes[1][1] + local_z * local_axes[2][1];
