@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/14 17:09:05 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/14 17:39:15 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@
 	Z Ordering       : %d\n      Freecam          : %d\n      \
 	Z axe Ratio      : %f" 
 
-// refaire toute la docsting en anglais
-
 typedef enum e_mouse_buttons
 {
 	LEFT_CLICK = 1,
@@ -102,21 +100,121 @@ typedef enum e_event
 	ON_DESTROY = 17
 }	t_event;
 
-void	print_error(char *str);
-void	display_infos(t_env *env);
-void	exit_free(t_env *env);
-int		flip_flop(int nb);
-int		get_biggest(int a, int b);
-int		count_file_lines(char *map_name, t_map *map);
-int		fill_line(char *line, t_map *map, int i);
-int		malloc_line_map(t_map *map, int i);
-
 /*╔══════════════════════════════════════════════════════════════════════════╗*/
-/*║                                   ENV                                    ║*/
+/*║                                   ENV                                   ║*/
 /*╚══════════════════════════════════════════════════════════════════════════╝*/
 
+/**
+ * @brief Parse the map file.
+ *
+ * This function parses the map file and initializes the map structure.
+ *
+ * @param map_name The name of the map file.
+ * 
+ * @return A pointer to the initialized map structure, or NULL on failure.
+ */
 t_map	*parse_map(char	*map_name);
+
+/**
+ * @brief Initialize all environment variables.
+ *
+ * This function initializes all environment variables, including the map,
+ * camera, points, lines, and image.
+ *
+ * @param env The environment structure.
+ * @param argv The command-line arguments.
+ * @return 1 on success, 0 on failure.
+ */
 int		init_all(t_env *env, char **argv);
+
+/**
+ * @brief Print an error message.
+ *
+ * This function prints an error message to the console.
+ *
+ * @param str The error message to print.
+ */
+void	print_error(char *str);
+
+/**
+ * @brief Display information about the environment.
+ *
+ * This function displays information about the environment, including the map,
+ * camera, and other settings.
+ *
+ * @param env The environment structure.
+ */
+void	display_infos(t_env *env);
+
+/**
+ * @brief Free all allocated memory.
+ *
+ * This function frees all allocated memory by the program.
+ *
+ * @param env The environment structure.
+ */
+void	exit_free(t_env *env);
+
+/**
+ * @brief Toggle a boolean value.
+ *
+ * This function toggles a boolean value between 0 and 1.
+ *
+ * @param nb The boolean value to toggle.
+ * 
+ * @return The toggled boolean value.
+ */
+int		flip_flop(int nb);
+
+/**
+ * @brief Get the larger of two integers.
+ *
+ * This function returns the larger of two integers.
+ *
+ * @param a The first integer.
+ * @param b The second integer.
+ * 
+ * @return The larger of the two integers.
+ */
+int		get_biggest(int a, int b);
+
+/**
+ * @brief Count the number of lines in a map file.
+ *
+ * This function counts the number of lines in a map file and checks if the
+ * lines are valid.
+ *
+ * @param map_name The name of the map file.
+ * @param map The map structure to update.
+ * 
+ * @return 1 on success, 0 on failure.
+ */
+int		count_file_lines(char *map_name, t_map *map);
+
+/**
+ * @brief Fill a line in the map structure.
+ *
+ * This function fills a line in the map structure with the parsed data.
+ *
+ * @param line The line to fill.
+ * @param map The map structure to update.
+ * @param i The index of the line.
+ * 
+ * @return 1 on success, 0 on failure.
+ */
+int		fill_line(char *line, t_map *map, int i);
+
+/**
+ * @brief Allocate memory for a line in the map structure.
+ *
+ * This function allocates memory for a line in the map structure.
+ *
+ * @param map The map structure to update.
+ * @param i The index of the line.
+ * 
+ * @return 1 on success, 0 on failure.
+ */
+int		malloc_line_map(t_map *map, int i);
 
 /*╔══════════════════════════════════════════════════════════════════════════╗*/
 /*║                                PROJECTIONS                               ║*/
@@ -329,33 +427,250 @@ void	wasd_move(int key, t_env *env);
 /*║                                  EVENTS                                  ║*/
 /*╚══════════════════════════════════════════════════════════════════════════╝*/
 
+/**
+ * @brief Handle mouse button press events.
+ *
+ * This function updates the environment's mouse state based on the button
+ * pressed and the mouse coordinates. It also handles zooming.
+ *
+ * @param button The mouse button pressed.
+ * @param x The x-coordinate of the mouse.
+ * @param y The y-coordinate of the mouse.
+ * @param param The environment variable.
+ * 
+ * @return Always returns 0.
+ */
 int		mouse_down(int button, int x, int y, void *param);
+
+/**
+ * @brief Handle mouse button release events.
+ *
+ * This function updates the environment's mouse state based on the button
+ * released and the mouse coordinates.
+ *
+ * @param button The mouse button released.
+ * @param x The x-coordinate of the mouse.
+ * @param y The y-coordinate of the mouse.
+ * @param param The environment variable.
+ * 
+ * @return Always returns 0.
+ */
 int		mouse_up(int button, int x, int y, void *param);
+
+/**
+ * @brief Handle mouse movement events.
+ *
+ * This function updates the environment's mouse state based on the mouse
+ * coordinates and handles rotation and translation.
+ *
+ * @param x The x-coordinate of the mouse.
+ * @param y The y-coordinate of the mouse.
+ * @param param The environment variable.
+ * 
+ * @return Always returns 0.
+ */
 int		mouse_move(int x, int y, void *param);
+
+/**
+ * @brief Handle camera movement based on keyboard input.
+ *
+ * This function updates the camera's position and orientation based on the
+ * key pressed.
+ *
+ * @param keycode The key pressed.
+ * @param env The environment structure containing the camera.
+ */
 void	cam_keys(int keycode, t_env *env);
+
+/**
+ * @brief Handle the destruction of the environment.
+ *
+ * This function ends the MLX loop and performs cleanup when the environment
+ * is destroyed.
+ *
+ * @param param The environment variable.
+ * 
+ * @return Always returns 0.
+ */
 int		destroy(void *param);
 
+/**
+ * @brief Set up event hooks for the environment.
+ *
+ * This function sets up the necessary event hooks for handling mouse and
+ * keyboard events in the environment.
+ *
+ * @param env The environment structure containing the MLX window.
+ */
 void	events(t_env *env);
 
 /*╔══════════════════════════════════════════════════════════════════════════╗*/
 /*║                                 RENDERING                                ║*/
 /*╚══════════════════════════════════════════════════════════════════════════╝*/
 
+/**
+ * @brief Put a pixel in the image.
+ *
+ * This function sets the color of a pixel at the specified coordinates in the
+ * image.
+ *
+ * @param str The image data string.
+ * @param x The x-coordinate of the pixel.
+ * @param y The y-coordinate of the pixel.
+ * @param color The color of the pixel.
+ */
 void	put_pixel_image(char *str, int x, int y, int color);
+
+/**
+ * @brief Calculate the gradient color between two points.
+ *
+ * This function calculates the gradient color between two points based on the
+ * given ratio.
+ *
+ * @param point_a The first point.
+ * @param point_b The second point.
+ * @param ratio The ratio for the gradient calculation.
+ * 
+ * @return The calculated gradient color.
+ */
 int		calc_gradiant_point(t_point *point_a, t_point *point_b, double ratio);
+
+/**
+ * @brief Calculate the gradient color between two colors.
+ *
+ * This function calculates the gradient color between two colors based on the
+ * given ratio.
+ *
+ * @param color_a The first color.
+ * @param color_b The second color.
+ * @param ratio The ratio for the gradient calculation.
+ * 
+ * @return The calculated gradient color.
+ */
 int		calc_gradiant_color(int color_a, int color_b, double ratio);
+
+/**
+ * @brief Check if a point is within the frame.
+ *
+ * This function checks if the given point is within the frame boundaries.
+ *
+ * @param point The point to check.
+ * 
+ * @return 1 if the point is within the frame, 0 otherwise.
+ */
 int		is_point_in_frame(t_point point);
+
+/**
+ * @brief Draw a line between two points.
+ *
+ * This function draws a line between two points in the environment.
+ *
+ * @param point_a The starting point of the line.
+ * @param point_b The ending point of the line.
+ * @param env The environment structure.
+ */
 void	draw_line(t_point *point_a, t_point *point_b, t_env *env);
+
+/**
+ * @brief Draw all lines in the environment.
+ *
+ * This function draws all lines stored in the environment.
+ *
+ * @param env The environment structure.
+ */
 void	draw_every_lines(t_env *env);
+
+/**
+ * @brief Save lines in the environment.
+ *
+ * This function saves the lines in the environment based on the calculated
+ * projection of each point.
+ *
+ * @param env The environment structure.
+ */
 void	save_lines(t_env *env);
+
+/**
+ * @brief Check if a line is valid.
+ *
+ * This function checks if a line between two points is valid based on
+ * given settings.
+ *
+ * @param env The environment structure.
+ * @param point_a The starting point of the line.
+ * @param point_b The ending point of the line.
+ * 
+ * @return 1 if the line is valid, 0 otherwise.
+ */
 int		is_valid_line(t_env *env, t_point *point_a, t_point *point_b);
+
+/**
+ * @brief Sort lines using quicksort.
+ *
+ * This function sorts the lines in the environment using the quicksort
+ * algorithm.
+ *
+ * @param lines The array of lines to sort.
+ * @param low The starting index.
+ * @param high The ending index.
+ * @param order The order of sorting (0 for descending, 1 for ascending).
+ */
 void	quicksort_lines(t_line *lines, int low, int high, int order);
 
+/**
+ * @brief Draw a string in the image.
+ *
+ * This function draws a string in the image using the specified font and
+ * starting position.
+ * 
+ * The difference between this function and the original one of the mlx is
+ * that this one draw on an image and not a window so we can gain some
+ * efficiency and be sure that there can't be other error.
+ *
+ * @param img The image structure.
+ * @param font The font data.
+ * @param p The starting position and color.
+ * @param str The string to draw.
+ */
 void	string_to_img(t_img *img, unsigned char font[96][5],
 			t_point p, const char *str);
+
+/**
+ * @brief Draw a character in the image.
+ *
+ * This function draws a character in the image using the specified font and
+ * starting position.
+ * 
+ * This function really do the job of string_to_img. Take a character of the
+ * font and set the according pixels to a given color
+ *
+ * @param img The image structure.
+ * @param font The font data.
+ * @param p The starting position and color.
+ * @param c The character to draw.
+ */
 void	char_to_img(t_img *img, unsigned char font[96][5], t_point p, char c);
+
+/**
+ * @brief Initialize the font in the environment.
+ *
+ * This function initializes the font data in the environment.
+ * This function shouldn't be there and the shitty composition of it is due to
+ * norm restriction. This really cool norm don't let us define big variable
+ * (like the font here) so I have to declare it in two function and join them.
+ *
+ * @param env The environment structure.
+ */
 void	init_font(t_env *env);
 
+/**
+ * @brief Render a frame in the environment.
+ *
+ * This function renders a frame in the environment by calculating projections,
+ * saving lines, and drawing them.
+ *
+ * @param env The environment structure.
+ */
 void	render_frame(t_env *env);
 
 #endif

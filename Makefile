@@ -6,7 +6,7 @@
 #    By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/19 13:55:49 by lilefebv          #+#    #+#              #
-#    Updated: 2025/01/14 16:30:31 by lilefebv         ###   ########lyon.fr    #
+#    Updated: 2025/01/14 17:39:49 by lilefebv         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -183,10 +183,13 @@ re : fclean
 
 bonus : libft_make $(BONUS)
 
+norminette:
+	@norminette srcs/ libft/ includes/
+
 $(BONUS) : ${LIBFT} $(OBJ_BONUS)
 	@echo "$(GREEN)[Compiling program] $(NC)$(BONUS)"
 	@$(CC) $(CFLAGS) -o $(BONUS) $(OBJ_BONUS) $(LIBFT)
 	@echo "$(YELLOW)\nCompilation of $(YELLOW2)$(BONUS)$(YELLOW) finished successfully!$(NC)";
 	@echo "\n$(NORM_RET)";
 
-.PHONY: all clean fclean re start_message end_message libft_make bonus mlx_make mlx_re mlx_clean
+.PHONY: all clean fclean re start_message end_message libft_make bonus mlx_make mlx_re mlx_clean norminette
