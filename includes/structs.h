@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/14 17:47:27 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/14 18:33:11 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,27 +108,27 @@ typedef struct s_line
  */
 typedef struct s_camera
 {
-	double	yaw;
-	double	pitch;
-	double	roll;
-	double	distance;
-	double	x;
-	double	y;
-	double	z;
-	double	proj_x;
-	double	proj_y;
-	double	proj_z;
-	double	scale;
-	double	mouse_sensibility;
-	int		fov;
-	int		zfar;
-	int		znear;
-	double	right;
-	double	left;
-	double	top;
-	double	bottom;
-	double	far;
-	double	near;
+	double	yaw;				/* Yaw angle of the camera */
+	double	pitch;				/* Pitch angle of the camera */
+	double	roll;				/* Roll angle of the camera */
+	double	distance;			/* Distance of the camera to the focus point */
+	double	x;					/* X-coordinate of the camera's focus point. */
+	double	y;					/* Y-coordinate of the camera's focus point. */
+	double	z;					/* Z-coordinate of the camera's focus point. */
+	double	proj_x;				/* X-coordinate of the camera's position */
+	double	proj_y;				/* Y-coordinate of the camera's position */
+	double	proj_z;				/* Z-coordinate of the camera's position */
+	double	scale;				/* Global distance variable */
+	double	mouse_sensibility;	/* Mouse sensibility */
+	int		fov;				/* Field of view of the camera */
+	int		zfar;				/* Far clipping plane distance. */
+	int		znear;				/* Near clipping plane distance. */
+	double	right;				/* Right clipping plane. */
+	double	left;				/* Left clipping plane. */
+	double	top;				/* Top clipping plane. */
+	double	bottom;				/* Bottom clipping plane. */
+	double	far;				/* Far clipping plane. */
+	double	near;				/* Near clipping plane. */
 }	t_camera;
 
 /**
@@ -145,12 +145,12 @@ typedef struct s_camera
  */
 typedef struct s_map
 {
-	int	**map;
-	int	**color_map;
-	int	length;
-	int	height;
-	int	highest;
-	int	have_color;
+	int	**map;			/* 2D array of integers representing the map */
+	int	**color_map;	/* 2D array representing the colors of the map */
+	int	length;			/* Length of the map */
+	int	height;			/* Height of the map */
+	int	highest;		/* Highest point on the map */
+	int	have_color;		/* Flag indicating if the map has color information */
 }	t_map;
 
 /**
