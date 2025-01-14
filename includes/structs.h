@@ -6,21 +6,21 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/14 15:07:46 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/14 15:51:15 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-typedef struct	s_img
+typedef struct s_img
 {
-	void  *img;      /* pointer qui permet d'identifier l'image */
-	char  *img_str;  /* string contenant tous les pixels de l'image */
-	int   bits;      /* nombre de bits par pixels */
-	int   size_line; /*  taille de la img_str*/
-	int   endian;    /* permet de signifier la fin d'une image*/
-}               t_img;
+	void	*img;		/* pointer qui permet d'identifier l'image */
+	char	*img_str;	/* string contenant tous les pixels de l'image */
+	int		bits;		/* nombre de bits par pixels */
+	int		size_line;	/*  taille de la img_str*/
+	int		endian;		/* permet de signifier la fin d'une image*/
+}	t_img;
 
 typedef struct s_color
 {
@@ -47,14 +47,15 @@ typedef struct s_point
 
 typedef struct s_line
 {
-    t_point *start;
-    t_point *end;
-    float depth;
+	t_point	*start;
+	t_point	*end;
+	float	depth;
 }	t_line;
 
 /**
  * @struct s_camera
- * @brief Structure représentant une caméra avec ses paramètres de rotation et de position.
+ * @brief Structure représentant une caméra avec ses paramètres de rotation 
+ *        et de position.
  * 
  * @param yaw Angle de lacet (rotation autour de l'axe y).
  * @param pitch Angle de tangage (rotation autour de l'axe x).
@@ -115,7 +116,8 @@ typedef struct s_map
 
 /**
  * @struct s_env
- * @brief Structure environement contenant toutes les infos sur la scene en cours.
+ * @brief Structure environement contenant toutes les infos sur la scene en
+ *        cours.
  * 
  */
 typedef struct s_env

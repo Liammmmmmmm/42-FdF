@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/14 14:57:18 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/14 15:49:28 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ typedef enum e_keys
 	KEY_ESC = 65307
 }	t_keys;
 
-typedef enum e_event {
+typedef enum e_event
+{
 	ON_KEYDOWN = 2,
 	ON_KEYUP = 3,
 	ON_MOUSEDOWN = 4,
@@ -100,7 +101,7 @@ typedef enum e_event {
 	ON_MOUSEMOVE = 6,
 	ON_EXPOSE = 12,
 	ON_DESTROY = 17
-}   t_event;
+}	t_event;
 
 void	print_error(char *str);
 void	display_infos(t_env *env);
@@ -213,7 +214,7 @@ void	calculate_point_projection(int x, int y, t_env *env);
 /*╚══════════════════════════════════════════════════════════════════════════╝*/
 
 void	calc_cam_proj(t_env *env, t_camera *camera);
-void 	get_local_axes(double axes[3][3], double yaw, double pitch, double roll);
+void	get_local_axes(double axe[3][3], double yaw, double pitch, double roll);
 double	calc_scale(t_map *map, t_camera *camera);
 
 void	zoom(t_env *env, int direction);
@@ -248,8 +249,9 @@ void	save_lines(t_env *env);
 int		is_valid_line(t_env *env, t_point *point_a, t_point *point_b);
 void	quicksort_lines(t_line *lines, int low, int high, int order);
 
-void 	string_to_img(t_img *img, unsigned char font[96][5], t_point p, const char *str);
-void 	char_to_img(t_img *img, unsigned char font[96][5], t_point p, char c);
+void	string_to_img(t_img *img, unsigned char font[96][5],
+			t_point p, const char *str);
+void	char_to_img(t_img *img, unsigned char font[96][5], t_point p, char c);
 
 void	render_frame(t_env *env);
 
