@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 18:51:30 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/13 19:00:02 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/14 10:02:37 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	vector_multiply_matrix_3x3(double matrix[3][3], double v[3])
 {
-	double res[3];
-	
+	double	res[3];
+
 	res[0] = v[0] * matrix[0][0] + v[1] * matrix[0][1] + v[2] * matrix[0][2];
 	res[1] = v[0] * matrix[1][0] + v[1] * matrix[1][1] + v[2] * matrix[1][2];
 	res[2] = v[0] * matrix[2][0] + v[1] * matrix[2][1] + v[2] * matrix[2][2];
@@ -24,14 +24,14 @@ void	vector_multiply_matrix_3x3(double matrix[3][3], double v[3])
 	v[2] = res[2];
 }
 
-void	vector_multiply_matrix_4x4(double matrix[4][4], double v[4])
+void	vector_multiply_matrix_4x4(double m[4][4], double v[4])
 {
-	double res[4];
-	
-	res[0] = v[0] * matrix[0][0] + v[1] * matrix[0][1] + v[2] * matrix[0][2] + v[3] * matrix[0][3];
-	res[1] = v[0] * matrix[1][0] + v[1] * matrix[1][1] + v[2] * matrix[1][2] + v[3] * matrix[1][3];
-	res[2] = v[0] * matrix[2][0] + v[1] * matrix[2][1] + v[2] * matrix[2][2] + v[3] * matrix[2][3];
-	res[3] = v[0] * matrix[2][0] + v[1] * matrix[2][1] + v[2] * matrix[2][2] + v[3] * matrix[3][3];
+	double	res[4];
+
+	res[0] = v[0] * m[0][0] + v[1] * m[0][1] + v[2] * m[0][2] + v[3] * m[0][3];
+	res[1] = v[0] * m[1][0] + v[1] * m[1][1] + v[2] * m[1][2] + v[3] * m[1][3];
+	res[2] = v[0] * m[2][0] + v[1] * m[2][1] + v[2] * m[2][2] + v[3] * m[2][3];
+	res[3] = v[0] * m[2][0] + v[1] * m[2][1] + v[2] * m[2][2] + v[3] * m[3][3];
 	v[0] = res[0];
 	v[1] = res[1];
 	v[2] = res[2];

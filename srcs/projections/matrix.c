@@ -6,13 +6,12 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 15:07:24 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/13 19:03:20 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/14 09:57:11 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-// axe x
 void	init_yaw_matrix(double matrix[3][3], double yaw)
 {
 	yaw = yaw + PI_10D / 2;
@@ -27,7 +26,6 @@ void	init_yaw_matrix(double matrix[3][3], double yaw)
 	matrix[2][2] = 1;
 }
 
-// axe y
 void	init_roll_matrix(double matrix[3][3], double roll)
 {
 	matrix[0][0] = cos(roll);
@@ -41,7 +39,6 @@ void	init_roll_matrix(double matrix[3][3], double roll)
 	matrix[2][2] = cos(roll);
 }
 
-// axe z
 void	init_pitch_matrix(double matrix[3][3], double pitch)
 {
 	pitch = pitch - PI_10D / 2;

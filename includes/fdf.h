@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/13 17:10:03 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/14 11:25:14 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,9 @@ void	display_infos(t_env *env);
 void	exit_free(t_env *env);
 int		flip_flop(int nb);
 int		get_biggest(int a, int b);
+int		count_file_lines(char *map_name, t_map *map);
+int		fill_line(char *line, t_map *map, int i);
+int		malloc_line_map(t_map *map, int i);
 
 /*╔══════════════════════════════════════════════════════════════════════════╗*/
 /*║                                   ENV                                    ║*/
@@ -96,13 +99,87 @@ int		init_all(t_env *env, char **argv);
 /*║                                PROJECTIONS                               ║*/
 /*╚══════════════════════════════════════════════════════════════════════════╝*/
 
-void	init_pitch_matrix(double matrix[3][3], double yaw);
-void	init_yaw_matrix(double matrix[3][3], double pitch);
+/**
+ * @brief Initializes the yaw matrix.
+ * 
+ * Sets up the yaw rotation matrix for rotation around the z-axis.
+ *
+ * @param matrix[3][3] The 3x3 matrix to initialize.
+ * @param yaw The yaw angle in radians.
+ */
+void	init_yaw_matrix(double matrix[3][3], double yaw);
+
+/**
+ * @brief Initializes the roll matrix.
+ * 
+ * Sets up the roll rotation matrix for rotation around the y-axis.
+ *
+ * @param matrix[3][3] The 3x3 matrix to initialize.
+ * @param roll The roll angle in radians.
+ */
 void	init_roll_matrix(double matrix[3][3], double roll);
-void	init_orthogonal_matrix(double matrix[4][4], t_env *env);
+
+/**
+ * @brief Initializes the pitch matrix.
+ * 
+ * Sets up the pitch rotation matrix for rotation around the x-axis.
+ *
+ * @param matrix[3][3] The 3x3 matrix to initialize.
+ * @param pitch The pitch angle in radians.
+ */
+void	init_pitch_matrix(double matrix[3][3], double pitch);
+
+/**
+ * @brief Initializes the perspective projection matrix.
+ * 
+ * Sets up the perspective projection matrix based on the camera's
+ * field of view and near/far planes.
+ *
+ * @param matrix[4][4] The 4x4 matrix to initialize.
+ * @param env The environment containing the camera parameters.
+ */
 void	init_perspective_matrix(double matrix[4][4], t_env *env);
+
+/**
+ * @brief Initializes the orthogonal projection matrix.
+ * 
+ * Sets up the orthogonal projection matrix based on the camera's view volume.
+ *
+ * @param matrix[4][4] The 4x4 matrix to initialize.
+ * @param env The environment containing the camera parameters.
+ */
+void	init_orthogonal_matrix(double matrix[4][4], t_env *env);
+
+/**
+ * @brief Multiplies a 3D vector by a 3x3 matrix.
+ * 
+ * Multiplies the given 3D vector by the specified 3x3 matrix and updates
+ * the vector with the result.
+ *
+ * @param matrix The 3x3 matrix to multiply with.
+ * @param vector The 3D vector to be multiplied.
+ */
 void	vector_multiply_matrix_3x3(double matrix[3][3], double vector[3]);
+
+/**
+ * @brief Multiplies a 4D vector by a 4x4 matrix.
+ * 
+ * Multiplies the given 4D vector by the specified 4x4 matrix and updates the vector with the result.
+ *
+ * @param matrix The 4x4 matrix to multiply with.
+ * @param vector The 4D vector to be multiplied.
+ */
 void	vector_multiply_matrix_4x4(double matrix[4][4], double vector[4]);
+
+/**
+ * @brief Multiplies two 3x3 matrices.
+ * 
+ * Multiplies matrix a by matrix b and stores the result in matrix res.
+ *
+ * @param res The resulting 3x3 matrix.
+ * @param a The first 3x3 matrix.
+ * @param b The second 3x3 matrix.
+ */
 void	multiply_matrix_3x3(double res[3][3], double a[3][3], double b[3][3]);
 
 void	calculate_point_projection(int x, int y, t_env *env);
@@ -128,7 +205,7 @@ void	wasd_move(int key, t_env *env);
 int		mouse_down(int button, int x, int y, void *param);
 int		mouse_up(int button, int x, int y, void *param);
 int		mouse_move(int x, int y, void *param);
-int		keydown(int keycode, void *param);
+void	cam_keys(int keycode, t_env *env);
 int		destroy(void *param);
 
 void	events(t_env *env);
