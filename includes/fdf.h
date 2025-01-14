@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/14 11:25:14 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/14 14:57:18 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@
 # include <fcntl.h>
 # include <math.h>
 
-
-#include <stdio.h> // a retirer
-
 # define PI_10D 3.1415926535
 
 # define Z_ORDERING 0
@@ -32,6 +29,32 @@
 
 # define COLOR_MIN 0xFFFFFF
 # define COLOR_MAX 0x7B13AB
+
+# define CONTROLS "INFOS : Controls\n  Camera :\n    [ESC] Close window\n    \
+	[LMB]/[RMB] Rotate\n    [MMB] Translate\n    [SCROLL] Zoom/dezoom\n    \
+	[F] Toogle freecam\n    [W] Move forward\n    [A] Move left\n    \
+	[S] Move backward\n    [D] Move right\n    [SPACE] Move up\n    \
+	[SHIFT] Move down\n    [Q] Roll left\n    [E] Roll right\n    \
+	[<] Reduce FOV\n    [>] Increase FOV\n  Render :\n    [-] Shrink z axe\
+	\n    [+] Extend z axe\n    [G] Toogle height color\n    \
+	[L] \"Normal\" view\n    [P] Perspective\n    [O] Orthogonal\n    \
+	[Z] Enable z ordering\n  Other :\n    [C] Toogle controls menu\n    \
+	[I] Toogle informations menu"
+
+# define LIVE_INFO "INFOS : Environment\n  Map :\n    Length : %d\n    \
+	Width  : %d\n  Camera :\n    Rotations:\n      Yaw   : %f\n      \
+	Pitch : %f\n      Roll  : %f\n    Position :\n      \
+	Focus point : (%f, %f, %f)\n      Real point  : (%f, %f, %f)\n    \
+	Parameters :\n      Distance      : %f\n      Scale         : %f\n      \
+	Mouse Sens.   : %f\n      FOV           : %d\n      \
+	Near Clip     : %d\n      Far Clip      : %d\n      \
+	Right/Left    : %f / %f\n      Top/Bottom    : %f / %f\n      \
+	Near/Far Plane: %f / %f\n  Global\n    Mouse :\n      \
+	Click Rotation    : %d\n      Click Translation : %d\n      \
+	Sensibility       : %f\n      Last Position     : (%d, %d)\n    \
+	Scene :\n      Frames Generated : %d\n      Projection       : %s\n      \
+	Z Ordering       : %d\n      Freecam          : %d\n      \
+	Z axe Ratio      : %f" 
 
 // refaire toute la docsting en anglais
 
@@ -164,7 +187,8 @@ void	vector_multiply_matrix_3x3(double matrix[3][3], double vector[3]);
 /**
  * @brief Multiplies a 4D vector by a 4x4 matrix.
  * 
- * Multiplies the given 4D vector by the specified 4x4 matrix and updates the vector with the result.
+ * Multiplies the given 4D vector by the specified 4x4 matrix and updates
+ * the vector with the result.
  *
  * @param matrix The 4x4 matrix to multiply with.
  * @param vector The 4D vector to be multiplied.
@@ -221,10 +245,11 @@ int		is_point_in_frame(t_point point);
 void	draw_line(t_point *point_a, t_point *point_b, t_env *env);
 void	draw_every_lines(t_env *env);
 void	save_lines(t_env *env);
+int		is_valid_line(t_env *env, t_point *point_a, t_point *point_b);
 void	quicksort_lines(t_line *lines, int low, int high, int order);
 
-void 	draw_string_to_image(t_img *img, unsigned char font[96][5], t_point p, const char *str);
-void 	draw_char_to_image(t_img *img, unsigned char font[96][5], t_point p, char c);
+void 	string_to_img(t_img *img, unsigned char font[96][5], t_point p, const char *str);
+void 	char_to_img(t_img *img, unsigned char font[96][5], t_point p, char c);
 
 void	render_frame(t_env *env);
 
