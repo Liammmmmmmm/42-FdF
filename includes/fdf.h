@@ -6,14 +6,13 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/14 15:49:28 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/14 17:09:05 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# include "font.h"
 # include "structs.h"
 
 # include "libft.h"
@@ -207,20 +206,123 @@ void	vector_multiply_matrix_4x4(double matrix[4][4], double vector[4]);
  */
 void	multiply_matrix_3x3(double res[3][3], double a[3][3], double b[3][3]);
 
+/**
+ * @brief Calculates the projection of a point.
+ *
+ * This function takes the coordinates x and y of a point in the map. With
+ * the associated z, it calculate the position of this 3D point on a 2D screen
+ * according to the camera position. Depending on the user choices, it can also
+ * apply the perspective matrix.
+ * 
+ * The function have no return because it directly save the projected point in
+ * a list in the env variable.
+ *
+ * @param x The x-coordinate of the point in the map.
+ * @param y The y-coordinate of the point in the map.
+ * @param env The environment variable
+ */
 void	calculate_point_projection(int x, int y, t_env *env);
 
 /*╔══════════════════════════════════════════════════════════════════════════╗*/
 /*║                                  CAMERA                                  ║*/
 /*╚══════════════════════════════════════════════════════════════════════════╝*/
 
+/**
+ * @brief Calculate the camera projection.
+ *
+ * This function calculates the camera's projected coordinates based on its
+ * current focus point position and orientation.
+ *
+ * @param env The environment structure containing every info.
+ * @param camera The camera structure to update the projection for.
+ */
 void	calc_cam_proj(t_env *env, t_camera *camera);
+
+/**
+ * @brief Calculate the local axes based on yaw, pitch, and roll.
+ *
+ * This function initializes the local axes matrix based on the given yaw,
+ * pitch, and roll angles.
+ * 
+ * There is no return to this function because it directly change the axes
+ * double tab.
+ *
+ * @param axes The resulting 3x3 matrix representing the local axes.
+ * @param yaw The yaw angle.
+ * @param pitch The pitch angle.
+ * @param roll The roll angle.
+ */
 void	get_local_axes(double axe[3][3], double yaw, double pitch, double roll);
+
+/**
+ * @brief Calculate the scale factor for the map.
+ *
+ * This function calculates the scale factor for rendering the map based on
+ * the camera's distance and the map's dimensions.
+ *
+ * @param map The map structure containing the map dimensions.
+ * @param camera The camera structure containing the distance.
+ * 
+ * @return The calculated scale factor.
+ */
 double	calc_scale(t_map *map, t_camera *camera);
 
+/**
+ * @brief Zoom the camera in or out.
+ *
+ * This function adjusts the camera's distance based on the zoom direction
+ * and recalculates the camera's projection and scale.
+ *
+ * @param env The environment structure containing the camera.
+ * @param direction The direction of the zoom (SCROLL_UP or SCROLL_DOWN).
+ */
 void	zoom(t_env *env, int direction);
+
+/**
+ * @brief Rotate the camera based on mouse movement.
+ *
+ * This function updates the camera's yaw and pitch based on the mouse
+ * movement and recalculates the camera's projection.
+ *
+ * @param x The current x-coordinate of the mouse.
+ * @param y The current y-coordinate of the mouse.
+ * @param env The environment structure containing the camera.
+ */
 void	rotate(int x, int y, t_env *env);
+
+/**
+ * @brief Translate the camera based on mouse movement.
+ *
+ * This function updates the camera's position based on the mouse movement
+ * and recalculates the camera's projection.
+ *
+ * @param x The current x-coordinate of the mouse.
+ * @param y The current y-coordinate of the mouse.
+ * @param env The environment structure containing the camera.
+ */
 void	translate(int x, int y, t_env *env);
+
+/**
+ * @brief Roll the camera around its forward axis.
+ *
+ * This function updates the camera's roll angle based on the direction and
+ * recalculates the camera's projection.
+ *
+ * @param direction The direction of the roll.
+ * @param env The environment structure containing the camera.
+ */
 void	roll(int direction, t_env *env);
+
+/**
+ * @brief Move the camera based on keyboard input.
+ *
+ * This function updates the camera's position based on the key pressed and
+ * recalculates the camera's projection.
+ *
+ * @param key The key pressed (KEY_W, KEY_A, KEY_S, KEY_D, KEY_SHIFT, or
+ *            KEY_SPACE).
+ * @param env The environment structure containing the camera.
+ */
 void	wasd_move(int key, t_env *env);
 
 /*╔══════════════════════════════════════════════════════════════════════════╗*/
@@ -252,6 +354,7 @@ void	quicksort_lines(t_line *lines, int low, int high, int order);
 void	string_to_img(t_img *img, unsigned char font[96][5],
 			t_point p, const char *str);
 void	char_to_img(t_img *img, unsigned char font[96][5], t_point p, char c);
+void	init_font(t_env *env);
 
 void	render_frame(t_env *env);
 

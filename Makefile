@@ -6,7 +6,7 @@
 #    By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/19 13:55:49 by lilefebv          #+#    #+#              #
-#    Updated: 2025/01/14 14:22:40 by lilefebv         ###   ########lyon.fr    #
+#    Updated: 2025/01/14 16:30:31 by lilefebv         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,7 @@ SRCS     = fdf.c console.c utils.c                                              
            projections/matrix.c projections/matrix_calc.c projections/projection_point.c                      \
            rendering/utils.c rendering/pixel.c rendering/frame.c rendering/draw_lines.c rendering/utils_lines.c rendering/draw_string.c   \
 		   events/actions.c events/hooks.c                                            \
-		   env/inits.c env/parsing.c env/map_line.c                                                   \
+		   env/inits.c env/parsing.c env/map_line.c env/font.c                                                      \
 		   camera/calcs.c camera/movements.c camera/key_movements.c
 		   
 

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:34:24 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/14 11:38:17 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/14 16:30:17 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,13 @@ int	init_lines(t_env *env)
 
 void	random_values_init(t_env *env)
 {
-	static unsigned char	font[96][5] = FONT;
-
 	env->mouse_sensibility = 0.4;
 	env->z_ratio = 1;
 	env->cam_around_focus = 1;
 	env->perspective = 2;
 	env->z_ordering = 0;
 	env->frames_gen = 0;
-	ft_memcpy(env->font, font, sizeof(env->font));
+	init_font(env);
 	env->display_infos = 2;
 	if (get_biggest(env->map->height, env->map->length) < env->map->highest)
 		env->z_ratio = (double)get_biggest(env->map->height, env->map->length)
