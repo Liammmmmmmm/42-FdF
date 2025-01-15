@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:26:16 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/14 11:06:59 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/15 17:00:10 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	cam_keys(int keycode, t_env *env)
 	else if (keycode == KEY_P)
 		env->perspective = 1;
 	else if (keycode == KEY_O)
-		env->perspective = 0;
+		env->sphere_proj = flip_flop(env->sphere_proj);
 	else if (keycode == KEY_L)
 		env->perspective = 2;
 	else if (keycode == KEY_F)

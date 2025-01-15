@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:51:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/14 14:51:09 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/15 17:14:16 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,9 @@ char	*info_string(t_env *env)
 			env->camera->left, env->camera->top, env->camera->bottom,
 			env->camera->near, env->camera->far, env->mouse_click_rotation,
 			env->mouse_click_translation, env->mouse_sensibility,
-			env->mouse_last_x, env->mouse_last_y, env->frames_gen, perspective,
-			env->z_ordering, !env->cam_around_focus, env->z_ratio));
+			env->mouse_last_x, env->mouse_last_y, env->frames_gen,
+			env->sphere_proj, perspective, env->z_ordering,
+			!env->cam_around_focus, env->z_ratio));
 }
 
 void	display_infos_win(t_env *env)

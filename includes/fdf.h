@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/15 11:57:42 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/15 17:12:48 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,31 +31,31 @@
 
 # define ERROR_MLX "MLX initialization failed"
 
-# define CONTROLS "INFOS : Controls\n  Camera :\n    [ESC] Close window\n    \
-	[LMB]/[RMB] Rotate\n    [MMB] Translate\n    [SCROLL] Zoom/dezoom\n    \
-	[F] Toogle freecam\n    [W] Move forward\n    [A] Move left\n    \
-	[S] Move backward\n    [D] Move right\n    [SPACE] Move up\n    \
-	[SHIFT] Move down\n    [Q] Roll left\n    [E] Roll right\n    \
+# define CONTROLS "INFOS : Controls\n  Camera :\n    [ESC] Close window\n   \
+	[LMB]/[RMB] Rotate\n    [MMB] Translate\n    [SCROLL] Zoom/dezoom\n   \
+	[F] Toogle freecam\n    [W] Move forward\n    [A] Move left\n   \
+	[S] Move backward\n    [D] Move right\n    [SPACE] Move up\n   \
+	[SHIFT] Move down\n    [Q] Roll left\n    [E] Roll right\n   \
 	[<] Reduce FOV\n    [>] Increase FOV\n  Render :\n    [-] Shrink z axe\
-	\n    [+] Extend z axe\n    [G] Toogle height color\n    \
-	[L] \"Normal\" view\n    [P] Perspective\n    [O] Orthogonal\n    \
-	[Z] Enable z ordering\n  Other :\n    [C] Toogle controls menu\n    \
+	\n    [+] Extend z axe\n    [G] Toogle height color\n   \
+	[L] \"Normal\" view\n    [P] Perspective\n    [O] Toogle sphere projection\n   \
+	[Z] Enable z ordering\n  Other :\n    [C] Toogle controls menu\n   \
 	[I] Toogle informations menu"
 
-# define LIVE_INFO "INFOS : Environment\n  Map :\n    Length : %d\n    \
-	Width  : %d\n  Camera :\n    Rotations:\n      Yaw   : %f\n      \
-	Pitch : %f\n      Roll  : %f\n    Position :\n      \
-	Focus point : (%f, %f, %f)\n      Real point  : (%f, %f, %f)\n    \
-	Parameters :\n      Distance      : %f\n      Scale         : %f\n      \
-	Mouse Sens.   : %f\n      FOV           : %d\n      \
-	Near Clip     : %d\n      Far Clip      : %d\n      \
-	Right/Left    : %f / %f\n      Top/Bottom    : %f / %f\n      \
-	Near/Far Plane: %f / %f\n  Global\n    Mouse :\n      \
-	Click Rotation    : %d\n      Click Translation : %d\n      \
-	Sensibility       : %f\n      Last Position     : (%d, %d)\n    \
-	Scene :\n      Frames Generated : %d\n      Projection       : %s\n      \
-	Z Ordering       : %d\n      Freecam          : %d\n      \
-	Z axe Ratio      : %f" 
+# define LIVE_INFO "INFOS : Environment\n  Map :\n    Length : %d\n   \
+	Width  : %d\n  Camera :\n    Rotations:\n      Yaw   : %f\n     \
+	Pitch : %f\n      Roll  : %f\n    Position :\n     \
+	Focus point : (%f, %f, %f)\n      Real point  : (%f, %f, %f)\n   \
+	Parameters :\n      Distance      : %f\n      Scale         : %f\n     \
+	Mouse Sens.   : %f\n      FOV           : %d\n     \
+	Near Clip     : %d\n      Far Clip      : %d\n     \
+	Right/Left    : %f / %f\n      Top/Bottom    : %f / %f\n     \
+	Near/Far Plane: %f / %f\n  Global\n    Mouse :\n     \
+	Click Rotation    : %d\n      Click Translation : %d\n     \
+	Sensibility       : %f\n      Last Position     : (%d, %d)\n   \
+	Scene :\n      Frames Generated : %d\n      Sphere           : %d\n     \
+	Projection       : %s\n      Z Ordering       : %d\n     \
+	Freecam          : %d\n      Z axe Ratio      : %f" 
 
 typedef enum e_mouse_buttons
 {

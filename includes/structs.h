@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/14 18:33:11 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/15 16:58:27 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,7 @@ typedef struct s_map
  * @param font Font data for rendering text.
  * @param display_infos Flag indicating if information display is enabled.
  * @param color_by_height Flag indicating if color is determined by height.
+ * @param sphere_proj Flag indicating if the projection is a spherical proj.
  */
 typedef struct s_env
 {
@@ -206,6 +207,7 @@ typedef struct s_env
 	unsigned char	font[96][5];
 	int				display_infos;
 	int				color_by_height;
+	int				sphere_proj;
 }	t_env;
 
 #endif

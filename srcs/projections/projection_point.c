@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:16:14 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/15 15:23:08 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/15 17:21:57 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,35 +15,38 @@
 void	transform_to_spherical(double vector[4], t_env *env, int x, int y)
 {
 	double	r;
-	double	theta;
+	double	lamda;
 	double	phi;
 
 	vector[0] = x - env->map->length / 2;
 	vector[1] = y - env->map->height / 2;
 	vector[2] = env->map->map[y][x] * env->z_ratio;
-	r = env->map->length / 2;
+	r = env->map->length / (2 * PI_10D);
 	if (r == 0)
 		r = 1;
-	theta = atan2(vector[1], vector[2]);
-	phi = acos(vector[0] / r);
-
-	vector[2] = r * cos(theta) * sin(phi);
-	vector[1] = r * sin(theta) * sin(phi);
-	vector[0] = r * cos(phi);
+	lamda = -PI_10D + (2 * PI_10D) * x / (env->map->length - 1);
+	phi = -PI_10D / 2 + PI_10D * y / (env->map->height - 1);
+	r = r + (env->map->map[y][x] * env->z_ratio * 0.1);
+	vector[0] = r * cos(phi) * sin(lamda);
+	vector[1] = r * cos(phi) * cos(lamda);
+	vector[2] = r * sin(phi);
+	if (env->cam_around_focus == 0)
+	{
+		vector[0] = vector[0] - env->camera->proj_x;
+		vector[1] = vector[1] - env->camera->proj_y;
+		vector[2] = vector[2] - env->camera->proj_z;
+	}
 }
 
 void	get_homogenous_vector(double vector[4], t_env *env, int x, int y)
 {
 	double	matrix[3][3];
 
-	transform_to_spherical(vector, env, x, y);
-	// vector[0] = x - env->camera->proj_x;
-	// vector[1] = y - env->camera->proj_y;
-	// vector[2] = (-env->map->map[y][x] - env->camera->proj_z) * env->z_ratio;
-	vector[0] -= env->camera->proj_x;
-	vector[1] -= env->camera->proj_y;
-	vector[2] -= env->camera->proj_z;
-	
+	vector[0] = x - env->camera->proj_x;
+	vector[1] = y - env->camera->proj_y;
+	vector[2] = (-env->map->map[y][x] - env->camera->proj_z) * env->z_ratio;
+	if (env->sphere_proj)
+		transform_to_spherical(vector, env, x, y);
 	init_roll_matrix(matrix, env->camera->roll);
 	vector_multiply_matrix_3x3(matrix, vector);
 	init_yaw_matrix(matrix, env->camera->yaw);
