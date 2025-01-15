@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 11:17:32 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/14 11:37:51 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/15 11:09:12 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,9 @@ int	fill_line(char *line, t_map *map, int i)
 
 int	malloc_line_map(t_map *map, int i)
 {
+	if (i >= map->height)
+		return (ft_free_tab_int(map->map, i),
+			ft_free_tab_int(map->color_map, i), 0);
 	map->map[i] = calloc(sizeof(int), map->length);
 	if (!map->map[i])
 		return (ft_free_tab_int(map->map, i),

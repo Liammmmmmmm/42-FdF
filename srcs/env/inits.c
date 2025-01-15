@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:34:24 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/14 16:30:17 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/15 12:02:01 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,25 +81,27 @@ int	init_all(t_env *env, char **argv)
 {
 	env->map = parse_map(argv[1]);
 	if (!env->map)
-		return (print_error("An error occured"), free(env), 0);
+		return (print_error("Map initialization failed"), free(env), 0);
 	random_values_init(env);
 	if (init_camera(env) == 0)
-		return (print_error("An error occured"), exit_free(env), 0);
+		return (print_error("Camera initialization failed"), fr_map(env, 1), 0);
 	if (init_points(env) == 0)
-		return (print_error("An error occured"), exit_free(env), 0);
+		return (print_error("Points initialization failed"), fr_cam(env, 1), 0);
 	if (init_lines(env) == 0)
-		return (print_error("An error occured"), exit_free(env), 0);
+		return (print_error("Lines initialization failed"), fr_pts(env, 1), 0);
 	env->img = malloc(sizeof(t_img));
 	if (!env->img)
-		return (print_error("An error occured"), exit_free(env), 0);
+		return (print_error("initialization init failed"), free_lns(env, 1), 0);
 	env->mlx = mlx_init();
 	if (!env->mlx)
-		return (print_error("An error occured"), exit_free(env), 0);
+		return (print_error(ERROR_MLX), free(env->img), free_lns(env, 1), 0);
 	env->mlx_win = mlx_new_window(env->mlx, WIN_WIDTH, WIN_HEIGHT, "FdF");
 	env->img->img = mlx_new_image(env->mlx, WIN_WIDTH, WIN_HEIGHT);
+	if (!env->mlx_win || !env->img->img)
+		return (print_error("An error occured"), exit_free(env), 0);
 	env->img->img_str = mlx_get_data_addr(env->img->img, &env->img->bits,
 			&env->img->size_line, &env->img->endian);
-	if (!env->mlx_win || !env->img->img || !env->img->img_str)
+	if (!env->img->img_str)
 		return (print_error("An error occured"), exit_free(env), 0);
 	return (1);
 }

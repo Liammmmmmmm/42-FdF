@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 10:42:51 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/14 11:21:02 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/15 11:20:10 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ int	init_map_values(char *map_name, t_map *map)
 		return (print_error("error opening file"), 0);
 	map->map = malloc(sizeof(int *) * map->height);
 	map->color_map = malloc(sizeof(int *) * map->height);
-	if (!map->map || !map->color_map)
-		return (free(map->map), free(map->color_map), 0);
 	line = get_next_line(fd);
+	if (!map->map || !map->color_map || !line)
+		return (free(map->map), free(map->color_map), free(line), 0);
 	i = 0;
 	while (line)
 	{
 		if (malloc_line_map(map, i) == 0)
-			return (0);
+			return (free(line), 0);
 		if (fill_line(line, map, i) == 0)
 			return (ft_free_tab_int(map->map, i),
 				ft_free_tab_int(map->color_map, i), 0);
@@ -38,7 +38,7 @@ int	init_map_values(char *map_name, t_map *map)
 		i++;
 	}
 	close(fd);
-	return (1);
+	return (i);
 }
 
 int	is_valid_file_extension(char *map_name)
@@ -57,6 +57,7 @@ int	is_valid_file_extension(char *map_name)
 t_map	*parse_map(char	*map_name)
 {
 	t_map	*map;
+	int		map_init_ret;
 
 	map = malloc(sizeof(t_map));
 	if (!map)
@@ -66,9 +67,15 @@ t_map	*parse_map(char	*map_name)
 	map->length = 0;
 	if (count_file_lines(map_name, map) == 0)
 		return (free(map), NULL);
+	if (map->length == 0 || map->length == 0)
+		return (free(map), NULL);
 	map->have_color = 0;
 	map->highest = -2147483648;
-	if (init_map_values(map_name, map) == 0)
+	map_init_ret = init_map_values(map_name, map);
+	if (map_init_ret == 0)
 		return (free(map), NULL);
+	else if (map_init_ret != map->height)
+		return (ft_free_tab_int(map->color_map, map_init_ret),
+			ft_free_tab_int(map->map, map_init_ret), free(map), NULL);
 	return (map);
 }

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/14 17:39:15 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/15 11:57:42 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 
 # define COLOR_MIN 0xFFFFFF
 # define COLOR_MAX 0x7B13AB
+
+# define ERROR_MLX "MLX initialization failed"
 
 # define CONTROLS "INFOS : Controls\n  Camera :\n    [ESC] Close window\n    \
 	[LMB]/[RMB] Rotate\n    [MMB] Translate\n    [SCROLL] Zoom/dezoom\n    \
@@ -145,6 +147,20 @@ void	print_error(char *str);
  * @param env The environment structure.
  */
 void	display_infos(t_env *env);
+
+/**
+ * @brief Free all allocated memory by the map.
+ *
+ * Why not free_map() instead of fr_map() ? This question is relevant and THIS
+ * is the result of our magnificient norm, and to gain 2 char on a line, this
+ * function name have been cropped.
+ *
+ * @param env The environment structure.
+ */
+void	fr_map(t_env *env, int free_env);
+void	fr_cam(t_env *env, int free_env);
+void	fr_pts(t_env *env, int free_env);
+void	free_lns(t_env *env, int free_env);
 
 /**
  * @brief Free all allocated memory.
