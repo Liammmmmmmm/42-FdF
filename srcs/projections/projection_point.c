@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:16:14 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/15 17:21:57 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/15 17:32:56 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,7 @@ void	calculate_point_projection(int x, int y, t_env *env)
 	if (env->point_list[y * env->map->length + x].z > 0 && vector[3] < 0)
 		env->point_list[y * env->map->length + x].z = vector[2] / -vector[3];
 	env->point_list[y * env->map->length + x].color = env->map->color_map[y][x];
-	if (env->color_by_height)
+	if (env->custom_color)
 		env->point_list[y * env->map->length + x].color
-			= calc_gradiant_color(
-				COLOR_MIN,
-				COLOR_MAX,
-				(double)env->map->map[y][x] / env->map->highest);
+			= get_color_by_preset(env, x, y);
 }

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/15 17:12:48 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/15 17:52:55 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@
 	[S] Move backward\n    [D] Move right\n    [SPACE] Move up\n   \
 	[SHIFT] Move down\n    [Q] Roll left\n    [E] Roll right\n   \
 	[<] Reduce FOV\n    [>] Increase FOV\n  Render :\n    [-] Shrink z axe\
-	\n    [+] Extend z axe\n    [G] Toogle height color\n   \
-	[L] \"Normal\" view\n    [P] Perspective\n    [O] Toogle sphere projection\n   \
-	[Z] Enable z ordering\n  Other :\n    [C] Toogle controls menu\n   \
-	[I] Toogle informations menu"
+	\n    [+] Extend z axe\n    [G] Toogle custom color\n    \
+	[NUMPAD] Set color preset\n    [L] \"Normal\" view\n    [P] Perspective\n\
+	    [O] Toogle sphere projection\n    [Z] Enable z ordering\n  Other :\n   \
+	[C] Toogle controls menu\n    [I] Toogle informations menu"
 
 # define LIVE_INFO "INFOS : Environment\n  Map :\n    Length : %d\n   \
 	Width  : %d\n  Camera :\n    Rotations:\n      Yaw   : %f\n     \
@@ -55,7 +55,8 @@
 	Sensibility       : %f\n      Last Position     : (%d, %d)\n   \
 	Scene :\n      Frames Generated : %d\n      Sphere           : %d\n     \
 	Projection       : %s\n      Z Ordering       : %d\n     \
-	Freecam          : %d\n      Z axe Ratio      : %f" 
+	Freecam          : %d\n      Z axe Ratio      : %f\n     \
+	Custom color     : %d\n      Color preset     : %d"
 
 typedef enum e_mouse_buttons
 {
@@ -87,6 +88,16 @@ typedef enum e_keys
 	KEY_S = 115,
 	KEY_W = 119,
 	KEY_Z = 122,
+	NUM_0 = 65438,
+	NUM_1 = 65436,
+	NUM_2 = 65433,
+	NUM_3 = 65435,
+	NUM_4 = 65430,
+	NUM_5 = 65437,
+	NUM_6 = 65432,
+	NUM_7 = 65429,
+	NUM_8 = 65431,
+	NUM_9 = 65434,
 	KEY_SHIFT = 65505,
 	KEY_ESC = 65307
 }	t_keys;
@@ -336,6 +347,16 @@ void	multiply_matrix_3x3(double res[3][3], double a[3][3], double b[3][3]);
  * @param env The environment variable
  */
 void	calculate_point_projection(int x, int y, t_env *env);
+
+/**
+ * @brief Get the color defined for a point
+ * 
+ * Depending on the color preset selected and the height of the actual point,
+ * a custom color will be returned
+ * 
+ * @return The actual color
+ */
+int		get_color_by_preset(t_env *env, int x, int y);
 
 /*╔══════════════════════════════════════════════════════════════════════════╗*/
 /*║                                  CAMERA                                  ║*/

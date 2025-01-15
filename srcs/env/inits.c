@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:34:24 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/15 16:58:58 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/15 17:37:22 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,13 @@ void	random_values_init(t_env *env)
 	env->z_ordering = 0;
 	env->frames_gen = 0;
 	env->sphere_proj = 0;
+	env->color_preset = 0;
 	init_font(env);
 	env->display_infos = 2;
 	if (get_biggest(env->map->height, env->map->length) < env->map->highest)
 		env->z_ratio = (double)get_biggest(env->map->height, env->map->length)
 			/ env->map->highest;
-	env->color_by_height = !env->map->have_color;
+	env->custom_color = !env->map->have_color;
 }
 
 int	init_all(t_env *env, char **argv)

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:25:37 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/15 13:29:18 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/15 19:08:31 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,28 @@ void	change_z_ratio(int keycode, t_env *env)
 	}
 }
 
+void	set_color_preset(int keycode, t_env *env)
+{
+	if (keycode == NUM_0)
+		env->color_preset = 0;
+	else if (keycode == NUM_1)
+		env->color_preset = 1;
+	else if (keycode == NUM_2)
+		env->color_preset = 2;
+	else if (keycode == NUM_3)
+		env->color_preset = 3;
+	else if (keycode == NUM_4)
+		env->color_preset = 4;
+	else if (keycode == NUM_5)
+		env->color_preset = 5;
+	else if (keycode == NUM_6)
+		env->color_preset = 6;
+	else if (keycode == NUM_7)
+		env->color_preset = 7;
+	else if (keycode == NUM_8)
+		env->color_preset = 8;
+}
+
 int	keydown(int keycode, void *param)
 {
 	t_env	*env;
@@ -52,7 +74,11 @@ int	keydown(int keycode, void *param)
 	else if (keycode == KEY_I && env->display_infos != 1)
 		env->display_infos = 1;
 	else if (keycode == KEY_G)
-		env->color_by_height = flip_flop(env->color_by_height);
+		env->custom_color = flip_flop(env->custom_color);
+	else if (keycode == NUM_0 || keycode == NUM_1 || keycode == NUM_2
+		|| keycode == NUM_3 || keycode == NUM_4 || keycode == NUM_5
+		|| keycode == NUM_6 || keycode == NUM_7 || keycode == NUM_8)
+		set_color_preset(keycode, env);
 	cam_keys(keycode, env);
 	return (0);
 }
