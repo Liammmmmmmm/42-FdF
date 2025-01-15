@@ -6,7 +6,7 @@
 #    By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/19 13:55:49 by lilefebv          #+#    #+#              #
-#    Updated: 2025/01/14 17:39:49 by lilefebv         ###   ########lyon.fr    #
+#    Updated: 2025/01/15 12:07:52 by lilefebv         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,11 +50,11 @@ INCLUDES = -I includes/ -I $(LIBFTDIR)includes/ -I $(MINILIBXDIR)
 
 # Source files
 SRC_DIR  = srcs/
-SRCS     = fdf.c console.c utils.c                                                 \
-           projections/matrix.c projections/matrix_calc.c projections/projection_point.c                      \
-           rendering/utils.c rendering/pixel.c rendering/frame.c rendering/draw_lines.c rendering/utils_lines.c rendering/draw_string.c   \
-		   events/actions.c events/hooks.c                                            \
-		   env/inits.c env/parsing.c env/map_line.c env/font.c                                                      \
+SRCS     = fdf.c console.c utils.c free.c                                                                                              \
+           projections/matrix.c projections/matrix_calc.c projections/projection_point.c                                                \
+           rendering/utils.c rendering/pixel.c rendering/frame.c rendering/draw_lines.c rendering/utils_lines.c rendering/draw_string.c  \
+		   events/actions.c events/hooks.c                                                                                                \
+		   env/inits.c env/parsing.c env/map_line.c env/font.c                                                                             \
 		   camera/calcs.c camera/movements.c camera/key_movements.c
 		   
 
@@ -67,15 +67,15 @@ OBJ_BONUS = $(SRCS_BONUS:%.c=$(OBJ_DIR)%.o)
 
 # Remake all if modified
 REMAKE   = libft/includes/libft.h libft/includes/ft_printf.h libft/includes/get_next_line.h libft/Makefile  \
-           Makefile includes/fdf.h
+           Makefile includes/fdf.h includes/structs.h
 
 # NORMINETTE
 NORM_RET = Norminette Disable
 NORM	 = $(shell norminette srcs includes | grep -c 'Error!')
 ifeq ($(NORM), 0)
-	NORM_RET = $(GREEN)[DONE] $(YELLOW2)Norminette.$(NC)
+	NORM_RET = $(GREEN)[DONE] $(BOLD)$(YELLOW)Norminette.$(NC)
 else
-	NORM_RET = $(RED)[ERROR] $(YELLOW2)Norminette.$(NC)
+	NORM_RET = $(RED)[ERROR] $(BOLD)$(YELLOW)Norminette.$(NC)
 endif
 
 # Variables for progress bar
