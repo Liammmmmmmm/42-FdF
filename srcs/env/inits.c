@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:34:24 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/15 12:02:01 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/15 14:55:01 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	random_values_init(t_env *env)
 	env->mouse_sensibility = 0.4;
 	env->z_ratio = 1;
 	env->cam_around_focus = 1;
-	env->perspective = 2;
+	env->perspective = 1;
 	env->z_ordering = 0;
 	env->frames_gen = 0;
 	init_font(env);

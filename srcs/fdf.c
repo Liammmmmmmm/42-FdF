@@ -6,11 +6,28 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:36:03 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/15 12:05:33 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/15 14:50:08 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+void	print_map(t_map *map)
+{
+	ft_printf("map en %dx%d (lxh)\n", map->length, map->height);
+	int i = 0;
+	while (i < map->height)
+	{
+		int y = 0;
+		while (y < map->length)
+		{
+			ft_printf("%d,%x ", map->map[i][y], map->color_map[i][y]);
+			y++;
+		}
+		i++;
+		ft_printf("\n");
+	}
+}
 
 int	render_next_frame(t_env *env)
 {
@@ -29,6 +46,8 @@ int	main(int argc, char **argv)
 		return (print_error("An error occured"), 1);
 	if (init_all(env, argv) == 0)
 		return (1);
+	if (env->map->highest == 0)
+		env->map->highest = 1;
 	events(env);
 	mlx_loop_hook(env->mlx, render_next_frame, env);
 	mlx_loop(env->mlx);

@@ -6,19 +6,44 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:16:14 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/14 10:36:14 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/15 15:23:08 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+void	transform_to_spherical(double vector[4], t_env *env, int x, int y)
+{
+	double	r;
+	double	theta;
+	double	phi;
+
+	vector[0] = x - env->map->length / 2;
+	vector[1] = y - env->map->height / 2;
+	vector[2] = env->map->map[y][x] * env->z_ratio;
+	r = env->map->length / 2;
+	if (r == 0)
+		r = 1;
+	theta = atan2(vector[1], vector[2]);
+	phi = acos(vector[0] / r);
+
+	vector[2] = r * cos(theta) * sin(phi);
+	vector[1] = r * sin(theta) * sin(phi);
+	vector[0] = r * cos(phi);
+}
+
 void	get_homogenous_vector(double vector[4], t_env *env, int x, int y)
 {
 	double	matrix[3][3];
 
-	vector[0] = x - env->camera->proj_x;
-	vector[1] = y - env->camera->proj_y;
-	vector[2] = (-env->map->map[y][x] - env->camera->proj_z) * env->z_ratio;
+	transform_to_spherical(vector, env, x, y);
+	// vector[0] = x - env->camera->proj_x;
+	// vector[1] = y - env->camera->proj_y;
+	// vector[2] = (-env->map->map[y][x] - env->camera->proj_z) * env->z_ratio;
+	vector[0] -= env->camera->proj_x;
+	vector[1] -= env->camera->proj_y;
+	vector[2] -= env->camera->proj_z;
+	
 	init_roll_matrix(matrix, env->camera->roll);
 	vector_multiply_matrix_3x3(matrix, vector);
 	init_yaw_matrix(matrix, env->camera->yaw);
