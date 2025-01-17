@@ -1,0 +1,16 @@
+.gitignore
+
+.obj/
+.vscode/
+
+libft/.obj/
+libft/.git/
+libft/libft.a
+
+*.o
+
+fdf
+todo
+fdf_linux
+
+sources.txt
