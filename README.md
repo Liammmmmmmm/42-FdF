@@ -34,6 +34,35 @@ And here’s how it looks when rendered:
 ![Demo fract](img/demo3-fract.png)
 ![Demo star](img/demo4-star.png)
 
+---
+
+## Try It Yourself
+
+Want to try FdF on your own? Follow these steps:  
+
+1. Clone the repository and its submodules:
+   ```bash
+   git clone https://github.com/Liammmmmmmm/42-FdF.git --recurse-submodules
+   ```
+   If you’ve already cloned the repository, initialize the submodules with:
+   ```bash
+   git submodule update --init --recursive
+   ```
+
+2. Build the project:
+   ```bash
+   make all
+   ```
+
+3. Run the program with a map file:
+   ```bash
+   ./fdf <map.fdf>
+   ```
+
+That’s it! You’re ready to explore your wireframe world. 🌟  
+
+---
+
 ## Features
 
 ### Controls & informations
