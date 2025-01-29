@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:51:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/15 17:53:24 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/29 16:54:20 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ void	calculate_every_projection(t_env *env)
 char	*info_string(t_env *env)
 {
 	char	*perspective;
+	size_t	last_frame_tmstp;
 
+	last_frame_tmstp = env->timestamp_last_frame;
+	env->timestamp_last_frame = get_time();
 	if (env->perspective == 1)
 		perspective = "Perspective\0";
 	else if (env->perspective == 0)
@@ -46,7 +49,7 @@ char	*info_string(t_env *env)
 			env->camera->left, env->camera->top, env->camera->bottom,
 			env->camera->near, env->camera->far, env->mouse_click_rotation,
 			env->mouse_click_translation, env->mouse_sensibility,
-			env->mouse_last_x, env->mouse_last_y, env->frames_gen,
+			env->mouse_last_x, env->mouse_last_y, env->frames_gen, 1.0 / ((double)(env->timestamp_last_frame - last_frame_tmstp) / 1000000.0),
 			env->sphere_proj, perspective, env->z_ordering,
 			!env->cam_around_focus, env->z_ratio, env->color_preset,
 			env->color_preset));

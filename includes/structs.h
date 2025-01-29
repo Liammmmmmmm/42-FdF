@@ -6,12 +6,14 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/15 17:25:11 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/29 16:41:01 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
+
+# include "libft.h"
 
 /**
  * @struct s_img
@@ -202,6 +204,7 @@ typedef struct s_env
 	int				mouse_last_y;
 	double			z_ratio;
 	int				frames_gen;
+	size_t			timestamp_last_frame;
 	int				perspective;
 	int				z_ordering;
 	int				cam_around_focus;

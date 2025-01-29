@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/17 12:27:47 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/29 16:55:01 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "mlx.h"
 # include <fcntl.h>
 # include <math.h>
+# include <sys/time.h>
 
 # define PI_10D 3.1415926535
 
@@ -53,7 +54,7 @@
 	Near/Far Plane: %f / %f\n  Global\n    Mouse :\n     \
 	Click Rotation    : %d\n      Click Translation : %d\n     \
 	Sensibility       : %f\n      Last Position     : (%d, %d)\n   \
-	Scene :\n      Frames Generated : %d\n      Sphere           : %d\n     \
+	Scene :\n      Frames Generated : %d\n      FPS              : %f\n      Sphere           : %d\n     \
 	Projection       : %s\n      Z Ordering       : %d\n     \
 	Freecam          : %d\n      Z axe Ratio      : %f\n     \
 	Custom color     : %d\n      Color preset     : %d"
@@ -114,8 +115,10 @@ typedef enum e_event
 }	t_event;
 
 /*╔══════════════════════════════════════════════════════════════════════════╗*/
-/*║                                   ENV                                   ║*/
+/*║                                   ENV                                    ║*/
 /*╚══════════════════════════════════════════════════════════════════════════╝*/
+
+size_t	get_time(void);
 
 /**
  * @brief Parse the map file.
