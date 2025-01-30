@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:34:24 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/29 16:28:38 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/30 11:02:20 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	random_values_init(t_env *env)
 	env->sphere_proj = 0;
 	env->color_preset = 0;
 	env->timestamp_last_frame = get_time();
+	env->debug_mode = 1;
 	init_font(env);
 	env->display_infos = 2;
 	if (get_biggest(env->map->height, env->map->length) < env->map->highest)

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:20:17 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/14 11:50:15 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/30 14:12:33 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,27 @@
 
 void	get_local_axes(double axes[3][3], double yaw, double pitch, double roll)
 {
-	double	yaw_matrix[3][3];
-	double	pitch_matrix[3][3];
-	double	roll_matrix[3][3];
-	double	temp_matrix[3][3];
+	double cos_yaw = cos(yaw);
+	double sin_yaw = sin(yaw);
+	double cos_pitch = cos(pitch);
+	double sin_pitch = sin(pitch);
+	double cos_roll = cos(roll);
+	double sin_roll = sin(roll);
 
-	init_pitch_matrix(yaw_matrix, yaw);
-	init_yaw_matrix(pitch_matrix, pitch);
-	init_roll_matrix(roll_matrix, roll);
-	multiply_matrix_3x3(temp_matrix, yaw_matrix, pitch_matrix);
-	multiply_matrix_3x3(axes, temp_matrix, roll_matrix);
+	// Forward
+	axes[0][0] = cos_yaw * cos_pitch;
+	axes[0][1] = sin_yaw * cos_pitch;
+	axes[0][2] = sin_pitch;
+
+	// Up
+	axes[1][0] = (-cos_yaw * sin_pitch * cos_roll) + (-sin_yaw * sin_roll);
+	axes[1][1] = (-sin_yaw * sin_pitch * cos_roll) + (cos_yaw * sin_roll);
+	axes[1][2] = cos_pitch * cos_roll;
+
+	// Right
+	axes[2][0] = -sin_yaw * cos_roll - cos_yaw * sin_pitch * sin_roll;
+	axes[2][1] = cos_yaw * cos_roll - sin_yaw * sin_pitch * sin_roll;
+	axes[2][2] = cos_pitch * sin_roll;
 }
 
 void	calc_cam_proj(t_env *env, t_camera *cam)

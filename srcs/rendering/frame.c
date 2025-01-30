@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:51:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/29 16:54:20 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/30 14:13:32 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,15 @@ char	*info_string(t_env *env)
 			env->color_preset));
 }
 
+char	*debug_string(t_env *env)
+{
+	double	local_axes[3][3];
+
+	get_local_axes(local_axes, env->camera->yaw, env->camera->pitch, env->camera->roll);
+	return (params_to_string("Cam local axes :\nF = (%f, %f, %f)\nU = (%f, %f, %f)\nR = (%f, %f, %f)", 
+		local_axes[0][0], local_axes[0][1], local_axes[0][2], local_axes[1][0], local_axes[1][1], local_axes[1][2], local_axes[2][0], local_axes[2][1], local_axes[2][2]));
+}
+
 void	display_infos_win(t_env *env)
 {
 	t_point	text_pos;
@@ -68,6 +77,14 @@ void	display_infos_win(t_env *env)
 	if (env->display_infos == 1)
 	{
 		dynamic_infos = info_string(env);
+		if (dynamic_infos)
+			string_to_img(env->img, env->font, text_pos, dynamic_infos);
+		free(dynamic_infos);
+	}
+	if (env->debug_mode)
+	{
+		text_pos.y = 540;
+		dynamic_infos = debug_string(env);
 		if (dynamic_infos)
 			string_to_img(env->img, env->font, text_pos, dynamic_infos);
 		free(dynamic_infos);

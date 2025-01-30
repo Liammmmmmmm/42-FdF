@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/29 16:41:01 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/30 11:00:53 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,6 +213,7 @@ typedef struct s_env
 	int				custom_color;
 	int				color_preset;
 	int				sphere_proj;
+	int				debug_mode;
 }	t_env;
 
 #endif
