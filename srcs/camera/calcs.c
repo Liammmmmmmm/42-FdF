@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:20:17 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/30 14:12:33 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/31 12:18:40 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,14 @@ void	calc_cam_proj(t_env *env, t_camera *cam)
 {
 	if (env->cam_around_focus == 1)
 	{
-		cam->proj_x = cam->x + cam->distance * cos(cam->yaw) * cos(cam->pitch);
-		cam->proj_y = cam->y + cam->distance * cos(cam->yaw) * sin(cam->pitch);
-		cam->proj_z = cam->z + cam->distance * sin(cam->yaw);
+		cam->proj_x = cam->x + cam->distance * cos(cam->pitch) * cos(cam->yaw);
+		cam->proj_y = cam->y + cam->distance * cos(cam->pitch) * sin(cam->yaw);
+		cam->proj_z = cam->z + cam->distance * sin(cam->pitch);
+		if (env->perspective == 1)
+		{
+			cam->proj_x = -cam->proj_x;
+			cam->proj_z = -cam->proj_z;
+		}
 	}
 	else
 	{

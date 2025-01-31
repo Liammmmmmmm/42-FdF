@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:16:14 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/15 17:32:56 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/31 12:16:05 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,18 @@ void	get_homogenous_vector(double vector[4], t_env *env, int x, int y)
 {
 	double	matrix[3][3];
 
-	vector[0] = x - env->camera->proj_x;
-	vector[1] = y - env->camera->proj_y;
-	vector[2] = (-env->map->map[y][x] - env->camera->proj_z) * env->z_ratio;
+	if (env->perspective == 2)
+	{
+		vector[0] = x - env->camera->x;
+		vector[1] = y - env->camera->y;
+		vector[2] = (-env->map->map[y][x] + env->camera->z) * env->z_ratio;
+	}
+	else
+	{
+		vector[0] = x - env->camera->proj_x;
+		vector[1] = y - env->camera->proj_y;
+		vector[2] = (-env->map->map[y][x] + env->camera->proj_z) * env->z_ratio;
+	}
 	if (env->sphere_proj)
 		transform_to_spherical(vector, env, x, y);
 	init_roll_matrix(matrix, env->camera->roll);

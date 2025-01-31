@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:34:24 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/30 11:02:20 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/31 12:48:14 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ int	init_camera(t_env *env)
 	env->camera->yaw = -PI_10D / 4.0;
 	env->camera->pitch = atan(sqrt(2.0));
 	env->camera->roll = 0.0;
+	// env->camera->yaw = PI_10D / 2;
+	// env->camera->pitch = PI_10D / 2;
+	// env->camera->roll = 0.0;
 	env->camera->distance = sqrt(env->map->length + env->map->height) + 5;
 	env->camera->mouse_sensibility = env->mouse_sensibility
 		/ env->camera->distance;
@@ -103,9 +106,11 @@ int	init_all(t_env *env, char **argv)
 	env->img->img = mlx_new_image(env->mlx, WIN_WIDTH, WIN_HEIGHT);
 	if (!env->mlx_win || !env->img->img)
 		return (print_error("An error occured"), exit_free(env), 0);
-	env->img->img_str = mlx_get_data_addr(env->img->img, &env->img->bits,
-			&env->img->size_line, &env->img->endian);
+	env->img->img_str = mlx_get_data_addr(env->img->img, &env->img->bits, &env->img->size_line, &env->img->endian);
 	if (!env->img->img_str)
+		return (print_error("An error occured"), exit_free(env), 0);
+	env->img->img_depth = malloc(sizeof(double) * WIN_HEIGHT * WIN_WIDTH);
+	if (!env->img->img_depth)
 		return (print_error("An error occured"), exit_free(env), 0);
 	return (1);
 }

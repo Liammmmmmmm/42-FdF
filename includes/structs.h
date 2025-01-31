@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/30 11:00:53 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/31 12:45:05 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
  * 
  * @param img Pointer to identify the image.
  * @param img_str String containing all the pixels of the image.
+ * @param img_depth Contain the depth of each pixel (from camera)
  * @param bits Number of bits per pixel.
  * @param size_line Size of the img_str.
  * @param endian Indicates the endianness of the image.
@@ -29,6 +30,7 @@ typedef struct s_img
 {
 	void	*img;		/* Pointer to identify the image */
 	char	*img_str;	/* String containing all the pixels of the image */
+	double	*img_depth;	/* Contain the depth of each pixel (from camera) */
 	int		bits;		/* Number of bits per pixel */
 	int		size_line;	/* Size of the img_str */
 	int		endian;		/* Indicates the endianness of the image */

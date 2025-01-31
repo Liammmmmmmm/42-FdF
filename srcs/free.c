@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:05:37 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/15 12:05:43 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/31 12:48:52 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	exit_free(t_env *env)
 	free_lns(env, 0);
 	if (env->img->img)
 		mlx_destroy_image(env->mlx, env->img->img);
+	free(env->img->img_depth);
 	free(env->img);
 	if (env->mlx_win)
 		mlx_destroy_window(env->mlx, env->mlx_win);
