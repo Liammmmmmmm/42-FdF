@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:18:42 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/14 13:59:58 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 13:18:40 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,14 @@ void	translate(int x, int y, t_env *env)
 	double	local_axes[3][3];
 	double	delta_cam_move[3];
 
-	get_local_axes(local_axes, env->camera->pitch,
-		env->camera->yaw, env->camera->roll);
+	get_local_axes(local_axes, env->camera->yaw,
+		env->camera->pitch, env->camera->roll, env);
 	dx = x - env->mouse_last_x;
 	dy = y - env->mouse_last_y;
-	delta_cam_move[0] = dx * local_axes[0][0] + dy * local_axes[1][0];
-	delta_cam_move[1] = dx * local_axes[0][1] + dy * local_axes[1][1];
-	delta_cam_move[2] = dx * local_axes[0][2] + dy * local_axes[1][2];
+
+	delta_cam_move[0] = dx * local_axes[2][0] - dy * local_axes[1][0];
+	delta_cam_move[1] = dx * local_axes[2][1] - dy * local_axes[1][1];
+	delta_cam_move[2] = dx * local_axes[2][2] - dy * local_axes[1][2];
 	env->camera->x += delta_cam_move[0] * env->mouse_sensibility
 		* env->camera->distance / 100;
 	env->camera->y += delta_cam_move[1] * env->mouse_sensibility

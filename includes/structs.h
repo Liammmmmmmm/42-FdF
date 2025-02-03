@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/31 12:45:05 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 12:13:26 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_img
 {
 	void	*img;		/* Pointer to identify the image */
 	char	*img_str;	/* String containing all the pixels of the image */
-	double	*img_depth;	/* Contain the depth of each pixel (from camera) */
+	float	*img_depth;	/* Contain the depth of each pixel (from camera) */
 	int		bits;		/* Number of bits per pixel */
 	int		size_line;	/* Size of the img_str */
 	int		endian;		/* Indicates the endianness of the image */
@@ -217,5 +217,17 @@ typedef struct s_env
 	int				sphere_proj;
 	int				debug_mode;
 }	t_env;
+
+
+typedef struct s_calc_trigo
+{
+	double	sin_yaw;
+	double	cos_yaw;
+	double	sin_pitch;
+	double	cos_pitch;
+	double	sin_roll;
+	double	cos_roll;
+	
+}	t_calc_trigo;
 
 #endif

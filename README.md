@@ -101,7 +101,7 @@ Explore your wireframe in **free camera mode**! Move around the scene with the `
 By default, lines are drawn in the same order for every frame. This can cause visual glitches where lines that should be behind others appear in front. 
 ![z ordering problem](img/z-ordering-off.png)
 
-Toggle Z-ordering with `[Z]` to fix this issue. Note: it’s disabled by default due to performance costs.
+Toggle Z-ordering with `[Z]` to fix this issue. Note: it’s was disabled by default due to performance costs but after a lot of optimizations we have a low performance cost z ordering activated by default.
 ![z ordering on](img/z-ordering-on.png)
 
 ### Color Presets

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:34:24 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/31 12:48:14 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 12:25:51 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	random_values_init(t_env *env)
 	env->z_ratio = 1;
 	env->cam_around_focus = 1;
 	env->perspective = 2;
-	env->z_ordering = 0;
+	env->z_ordering = 1;
 	env->frames_gen = 0;
 	env->sphere_proj = 0;
 	env->color_preset = 0;
@@ -109,7 +109,7 @@ int	init_all(t_env *env, char **argv)
 	env->img->img_str = mlx_get_data_addr(env->img->img, &env->img->bits, &env->img->size_line, &env->img->endian);
 	if (!env->img->img_str)
 		return (print_error("An error occured"), exit_free(env), 0);
-	env->img->img_depth = malloc(sizeof(double) * WIN_HEIGHT * WIN_WIDTH);
+	env->img->img_depth = malloc(sizeof(float) * WIN_HEIGHT * WIN_WIDTH);
 	if (!env->img->img_depth)
 		return (print_error("An error occured"), exit_free(env), 0);
 	return (1);

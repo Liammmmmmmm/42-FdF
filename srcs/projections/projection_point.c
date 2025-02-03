@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:16:14 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/31 12:16:05 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 11:53:09 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	transform_to_spherical(double vector[4], t_env *env, int x, int y)
 	}
 }
 
-void	get_homogenous_vector(double vector[4], t_env *env, int x, int y)
+void	get_homogenous_vector(double vector[4], t_env *env, int x, int y, t_calc_trigo trigo_calcs)
 {
 	double	matrix[3][3];
 
@@ -56,11 +56,11 @@ void	get_homogenous_vector(double vector[4], t_env *env, int x, int y)
 	}
 	if (env->sphere_proj)
 		transform_to_spherical(vector, env, x, y);
-	init_roll_matrix(matrix, env->camera->roll);
+	init_roll_matrix(matrix, trigo_calcs);
 	vector_multiply_matrix_3x3(matrix, vector);
-	init_yaw_matrix(matrix, env->camera->yaw);
+	init_yaw_matrix(matrix, trigo_calcs);
 	vector_multiply_matrix_3x3(matrix, vector);
-	init_pitch_matrix(matrix, env->camera->pitch);
+	init_pitch_matrix(matrix, trigo_calcs);
 	vector_multiply_matrix_3x3(matrix, vector);
 	vector[3] = 1;
 }
@@ -90,11 +90,11 @@ void	set_projection_type(double vector[4], t_env *env, int x, int y)
 	}
 }
 
-void	calculate_point_projection(int x, int y, t_env *env)
+void	calculate_point_projection(int x, int y, t_env *env, t_calc_trigo trigo_calcs)
 {
 	double	vector[4];
 
-	get_homogenous_vector(vector, env, x, y);
+	get_homogenous_vector(vector, env, x, y, trigo_calcs);
 	set_projection_type(vector, env, x, y);
 	env->point_list[y * env->map->length + x].z = vector[2] / vector[3];
 	if (env->point_list[y * env->map->length + x].z > 0 && vector[3] < 0)

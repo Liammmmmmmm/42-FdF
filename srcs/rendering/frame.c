@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:51:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/31 13:14:24 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 13:00:19 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,20 @@ void	calculate_every_projection(t_env *env)
 {
 	int	y;
 	int	x;
+	t_calc_trigo	trigo_calcs;
 
+	trigo_calcs.sin_yaw = sin(env->camera->yaw + PI_10D / 2);
+	trigo_calcs.cos_yaw = cos(env->camera->yaw + PI_10D / 2);
+	trigo_calcs.sin_pitch = sin(env->camera->pitch - PI_10D / 2);
+	trigo_calcs.cos_pitch = cos(env->camera->pitch - PI_10D / 2);
+	trigo_calcs.sin_roll = sin(env->camera->roll);
+	trigo_calcs.cos_roll = cos(env->camera->roll);
 	y = -1;
 	while (++y < env->map->height)
 	{
 		x = -1;
 		while (++x < env->map->length)
-			calculate_point_projection(x, y, env);
+			calculate_point_projection(x, y, env, trigo_calcs);
 	}
 }
 
@@ -59,7 +66,7 @@ char	*debug_string(t_env *env)
 {
 	double	local_axes[3][3];
 
-	get_local_axes(local_axes, env->camera->yaw, env->camera->pitch, env->camera->roll);
+	get_local_axes(local_axes, env->camera->yaw, env->camera->pitch, env->camera->roll, env);
 	return (params_to_string("Cam local axes :\nF = (%f, %f, %f)\nU = (%f, %f, %f)\nR = (%f, %f, %f)", 
 		local_axes[0][0], local_axes[0][1], local_axes[0][2], local_axes[1][0], local_axes[1][1], local_axes[1][2], local_axes[2][0], local_axes[2][1], local_axes[2][2]));
 }
@@ -91,15 +98,25 @@ void	display_infos_win(t_env *env)
 	}
 }
 
+void initZBuffer(float *zBuffer, size_t pixel_amount)
+{	
+	size_t	i;
+
+	i = 0;
+    while (i < pixel_amount)
+	{
+        zBuffer[i] = FLT_MAX;
+		i++;
+    }
+}
+
 void	render_frame(t_env *env)
 {
 	ft_bzero(env->img->img_str, WIN_WIDTH * WIN_HEIGHT * (env->img->bits / 8));
 	if (env->z_ordering)
-		ft_bzero(env->img->img_depth, WIN_WIDTH * WIN_HEIGHT * 8);
+		initZBuffer(env->img->img_depth, WIN_WIDTH * WIN_HEIGHT);
 	calculate_every_projection(env);
 	save_lines(env);
-	// if (env->z_ordering)
-	// 	quicksort_lines(env->lines, 0, env->line_amount - 1, 0);
 	draw_every_lines(env);
 	display_infos_win(env);
 	mlx_put_image_to_window(env->mlx, env->mlx_win, env->img->img, 0, 0);

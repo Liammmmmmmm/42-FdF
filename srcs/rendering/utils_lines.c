@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:31 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/14 14:40:09 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/01/31 13:26:14 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,50 +47,3 @@ void	save_lines(t_env *env)
 	env->line_amount = i;
 }
 
-void	swap_lines(t_line *a, t_line *b)
-{
-	t_line	temp;
-
-	temp = *a;
-	*a = *b;
-	*b = temp;
-}
-
-int	partition(t_line *lines, int low, int high, int order)
-{
-	float	pivot;
-	int		i;
-	int		j;
-
-	pivot = lines[high].depth;
-	i = (low - 1);
-	j = low;
-	while (j < high)
-	{
-		if (lines[j].depth > pivot && order == 0)
-		{
-			i++;
-			swap_lines(&lines[i], &lines[j]);
-		}
-		if (lines[j].depth < pivot && order == 1)
-		{
-			i++;
-			swap_lines(&lines[i], &lines[j]);
-		}
-		j++;
-	}
-	swap_lines(&lines[i + 1], &lines[high]);
-	return (i + 1);
-}
-
-void	quicksort_lines(t_line *lines, int low, int high, int order)
-{
-	int	pi;
-
-	if (low < high)
-	{
-		pi = partition(lines, low, high, order);
-		quicksort_lines(lines, low, pi - 1, order);
-		quicksort_lines(lines, pi + 1, high, order);
-	}
-}

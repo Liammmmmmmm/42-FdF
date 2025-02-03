@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 16:08:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/31 13:19:55 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 12:22:44 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ void	put_pixel_z_ordered(t_env *env, int x, int y, int color, double depth)
         return;
 	if (env->z_ordering == 1)
 	{
-		if (env->img->img_depth[y * WIN_WIDTH + x] == 0.0000
-			|| env->img->img_depth[y * WIN_WIDTH + x] > depth)
+		if (env->img->img_depth[y * WIN_WIDTH + x] > depth)
 		{
 			put_pixel_image(env->img->img_str, x, y, color);
 			env->img->img_depth[y * WIN_WIDTH + x] = depth;

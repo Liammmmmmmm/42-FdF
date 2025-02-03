@@ -6,51 +6,49 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 15:07:24 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/14 09:57:11 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 11:54:34 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	init_yaw_matrix(double matrix[3][3], double yaw)
+void	init_yaw_matrix(double matrix[3][3], t_calc_trigo trigo_calcs)
 {
-	yaw = yaw + PI_10D / 2;
-	matrix[0][0] = cos(yaw);
-	matrix[0][1] = -sin(yaw);
+	matrix[0][0] = trigo_calcs.cos_yaw;
+	matrix[0][1] = -trigo_calcs.sin_yaw;
 	matrix[0][2] = 0;
-	matrix[1][0] = sin(yaw);
-	matrix[1][1] = cos(yaw);
+	matrix[1][0] = trigo_calcs.sin_yaw;
+	matrix[1][1] = trigo_calcs.cos_yaw;
 	matrix[1][2] = 0;
 	matrix[2][0] = 0;
 	matrix[2][1] = 0;
 	matrix[2][2] = 1;
 }
 
-void	init_roll_matrix(double matrix[3][3], double roll)
+void	init_roll_matrix(double matrix[3][3], t_calc_trigo trigo_calcs)
 {
-	matrix[0][0] = cos(roll);
+	matrix[0][0] = trigo_calcs.cos_roll;
 	matrix[0][1] = 0;
-	matrix[0][2] = sin(roll);
+	matrix[0][2] = trigo_calcs.sin_roll;
 	matrix[1][0] = 0;
 	matrix[1][1] = 1;
 	matrix[1][2] = 0;
-	matrix[2][0] = -sin(roll);
+	matrix[2][0] = -trigo_calcs.sin_roll;
 	matrix[2][1] = 0;
-	matrix[2][2] = cos(roll);
+	matrix[2][2] = trigo_calcs.cos_roll;
 }
 
-void	init_pitch_matrix(double matrix[3][3], double pitch)
+void	init_pitch_matrix(double matrix[3][3], t_calc_trigo trigo_calcs)
 {
-	pitch = pitch - PI_10D / 2;
 	matrix[0][0] = 1;
 	matrix[0][1] = 0;
 	matrix[0][2] = 0;
 	matrix[1][0] = 0;
-	matrix[1][1] = cos(pitch);
-	matrix[1][2] = -sin(pitch);
+	matrix[1][1] = trigo_calcs.cos_pitch;
+	matrix[1][2] = -trigo_calcs.sin_pitch;
 	matrix[2][0] = 0;
-	matrix[2][1] = sin(pitch);
-	matrix[2][2] = cos(pitch);
+	matrix[2][1] = trigo_calcs.sin_pitch;
+	matrix[2][2] = trigo_calcs.cos_pitch;
 }
 
 void	init_perspective_matrix(double matrix[4][4], t_env *env)

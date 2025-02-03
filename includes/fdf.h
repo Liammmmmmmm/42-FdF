@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/29 16:55:01 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 13:00:03 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <fcntl.h>
 # include <math.h>
 # include <sys/time.h>
+# include <float.h>
 
 # define PI_10D 3.1415926535
 
@@ -258,7 +259,7 @@ int		malloc_line_map(t_map *map, int i);
  * @param matrix[3][3] The 3x3 matrix to initialize.
  * @param yaw The yaw angle in radians.
  */
-void	init_yaw_matrix(double matrix[3][3], double yaw);
+void	init_yaw_matrix(double matrix[3][3], t_calc_trigo trigo_calcs);
 
 /**
  * @brief Initializes the roll matrix.
@@ -268,7 +269,7 @@ void	init_yaw_matrix(double matrix[3][3], double yaw);
  * @param matrix[3][3] The 3x3 matrix to initialize.
  * @param roll The roll angle in radians.
  */
-void	init_roll_matrix(double matrix[3][3], double roll);
+void	init_roll_matrix(double matrix[3][3], t_calc_trigo trigo_calcs);
 
 /**
  * @brief Initializes the pitch matrix.
@@ -278,7 +279,7 @@ void	init_roll_matrix(double matrix[3][3], double roll);
  * @param matrix[3][3] The 3x3 matrix to initialize.
  * @param pitch The pitch angle in radians.
  */
-void	init_pitch_matrix(double matrix[3][3], double pitch);
+void	init_pitch_matrix(double matrix[3][3], t_calc_trigo trigo_calcs);
 
 /**
  * @brief Initializes the perspective projection matrix.
@@ -349,7 +350,7 @@ void	multiply_matrix_3x3(double res[3][3], double a[3][3], double b[3][3]);
  * @param y The y-coordinate of the point in the map.
  * @param env The environment variable
  */
-void	calculate_point_projection(int x, int y, t_env *env);
+void	calculate_point_projection(int x, int y, t_env *env, t_calc_trigo trigo_calcs);
 
 /**
  * @brief Get the color defined for a point
@@ -390,7 +391,7 @@ void	calc_cam_proj(t_env *env, t_camera *camera);
  * @param pitch The pitch angle.
  * @param roll The roll angle.
  */
-void	get_local_axes(double axe[3][3], double yaw, double pitch, double roll);
+void	get_local_axes(double axe[3][3], double yaw, double pitch, double roll, t_env *env);
 
 /**
  * @brief Calculate the scale factor for the map.
