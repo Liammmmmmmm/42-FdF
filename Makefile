@@ -6,7 +6,7 @@
 #    By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/19 13:55:49 by lilefebv          #+#    #+#              #
-#    Updated: 2025/01/15 17:39:21 by lilefebv         ###   ########lyon.fr    #
+#    Updated: 2025/02/03 16:10:06 by lilefebv         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,8 +35,19 @@ ERASE2   = $(ERASE)\033[F$(ERASE)
 
 # Compiler and flags
 CC       = cc
-CFLAGS   = -Wall -Wextra -Werror -g3
+CFLAGS   = -Wall -Wextra -Werror
 LDFLAGS  = -L$(MINILIBXDIR) -lXext -lX11 -lm
+DEBUG_FLAGS = -g3
+FAST_FLAGS = -Ofast
+
+ifeq ($(MAKECMDGOALS), debug)
+	CFLAGS += $(DEBUG_FLAGS)
+endif
+ifeq ($(MAKECMDGOALS), fast)
+	CFLAGS += $(FAST_FLAGS)
+endif
+
+MODE_FILE = .build_mode
 
 # libs
 LIBFTDIR = libft/
@@ -88,16 +99,20 @@ MODIFIED_FILES  := $(shell if [ -f $(NAME) ]; then                              
                                 obj_file=$(OBJ_DIR)$${file%.c}.o;                                     \
                                 if [ $(SRC_DIR)$$file -nt $(NAME) ] || [ ! -f $$obj_file ]; then       \
                                     echo $$file;                                                        \
-                                fi;                                                        \
-                            done | wc -l;                                                   \
-                        fi;                                                                  \
-                    else                                                                      \
-                        for file in $(SRCS); do                                                \
-                            obj_file=$(OBJ_DIR)$${file%.c}.o;                                   \
-                            if [ ! -f $$obj_file ] || [ $(SRC_DIR)$$file -nt $$obj_file ]; then  \
-                                echo $$file;                                                      \
-                            fi;                                                                    \
-                        done | wc -l; fi)
+                                fi;                                                         \
+                            done | wc -l;                                                    \
+                        fi;                                                                   \
+                    else                                                                       \
+						if [ ! -d $(OBJ_DIR) ]; then                                            \
+							echo $(TOTAL_FILES);                              \
+						else                                                                      \
+							for file in $(SRCS); do                                                \
+								obj_file=$(OBJ_DIR)$${file%.c}.o;                                   \
+								if [ ! -f $$obj_file ] || [ $(SRC_DIR)$$file -nt $$obj_file ]; then  \
+									echo $$file;                                                      \
+								fi;                                                                    \
+                        done | wc -l; fi; fi)
+
 COMPILED_FILES	:=	0
 PERCENT			:=	0
 BAR_WIDTH		:=	41
@@ -173,23 +188,32 @@ fclean : clean
 		echo "$(RED)[Removing] $(NC)program $(NAME)"; \
 		rm -f $(NAME); \
 	fi
-	@if [ -f $(BONUS) ]; then \
-		echo "$(RED)[Removing] $(NC)program $(BONUS)"; \
-		rm -f $(BONUS); \
-    fi
+	
+clean_fdf_only :
+	@echo "$(RED)[Removing] $(NC)object files"
+	@rm -rf $(OBJ_DIR)
+	
+fclean_fdf_only : clean_fdf_only
+	@if [ -f $(NAME) ]; then \
+		echo "$(RED)[Removing] $(NC)program $(NAME)"; \
+		rm -f $(NAME); \
+	fi
 
 re : fclean
 	@make --no-print-directory all
 
-bonus : libft_make $(BONUS)
+fast: all
+
+debug: all 
+
+ffast: fclean_fdf_only
+	@make --no-print-directory fast
+
+fdebug: fclean_fdf_only
+	@make --no-print-directory debug
 
 norminette:
 	@norminette srcs/ libft/ includes/
 
-$(BONUS) : ${LIBFT} $(OBJ_BONUS)
-	@echo "$(GREEN)[Compiling program] $(NC)$(BONUS)"
-	@$(CC) $(CFLAGS) -o $(BONUS) $(OBJ_BONUS) $(LIBFT)
-	@echo "$(YELLOW)\nCompilation of $(YELLOW2)$(BONUS)$(YELLOW) finished successfully!$(NC)";
-	@echo "\n$(NORM_RET)";
 
-.PHONY: all clean fclean re start_message end_message libft_make bonus mlx_make mlx_re mlx_clean norminette
+.PHONY: all clean fclean clean_fdf_only fclean_fdf_only re start_message end_message libft_make mlx_make mlx_re mlx_clean norminette

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:16:14 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/03 11:53:09 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 17:00:19 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,26 +67,16 @@ void	get_homogenous_vector(double vector[4], t_env *env, int x, int y, t_calc_tr
 
 void	set_projection_type(double vector[4], t_env *env, int x, int y)
 {
-	double	proj_matrix[4][4];
-
-	if (env->perspective == 1)
-		init_perspective_matrix(proj_matrix, env);
-	else if (env->perspective == 0)
-		init_orthogonal_matrix(proj_matrix, env);
 	if (env->perspective != 2)
 	{
-		vector_multiply_matrix_4x4(proj_matrix, vector);
-		env->point_list[y * env->map->length + x].x
-			= (int)(((vector[0] / vector[3] + 1) / 2) * WIN_WIDTH);
-		env->point_list[y * env->map->length + x].y
-			= (int)(((1 - (vector[1] / vector[3])) / 2) * WIN_HEIGHT);
+		vector_multiply_matrix_4x4(env->camera->perspective, vector);
+		env->point_list[y * env->map->length + x].x = (int)(((vector[0] / vector[3] + 1) / 2) * WIN_WIDTH);
+		env->point_list[y * env->map->length + x].y = (int)(((1 - (vector[1] / vector[3])) / 2) * WIN_HEIGHT);
 	}
 	else
 	{
-		env->point_list[y * env->map->length + x].x
-			= (int)(vector[0] * env->camera->scale + WIN_WIDTH / 2);
-		env->point_list[y * env->map->length + x].y
-			= (int)(vector[1] * env->camera->scale + WIN_HEIGHT / 2);
+		env->point_list[y * env->map->length + x].x = (int)(vector[0] * env->camera->scale + WIN_WIDTH / 2);
+		env->point_list[y * env->map->length + x].y = (int)(vector[1] * env->camera->scale + WIN_HEIGHT / 2);
 	}
 }
 
@@ -100,7 +90,7 @@ void	calculate_point_projection(int x, int y, t_env *env, t_calc_trigo trigo_cal
 	if (env->point_list[y * env->map->length + x].z > 0 && vector[3] < 0)
 		env->point_list[y * env->map->length + x].z = vector[2] / -vector[3];
 	env->point_list[y * env->map->length + x].color = env->map->color_map[y][x];
+
 	if (env->custom_color)
-		env->point_list[y * env->map->length + x].color
-			= get_color_by_preset(env, x, y);
+		env->point_list[y * env->map->length + x].color = get_color_by_preset(env, x, y);
 }

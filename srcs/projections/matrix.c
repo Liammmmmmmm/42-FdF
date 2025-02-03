@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 15:07:24 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/03 11:54:34 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 16:54:58 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,8 @@ void	init_perspective_matrix(double matrix[4][4], t_env *env)
 	matrix[1][3] = 0;
 	matrix[2][0] = 0;
 	matrix[2][1] = 0;
-	matrix[2][2] = (env->camera->zfar + env->camera->znear)
-		/ (env->camera->znear - env->camera->zfar);
-	matrix[2][3] = 2 * env->camera->zfar * env->camera->znear
-		/ (env->camera->znear - env->camera->zfar);
+	matrix[2][2] = (env->camera->zfar + env->camera->znear) / (env->camera->znear - env->camera->zfar);
+	matrix[2][3] = 2 * env->camera->zfar * env->camera->znear / (env->camera->znear - env->camera->zfar);
 	matrix[3][0] = 0;
 	matrix[3][1] = 0;
 	matrix[3][2] = -1;
@@ -81,18 +79,15 @@ void	init_orthogonal_matrix(double matrix[4][4], t_env *env)
 	matrix[0][0] = 2 / (env->camera->right - env->camera->left);
 	matrix[0][1] = 0;
 	matrix[0][2] = 0;
-	matrix[0][3] = (-env->camera->right + env->camera->left)
-		/ (env->camera->right - env->camera->left);
+	matrix[0][3] = (-env->camera->right + env->camera->left) / (env->camera->right - env->camera->left);
 	matrix[1][0] = 0;
 	matrix[1][1] = 2 / (env->camera->top - env->camera->bottom);
 	matrix[1][2] = 0;
-	matrix[1][3] = (-env->camera->top + env->camera->bottom)
-		/ (env->camera->top - env->camera->bottom);
+	matrix[1][3] = (-env->camera->top + env->camera->bottom) / (env->camera->top - env->camera->bottom);
 	matrix[2][0] = 0;
 	matrix[2][1] = 0;
 	matrix[2][2] = -2 / (env->camera->far - env->camera->near);
-	matrix[2][3] = (-env->camera->far + env->camera->near)
-		/ (env->camera->far - env->camera->near);
+	matrix[2][3] = (-env->camera->far + env->camera->near) / (env->camera->far - env->camera->near);
 	matrix[3][0] = 0;
 	matrix[3][1] = 0;
 	matrix[3][2] = 0;

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/03 12:13:26 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 17:00:36 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ typedef struct s_line
  * @param bottom Bottom clipping plane.
  * @param far Far clipping plane.
  * @param near Near clipping plane.
+ * @param perspective[4][4] 4x4 Matrix that store the perspective calculation
  */
 typedef struct s_camera
 {
@@ -133,6 +134,7 @@ typedef struct s_camera
 	double	bottom;				/* Bottom clipping plane. */
 	double	far;				/* Far clipping plane. */
 	double	near;				/* Near clipping plane. */
+	double	perspective[4][4];	/* The perspective matrix stored */
 }	t_camera;
 
 /**

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:51:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/03 13:00:19 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 16:58:53 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@ void	calculate_every_projection(t_env *env)
 	trigo_calcs.cos_pitch = cos(env->camera->pitch - PI_10D / 2);
 	trigo_calcs.sin_roll = sin(env->camera->roll);
 	trigo_calcs.cos_roll = cos(env->camera->roll);
+	if (env->perspective == 1)
+		init_perspective_matrix(env->camera->perspective, env);
+	else if (env->perspective == 0)
+		init_orthogonal_matrix(env->camera->perspective, env);
 	y = -1;
 	while (++y < env->map->height)
 	{
