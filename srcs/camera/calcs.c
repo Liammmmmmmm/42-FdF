@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:20:17 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/03 12:58:22 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 18:58:57 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,21 @@ void	get_local_axes(double axes[3][3], double yaw, double pitch, double roll, t_
 	axes[0][2] = -sin_pitch;
 
 	// Up
-	axes[1][0] = (-cos_yaw * sin_pitch * cos_roll) + (-sin_yaw * sin_roll);
-	axes[1][1] = -((-sin_yaw * sin_pitch * cos_roll) + (cos_yaw * sin_roll));
+	axes[1][0] = -((-cos_yaw * sin_pitch * cos_roll) + (-sin_yaw * sin_roll));
+	axes[1][1] = ((-sin_yaw * sin_pitch * cos_roll) + (cos_yaw * sin_roll));
 	axes[1][2] = cos_pitch * cos_roll;
 
 	// Right
-	axes[2][0] = -sin_yaw * cos_roll - cos_yaw * sin_pitch * sin_roll;
-	axes[2][1] = -(cos_yaw * cos_roll - sin_yaw * sin_pitch * sin_roll);
+	axes[2][0] = -(-sin_yaw * cos_roll - cos_yaw * sin_pitch * sin_roll);
+	axes[2][1] = (cos_yaw * cos_roll - sin_yaw * sin_pitch * sin_roll);
 	axes[2][2] = -cos_pitch * sin_roll;
 
 	if (env->perspective == 1)
 	{
 		axes[0][2] = -axes[0][2];
 		axes[1][2] = -axes[1][2];
+		axes[2][0] = -axes[2][0];
+		axes[2][1] = -axes[2][1];
 		axes[2][2] = -axes[2][2];
 	}
 }

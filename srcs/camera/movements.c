@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:18:42 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/03 18:39:06 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 19:04:04 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	translate(int x, int y, t_env *env)
 
 	delta_cam_move[0] = dx * local_axes[2][0] - dy * local_axes[1][0];
 	delta_cam_move[1] = dx * local_axes[2][1] - dy * local_axes[1][1];
-	delta_cam_move[2] = dx * local_axes[2][2] - dy * local_axes[1][2];
+	delta_cam_move[2] = dx * local_axes[2][2] + dy * local_axes[1][2];
 	env->camera->x += delta_cam_move[0] * env->mouse_sensibility
 		* env->camera->distance / 100;
 	env->camera->y += delta_cam_move[1] * env->mouse_sensibility

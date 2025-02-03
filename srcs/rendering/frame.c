@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:51:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/03 18:43:27 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 18:46:29 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,15 +82,15 @@ char	*info_string(t_env *env)
 
 char	*debug_string(t_env *env)
 {
-	t_frustum *frustum = &env->camera->frustum;
-	//double	local_axes[3][3];
-	return (params_to_string("Frustum :\nLeft = (%f, %f, %f, %f)\nBott = (%f, %f, %f, %f)\nNear = (%f, %f, %f, %f)",
-	frustum->planes[0].a, frustum->planes[0].b, frustum->planes[0].c, frustum->planes[0].d, 
-	frustum->planes[2].a, frustum->planes[2].b, frustum->planes[2].c, frustum->planes[2].d, 
-	frustum->planes[4].a, frustum->planes[4].b, frustum->planes[4].c, frustum->planes[4].d));
+	//t_frustum *frustum = &env->camera->frustum;
+	double	(*local_axes)[3] = env->camera->local_axes;
+	// return (params_to_string("Frustum :\nLeft = (%f, %f, %f, %f)\nBott = (%f, %f, %f, %f)\nNear = (%f, %f, %f, %f)",
+	// frustum->planes[0].a, frustum->planes[0].b, frustum->planes[0].c, frustum->planes[0].d, 
+	// frustum->planes[2].a, frustum->planes[2].b, frustum->planes[2].c, frustum->planes[2].d, 
+	// frustum->planes[4].a, frustum->planes[4].b, frustum->planes[4].c, frustum->planes[4].d));
 	// 
-	// return (params_to_string("Cam local axes :\nF = (%f, %f, %f)\nU = (%f, %f, %f)\nR = (%f, %f, %f)", 
-	// 	local_axes[0][0], local_axes[0][1], local_axes[0][2], local_axes[1][0], local_axes[1][1], local_axes[1][2], local_axes[2][0], local_axes[2][1], local_axes[2][2]));
+	return (params_to_string("Cam local axes :\nF = (%f, %f, %f)\nU = (%f, %f, %f)\nR = (%f, %f, %f)", 
+	local_axes[0][0], local_axes[0][1], local_axes[0][2], local_axes[1][0], local_axes[1][1], local_axes[1][2], local_axes[2][0], local_axes[2][1], local_axes[2][2]));
 }
 
 void	display_infos_win(t_env *env)

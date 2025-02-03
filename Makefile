@@ -6,7 +6,7 @@
 #    By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/19 13:55:49 by lilefebv          #+#    #+#              #
-#    Updated: 2025/02/03 17:42:23 by lilefebv         ###   ########lyon.fr    #
+#    Updated: 2025/02/03 18:49:32 by lilefebv         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,13 +81,13 @@ REMAKE   = libft/includes/libft.h libft/includes/ft_printf.h libft/includes/get_
            Makefile includes/fdf.h includes/structs.h
 
 # NORMINETTE
-NORM_RET = Norminette Disable
-NORM	 = $(shell norminette srcs includes | grep -c 'Error!')
-ifeq ($(NORM), 0)
-	NORM_RET = $(GREEN)[DONE] $(BOLD)$(YELLOW)Norminette.$(NC)
-else
-	NORM_RET = $(RED)[ERROR] $(BOLD)$(YELLOW)Norminette.$(NC)
-endif
+NORM_RET = $(RED)[ERROR]$(BOLD) Norminette Disable$(NC)
+# NORM	 = $(shell norminette srcs includes | grep -c 'Error!')
+# ifeq ($(NORM), 0)
+# 	NORM_RET = $(GREEN)[DONE] $(BOLD)$(YELLOW)Norminette.$(NC)
+# else
+# 	NORM_RET = $(RED)[ERROR] $(BOLD)$(YELLOW)Norminette.$(NC)
+# endif
 
 # Variables for progress bar
 TOTAL_FILES		:=	$(words $(SRCS))
