@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/03 13:00:03 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 18:35:29 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -335,6 +335,8 @@ void	vector_multiply_matrix_4x4(double matrix[4][4], double vector[4]);
  */
 void	multiply_matrix_3x3(double res[3][3], double a[3][3], double b[3][3]);
 
+void	multiply_matrix_4x4(double res[4][4], double a[4][4], double b[4][4]);
+
 /**
  * @brief Calculates the projection of a point.
  *
@@ -350,7 +352,7 @@ void	multiply_matrix_3x3(double res[3][3], double a[3][3], double b[3][3]);
  * @param y The y-coordinate of the point in the map.
  * @param env The environment variable
  */
-void	calculate_point_projection(int x, int y, t_env *env, t_calc_trigo trigo_calcs);
+void	calculate_point_projection(int x, int y, t_env *env, const t_calc_trigo trigo_calcs);
 
 /**
  * @brief Get the color defined for a point
@@ -713,5 +715,9 @@ void	init_font(t_env *env);
  * @param env The environment structure.
  */
 void	render_frame(t_env *env);
+
+void	extract_frustum_planes(t_frustum *frustum, double matrix[4][4]);
+int		is_point_in_frustum(const t_frustum *frustum, const t_vec3 *point);
+void	init_view_matrix(double view[4][4], const double axes[3][3], t_env *env);
 
 #endif

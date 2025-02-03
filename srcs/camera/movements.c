@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:18:42 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/03 13:18:40 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 18:39:06 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,9 @@ void	translate(int x, int y, t_env *env)
 {
 	int		dx;
 	int		dy;
-	double	local_axes[3][3];
+	double	(*local_axes)[3] = env->camera->local_axes;
 	double	delta_cam_move[3];
 
-	get_local_axes(local_axes, env->camera->yaw,
-		env->camera->pitch, env->camera->roll, env);
 	dx = x - env->mouse_last_x;
 	dy = y - env->mouse_last_y;
 

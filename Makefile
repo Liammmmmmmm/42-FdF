@@ -6,7 +6,7 @@
 #    By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/19 13:55:49 by lilefebv          #+#    #+#              #
-#    Updated: 2025/02/03 16:10:06 by lilefebv         ###   ########lyon.fr    #
+#    Updated: 2025/02/03 17:42:23 by lilefebv         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,11 +61,11 @@ INCLUDES = -I includes/ -I $(LIBFTDIR)includes/ -I $(MINILIBXDIR)
 
 # Source files
 SRC_DIR  = srcs/
-SRCS     = fdf.c console.c utils.c free.c                                                                                              \
-           projections/matrix.c projections/matrix_calc.c projections/projection_point.c projections/color_preset.c                     \
-           rendering/utils.c rendering/pixel.c rendering/frame.c rendering/draw_lines.c rendering/utils_lines.c rendering/draw_string.c  \
-		   events/actions.c events/hooks.c                                                                                                \
-		   env/inits.c env/parsing.c env/map_line.c env/font.c                                                                             \
+SRCS     = fdf.c console.c utils.c free.c                                                                                                                         \
+           projections/matrix.c projections/matrix_calc.c projections/projection_point.c projections/color_preset.c                                                \
+           rendering/utils.c rendering/pixel.c rendering/frame.c rendering/draw_lines.c rendering/utils_lines.c rendering/draw_string.c rendering/frustum_culling.c \
+		   events/actions.c events/hooks.c                                                                                                                           \
+		   env/inits.c env/parsing.c env/map_line.c env/font.c                                                                                                        \
 		   camera/calcs.c camera/movements.c camera/key_movements.c
 		   
 

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:51:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/03 16:58:53 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 18:43:27 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,24 @@ void	calculate_every_projection(t_env *env)
 	trigo_calcs.cos_pitch = cos(env->camera->pitch - PI_10D / 2);
 	trigo_calcs.sin_roll = sin(env->camera->roll);
 	trigo_calcs.cos_roll = cos(env->camera->roll);
+
+	get_local_axes(env->camera->local_axes, env->camera->yaw, env->camera->pitch, env->camera->roll, env);
+
 	if (env->perspective == 1)
 		init_perspective_matrix(env->camera->perspective, env);
 	else if (env->perspective == 0)
 		init_orthogonal_matrix(env->camera->perspective, env);
+	/*
+	if (env->perspective == 1)
+	{
+		double	view_matrix[4][4];
+		double	view_perspective[4][4];
+		
+		init_view_matrix(view_matrix, env->camera->local_axes, env);
+		multiply_matrix_4x4(view_perspective, env->camera->perspective, view_matrix);
+		extract_frustum_planes(&env->camera->frustum, view_perspective);
+	}
+	*/
 	y = -1;
 	while (++y < env->map->height)
 	{
@@ -68,11 +82,15 @@ char	*info_string(t_env *env)
 
 char	*debug_string(t_env *env)
 {
-	double	local_axes[3][3];
-
-	get_local_axes(local_axes, env->camera->yaw, env->camera->pitch, env->camera->roll, env);
-	return (params_to_string("Cam local axes :\nF = (%f, %f, %f)\nU = (%f, %f, %f)\nR = (%f, %f, %f)", 
-		local_axes[0][0], local_axes[0][1], local_axes[0][2], local_axes[1][0], local_axes[1][1], local_axes[1][2], local_axes[2][0], local_axes[2][1], local_axes[2][2]));
+	t_frustum *frustum = &env->camera->frustum;
+	//double	local_axes[3][3];
+	return (params_to_string("Frustum :\nLeft = (%f, %f, %f, %f)\nBott = (%f, %f, %f, %f)\nNear = (%f, %f, %f, %f)",
+	frustum->planes[0].a, frustum->planes[0].b, frustum->planes[0].c, frustum->planes[0].d, 
+	frustum->planes[2].a, frustum->planes[2].b, frustum->planes[2].c, frustum->planes[2].d, 
+	frustum->planes[4].a, frustum->planes[4].b, frustum->planes[4].c, frustum->planes[4].d));
+	// 
+	// return (params_to_string("Cam local axes :\nF = (%f, %f, %f)\nU = (%f, %f, %f)\nR = (%f, %f, %f)", 
+	// 	local_axes[0][0], local_axes[0][1], local_axes[0][2], local_axes[1][0], local_axes[1][1], local_axes[1][2], local_axes[2][0], local_axes[2][1], local_axes[2][2]));
 }
 
 void	display_infos_win(t_env *env)

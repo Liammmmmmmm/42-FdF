@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/03 17:00:36 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 18:30:44 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,30 @@
 # define STRUCTS_H
 
 # include "libft.h"
+
+typedef struct s_vec3
+{
+    double	x;
+	double	y;
+	double	z;
+}	t_vec3;
+
+/**
+ * Coefficients de l'équation du plan ax + by + cz + d = 0
+ */
+typedef struct s_plane {
+    double	a;
+	double	b;
+	double	c;
+	double	d;
+}	t_plane;
+
+/**
+ * 6 plans du frustum (gauche, droit, bas, haut, proche, lointain)
+ */
+typedef struct s_frustum {
+    t_plane planes[6];
+}	t_frustum;
 
 /**
  * @struct s_img
@@ -135,6 +159,8 @@ typedef struct s_camera
 	double	far;				/* Far clipping plane. */
 	double	near;				/* Near clipping plane. */
 	double	perspective[4][4];	/* The perspective matrix stored */
+	double	local_axes[3][3];	/* Camera local axes */
+	t_frustum	frustum;
 }	t_camera;
 
 /**
