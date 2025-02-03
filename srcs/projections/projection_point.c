@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 14:16:14 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/03 18:42:57 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 19:09:20 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ void	get_homogenous_vector(double vector[4], t_env *env, const t_vec3 point, con
 	{
 		vector[0] = point.x - env->camera->x;
 		vector[1] = point.y - env->camera->y;
-		vector[2] = (-point.z + env->camera->z) * env->z_ratio;
+		vector[2] = -point.z * env->z_ratio + env->camera->z;
 	}
 	else
 	{
 		vector[0] = point.x - env->camera->proj_x;
 		vector[1] = point.y - env->camera->proj_y;
-		vector[2] = (-point.z + env->camera->proj_z) * env->z_ratio;
+		vector[2] = -point.z * env->z_ratio + env->camera->proj_z;
 	}
 	if (env->sphere_proj)
 		transform_to_spherical(vector, env, point);
