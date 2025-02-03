@@ -1,5 +1,3 @@
-.gitignore
-
 .obj/
 .vscode/
 
@@ -14,3 +12,4 @@ todo
 fdf_linux
 
 sources.txt
+.VSCodeCounter
