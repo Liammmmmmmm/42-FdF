@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:34:24 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/04 17:49:04 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/04 18:16:59 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void	random_values_init(t_env *env)
 	env->timestamp_last_frame = get_time();
 	env->debug_mode = 1;
 	env->points_reduction_factor = 1;
+	env->auto_point_reduc = 0;
 	env->line_algo = 0;
 	env->protect_data_races = 0;
 	env->proc_amount = get_nprocs_conf();

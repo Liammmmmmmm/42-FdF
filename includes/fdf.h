@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/04 16:33:14 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/04 18:32:15 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@
 	[<] Reduce FOV\n    [>] Increase FOV\n  Render :\n    [-] Shrink z axe\
 	\n    [+] Extend z axe\n    [G] Toogle custom color\n   \
 	[NUMPAD] Set color preset\n    [L] \"Normal\" view\n    [P] Perspective\n\
-	   [O] Toogle sphere projection\n    [Z] Enable z ordering\n  Other :\n   \
+	   [O] Toogle sphere projection\n    [Z] Toogle z ordering\n\
+	   [H] Toogle auto point reduction\n    [J] Increase amount of displayed points\n\
+	   [K] Decrease amount of displayed points\n  Other :\n   \
 	[C] Toogle controls menu\n    [I] Toogle informations menu"
 
 # define LIVE_INFO "INFOS : Environment\n  Map :\n    Length : %d\n   \
@@ -61,7 +63,8 @@
 	Scene :\n      Frames Generated : %d\n      FPS              : %f\n      Sphere           : %d\n     \
 	Projection       : %s\n      Z Ordering       : %d\n     \
 	Freecam          : %d\n      Z axe Ratio      : %f\n     \
-	Custom color     : %d\n      Color preset     : %d"
+	Custom color     : %d\n      Color preset     : %d\n     \
+	Auto point reduc : %d\n      Diplayed points  : 1/%d"
 
 typedef enum e_mouse_buttons
 {
@@ -85,6 +88,7 @@ typedef enum e_keys
 	KEY_E = 101,
 	KEY_F = 102,
 	KEY_G = 103,
+	KEY_H = 104,
 	KEY_I = 105,
 	KEY_J = 106,
 	KEY_K = 107,

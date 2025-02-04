@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:51:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/04 17:31:34 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/04 18:33:13 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ char	*info_string(t_env *env)
 			1.0 / ((double)(env->timestamp_last_frame - last_frame_tmstp) / 1000000.0),
 			env->sphere_proj, perspective, env->z_ordering,
 			!env->cam_around_focus, env->z_ratio, env->color_preset,
-			env->color_preset));
+			env->color_preset, env->auto_point_reduc, env->points_reduction_factor));
 }
 
 char	*debug_string(t_env *env)
@@ -188,6 +188,8 @@ void	render_frame(t_env *env)
 	ft_bzero(env->img->img_str, WIN_WIDTH * WIN_HEIGHT * (env->img->bits / 8));
 	if (env->z_ordering)
 		initZBuffer(env->img->img_depth, WIN_WIDTH * WIN_HEIGHT);
+	if (env->auto_point_reduc)
+		env->points_reduction_factor = 3 / (env->camera->scale) > 1 ? 3 / (env->camera->scale) : 1;
 	calculate_every_projection(env);
 	save_lines(env);
 	draw_every_lines(env);

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/04 17:48:50 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/04 18:14:37 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,6 +270,7 @@ typedef struct s_env
 	int				sphere_proj;
 	int				debug_mode;
 	int				points_reduction_factor;
+	int				auto_point_reduc;
 	int				line_algo;
 	int				proc_amount;
 	pthread_t		*threads;
