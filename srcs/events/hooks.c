@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:25:37 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/15 19:08:31 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/04 11:34:48 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,10 @@ int	keydown(int keycode, void *param)
 		env->display_infos = 0;
 	else if (keycode == KEY_I && env->display_infos != 1)
 		env->display_infos = 1;
+	else if (keycode == KEY_J && env->points_reduction_factor > 1)
+		env->points_reduction_factor -= 1;
+	else if (keycode == KEY_K)
+		env->points_reduction_factor += 1;
 	else if (keycode == KEY_G)
 		env->custom_color = flip_flop(env->custom_color);
 	else if (keycode == NUM_0 || keycode == NUM_1 || keycode == NUM_2

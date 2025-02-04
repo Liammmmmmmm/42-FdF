@@ -6,11 +6,13 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:52:21 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/29 13:17:16 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/04 11:05:28 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+// custom font https://handmade.network/forums/articles/t/7330-implementing_a_font_reader_and_rasterizer_from_scratch%252C_part_1__ttf_font_reader.
 
 void	init_font(t_env *env)
 {

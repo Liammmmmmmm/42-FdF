@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:51:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/03 18:46:29 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/04 11:38:41 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,13 @@ void	calculate_every_projection(t_env *env)
 	y = -1;
 	while (++y < env->map->height)
 	{
-		x = -1;
-		while (++x < env->map->length)
-			calculate_point_projection(x, y, env, trigo_calcs);
+		if (y % env->points_reduction_factor == 0)
+		{
+			x = -1;
+			while (++x < env->map->length)
+				if (x % env->points_reduction_factor == 0)
+					calculate_point_projection(x, y, env, trigo_calcs);
+		}
 	}
 }
 
@@ -55,6 +59,7 @@ char	*info_string(t_env *env)
 {
 	char	*perspective;
 	size_t	last_frame_tmstp;
+	double	(*local_axes)[3] = env->camera->local_axes;
 
 	last_frame_tmstp = env->timestamp_last_frame;
 	env->timestamp_last_frame = get_time();
@@ -68,13 +73,18 @@ char	*info_string(t_env *env)
 			env->camera->yaw * 180 / PI_10D, env->camera->pitch * 180 / PI_10D,
 			env->camera->roll * 180 / PI_10D, env->camera->x, env->camera->y,
 			env->camera->z, env->camera->proj_x, env->camera->proj_y,
-			env->camera->proj_z, env->camera->distance, env->camera->scale,
+			env->camera->proj_z,
+			local_axes[0][0], local_axes[0][1], local_axes[0][2],
+			local_axes[1][0], local_axes[1][1], local_axes[1][2],
+			local_axes[2][0], local_axes[2][1], local_axes[2][2],
+			env->camera->distance, env->camera->scale,
 			env->camera->mouse_sensibility, env->camera->fov,
 			env->camera->znear, env->camera->zfar, env->camera->right,
 			env->camera->left, env->camera->top, env->camera->bottom,
 			env->camera->near, env->camera->far, env->mouse_click_rotation,
 			env->mouse_click_translation, env->mouse_sensibility,
-			env->mouse_last_x, env->mouse_last_y, env->frames_gen, 1.0 / ((double)(env->timestamp_last_frame - last_frame_tmstp) / 1000000.0),
+			env->mouse_last_x, env->mouse_last_y, env->frames_gen,
+			1.0 / ((double)(env->timestamp_last_frame - last_frame_tmstp) / 1000000.0),
 			env->sphere_proj, perspective, env->z_ordering,
 			!env->cam_around_focus, env->z_ratio, env->color_preset,
 			env->color_preset));
@@ -112,11 +122,11 @@ void	display_infos_win(t_env *env)
 	}
 	if (env->debug_mode)
 	{
-		text_pos.y = 540;
-		dynamic_infos = debug_string(env);
-		if (dynamic_infos)
-			string_to_img(env->img, env->font, text_pos, dynamic_infos);
-		free(dynamic_infos);
+		// text_pos.y = 540;
+		// dynamic_infos = debug_string(env);
+		// if (dynamic_infos)
+		// 	string_to_img(env->img, env->font, text_pos, dynamic_infos);
+		// free(dynamic_infos);
 	}
 }
 

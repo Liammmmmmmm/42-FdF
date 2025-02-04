@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/03 18:35:29 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/04 11:31:54 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@
 	Width  : %d\n  Camera :\n    Rotations:\n      Yaw   : %f\n     \
 	Pitch : %f\n      Roll  : %f\n    Position :\n     \
 	Focus point : (%f, %f, %f)\n      Real point  : (%f, %f, %f)\n   \
+	Local axes :\n      F : (%f, %f, %f)\n      U : (%f, %f, %f)\n      R : (%f, %f, %f)\n   \
 	Parameters :\n      Distance      : %f\n      Scale         : %f\n     \
 	Mouse Sens.   : %f\n      FOV           : %d\n     \
 	Near Clip     : %d\n      Far Clip      : %d\n     \
@@ -83,6 +84,8 @@ typedef enum e_keys
 	KEY_F = 102,
 	KEY_G = 103,
 	KEY_I = 105,
+	KEY_J = 106,
+	KEY_K = 107,
 	KEY_L = 108,
 	KEY_O = 111,
 	KEY_P = 112,
