@@ -6,7 +6,7 @@
 #    By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/19 13:55:49 by lilefebv          #+#    #+#              #
-#    Updated: 2025/02/03 18:49:32 by lilefebv         ###   ########lyon.fr    #
+#    Updated: 2025/02/04 15:10:29 by lilefebv         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,6 +64,7 @@ SRC_DIR  = srcs/
 SRCS     = fdf.c console.c utils.c free.c                                                                                                                         \
            projections/matrix.c projections/matrix_calc.c projections/projection_point.c projections/color_preset.c                                                \
            rendering/utils.c rendering/pixel.c rendering/frame.c rendering/draw_lines.c rendering/utils_lines.c rendering/draw_string.c rendering/frustum_culling.c \
+		   rendering/lines_algo/anti_aliasing.c rendering/lines_algo/basic_slope.c rendering/lines_algo/bresenham.c \
 		   events/actions.c events/hooks.c                                                                                                                           \
 		   env/inits.c env/parsing.c env/map_line.c env/font.c                                                                                                        \
 		   camera/calcs.c camera/movements.c camera/key_movements.c

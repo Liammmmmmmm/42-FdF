@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:34:24 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/04 11:35:13 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/04 15:06:44 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	random_values_init(t_env *env)
 	env->timestamp_last_frame = get_time();
 	env->debug_mode = 1;
 	env->points_reduction_factor = 1;
+	env->line_algo = 1;
 	init_font(env);
 	env->display_infos = 2;
 	if (get_biggest(env->map->height, env->map->length) < env->map->highest)

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/04 11:31:54 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/04 15:09:03 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef enum e_keys
 	KEY_Q = 113,
 	KEY_S = 115,
 	KEY_W = 119,
+	KEY_X = 120,
 	KEY_Z = 122,
 	NUM_0 = 65438,
 	NUM_1 = 65436,
@@ -199,6 +200,8 @@ void	exit_free(t_env *env);
  * @return The toggled boolean value.
  */
 int		flip_flop(int nb);
+
+int	sitch_mode(int nb, int max);
 
 /**
  * @brief Get the larger of two integers.
@@ -568,6 +571,21 @@ void	events(t_env *env);
 void	put_pixel_image(char *str, int x, int y, int color);
 
 /**
+ * @brief Put a pixel in the image if it is in front of the last one.
+ *
+ * This function sets the color of a pixel at the specified coordinates in the
+ * image. If there is alredy a pixel, it will only replace it if it's depth is
+ * smaller.
+ *
+ * @param str The image data string.
+ * @param x The x-coordinate of the pixel.
+ * @param y The y-coordinate of the pixel.
+ * @param color The color of the pixel.
+ * @param depth The depth of the pixel.
+ */
+void	put_pixel_z_ordered(t_env *env, int x, int y, int color, double depth);
+
+/**
  * @brief Calculate the gradient color between two points.
  *
  * This function calculates the gradient color between two points based on the
@@ -722,5 +740,9 @@ void	render_frame(t_env *env);
 void	extract_frustum_planes(t_frustum *frustum, double matrix[4][4]);
 int		is_point_in_frustum(const t_frustum *frustum, const t_vec3 *point);
 void	init_view_matrix(double view[4][4], const double axes[3][3], t_env *env);
+
+void	draw_line_wu(t_point *point_a, t_point *point_b, t_env *env);
+void	draw_line(t_point *point_a, t_point *point_b, t_env *env);
+void	draw_line_bresenham(t_point *point_a, t_point *point_b, t_env *env);
 
 #endif
