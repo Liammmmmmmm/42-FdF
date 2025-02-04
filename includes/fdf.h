@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/04 15:09:03 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/04 16:33:14 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <math.h>
 # include <sys/time.h>
 # include <float.h>
+# include <sys/sysinfo.h>
+# include <pthread.h>
 
 # define PI_10D 3.1415926535
 
@@ -741,8 +743,12 @@ void	extract_frustum_planes(t_frustum *frustum, double matrix[4][4]);
 int		is_point_in_frustum(const t_frustum *frustum, const t_vec3 *point);
 void	init_view_matrix(double view[4][4], const double axes[3][3], t_env *env);
 
+// Lines
 void	draw_line_wu(t_point *point_a, t_point *point_b, t_env *env);
 void	draw_line(t_point *point_a, t_point *point_b, t_env *env);
 void	draw_line_bresenham(t_point *point_a, t_point *point_b, t_env *env);
+
+// Threads
+void	*thread_calc_projection(void *param);
 
 #endif

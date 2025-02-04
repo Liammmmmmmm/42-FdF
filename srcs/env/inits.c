@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:34:24 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/04 15:06:44 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/04 17:49:04 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,23 @@ int	init_lines(t_env *env)
 	return (1);
 }
 
+void	init_thread_params(t_env *env)
+{
+	int	lines_by_thread;
+	int	i;
+
+	lines_by_thread = env->map->height / env->proc_amount;
+	i = 0;
+	while (i < env->proc_amount)
+	{
+		env->threads_params[i].start = i * lines_by_thread;
+		env->threads_params[i].end = (i + 1) * lines_by_thread;
+		env->threads_params[i].env = env;
+		i++;
+	}
+	env->threads_params[i - 1].end = env->map->height;
+}
+
 void	random_values_init(t_env *env)
 {
 	env->mouse_sensibility = 0.4;
@@ -77,7 +94,9 @@ void	random_values_init(t_env *env)
 	env->timestamp_last_frame = get_time();
 	env->debug_mode = 1;
 	env->points_reduction_factor = 1;
-	env->line_algo = 1;
+	env->line_algo = 0;
+	env->protect_data_races = 0;
+	env->proc_amount = get_nprocs_conf();
 	init_font(env);
 	env->display_infos = 2;
 	if (get_biggest(env->map->height, env->map->length) < env->map->highest)
@@ -99,8 +118,11 @@ int	init_all(t_env *env, char **argv)
 	if (init_lines(env) == 0)
 		return (print_error("Lines initialization failed"), fr_pts(env, 1), 0);
 	env->img = malloc(sizeof(t_img));
-	if (!env->img)
+	env->threads = malloc(sizeof(pthread_t) * env->proc_amount);
+	env->threads_params = malloc(sizeof(t_thread_param) * env->proc_amount);
+	if (!env->img || !env->threads || !env->threads_params)
 		return (print_error("initialization init failed"), free_lns(env, 1), 0);
+	init_thread_params(env);
 	env->mlx = mlx_init();
 	if (!env->mlx)
 		return (print_error(ERROR_MLX), free(env->img), free_lns(env, 1), 0);
@@ -114,5 +136,8 @@ int	init_all(t_env *env, char **argv)
 	env->img->img_depth = malloc(sizeof(float) * WIN_HEIGHT * WIN_WIDTH);
 	if (!env->img->img_depth)
 		return (print_error("An error occured"), exit_free(env), 0);
+	if (pthread_mutex_init(&env->img->img_mutex, NULL) != 0)
+		return (print_error("Mutex error"), exit_free(env), 0);
+	env->img->is_mutex_ok = 1;
 	return (1);
 }

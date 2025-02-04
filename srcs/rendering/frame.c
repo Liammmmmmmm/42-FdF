@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:51:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/04 12:41:59 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/04 17:31:34 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 void	calculate_every_projection(t_env *env)
 {
-	int	y;
-	int	x;
+	int				y;
+	int				x;
+	int				i;
 	t_calc_trigo	trigo_calcs;
 
 	trigo_calcs.sin_yaw = sin(env->camera->yaw + PI_10D / 2);
@@ -42,7 +43,21 @@ void	calculate_every_projection(t_env *env)
 		extract_frustum_planes(&env->camera->frustum, view_perspective);
 	}
 	*/
-	y = -1;
+	i = 0;
+	while (i < env->proc_amount)
+	{
+		env->threads_params[i].trigo_calcs = trigo_calcs;
+		i++;
+	}
+	i = 0;
+	while (i < env->proc_amount)
+	{
+		if (pthread_create(&env->threads[i], NULL, &thread_calc_projection, &env->threads_params[i]) != 0)
+			break ;
+		else
+			y = env->threads_params[i].end - 1;
+		i++;
+	}
 	while (++y < env->map->height)
 	{
 		if (y % env->points_reduction_factor == 0)
@@ -53,6 +68,32 @@ void	calculate_every_projection(t_env *env)
 					calculate_point_projection(x, y, env, trigo_calcs);
 		}
 	}
+	while (i > 0)
+	{
+		pthread_join(env->threads[i - 1], NULL);
+		i--;
+	}
+}
+
+void	*thread_calc_projection(void *param)
+{
+	t_env	*env;
+	int		y;
+	int		x;
+
+	env = ((t_thread_param *)param)->env;
+	y = ((t_thread_param *)param)->start - 1;
+	while (++y < ((t_thread_param *)param)->end)
+	{
+		if (y % env->points_reduction_factor == 0)
+		{
+			x = -1;
+			while (++x < env->map->length)
+				if (x % env->points_reduction_factor == 0)
+					calculate_point_projection(x, y, env, ((t_thread_param *)param)->trigo_calcs);
+		}
+	}
+	return (NULL);
 }
 
 char	*info_string(t_env *env)

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/04 15:06:36 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/04 17:48:50 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ typedef struct s_img
 	void	*img;		/* Pointer to identify the image */
 	char	*img_str;	/* String containing all the pixels of the image */
 	float	*img_depth;	/* Contain the depth of each pixel (from camera) */
+	pthread_mutex_t	img_mutex;
+	int		is_mutex_ok;
 	int		bits;		/* Number of bits per pixel */
 	int		size_line;	/* Size of the img_str */
 	int		endian;		/* Indicates the endianness of the image */
@@ -185,6 +187,29 @@ typedef struct s_map
 	int	have_color;		/* Flag indicating if the map has color information */
 }	t_map;
 
+typedef struct s_calc_trigo
+{
+	double	sin_yaw;
+	double	cos_yaw;
+	double	sin_pitch;
+	double	cos_pitch;
+	double	sin_roll;
+	double	cos_roll;
+	
+}	t_calc_trigo;
+
+typedef struct s_env t_env;
+
+typedef struct s_thread_param
+{
+	int				start;
+	int				end;
+	int				start_ln;
+	int				end_ln;
+	t_env			*env;
+	t_calc_trigo	trigo_calcs;
+}	t_thread_param;
+
 /**
  * @struct s_env
  * @brief Structure representing the environment containing all the information
@@ -246,18 +271,10 @@ typedef struct s_env
 	int				debug_mode;
 	int				points_reduction_factor;
 	int				line_algo;
+	int				proc_amount;
+	pthread_t		*threads;
+	t_thread_param	*threads_params;
+	int				protect_data_races;
 }	t_env;
-
-
-typedef struct s_calc_trigo
-{
-	double	sin_yaw;
-	double	cos_yaw;
-	double	sin_pitch;
-	double	cos_pitch;
-	double	sin_roll;
-	double	cos_roll;
-	
-}	t_calc_trigo;
 
 #endif
