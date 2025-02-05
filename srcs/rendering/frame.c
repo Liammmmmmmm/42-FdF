@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:51:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/05 12:11:15 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 15:14:16 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,10 @@ void	display_infos_win(t_env *env)
 	}
 	if (env->debug_mode)
 	{
+		free(dynamic_infos);
+	}
+	if (env->debug_mode)
+	{
 		// text_pos.y = 540;
 		// dynamic_infos = debug_string(env);
 		// if (dynamic_infos)
@@ -193,6 +197,8 @@ void	render_frame(t_env *env)
 	calculate_every_projection(env);
 	save_lines(env);
 	draw_every_lines(env);
+	if (env->selected_point.x != -1)
+		circleBres(env->point_list[env->selected_point.y * env->map->length + env->selected_point.x].x, env->point_list[env->selected_point.y * env->map->length + env->selected_point.x].y, SELECT_RANGE, env, 0xFFFFFF);
 	display_infos_win(env);
 	mlx_put_image_to_window(env->mlx, env->mlx_win, env->img->img, 0, 0);
 	env->frames_gen += 1;

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:22:04 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/05 14:24:20 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 14:56:00 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ void	save_point_at_mouse(t_env *env)
 			return ;
 		}
 		i++;	
-	}	
+	}
+	env->selected_point.x = -1;
+	env->selected_point.y = -1;
 }
 
 void	edit_point(int key, t_env *env)

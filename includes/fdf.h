@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/05 14:04:32 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 15:07:15 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -756,6 +756,7 @@ void	init_view_matrix(double view[4][4], const double axes[3][3], t_env *env);
 void	draw_line_wu(t_point *point_a, t_point *point_b, t_env *env);
 void	draw_line(t_point *point_a, t_point *point_b, t_env *env);
 void	draw_line_bresenham(t_point *point_a, t_point *point_b, t_env *env);
+void	circleBres(int xc, int yc, int r, t_env *env, int color);
 
 // Threads
 void	*thread_calc_projection(void *param);
