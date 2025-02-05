@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:26:16 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/15 17:00:10 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 13:35:56 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,13 @@ int	mouse_down(int button, int x, int y, void *param)
 	((t_env *)param)->mouse_last_y = y;
 	if (button == SCROLL_DOWN || button == SCROLL_UP)
 		zoom(param, button);
-	else if (button == LEFT_CLICK || button == RIGHT_CLICK)
+	else if (button == LEFT_CLICK)
 		((t_env *)param)->mouse_click_rotation = 1;
+	else if (button == RIGHT_CLICK)
+	{
+		((t_env *)param)->mouse_click_select = 1;
+		save_point_at_mouse((t_env *)param);
+	}
 	else if (button == MIDDLE_CLICK)
 		((t_env *)param)->mouse_click_translation = 1;
 	return (0);
@@ -29,8 +34,10 @@ int	mouse_up(int button, int x, int y, void *param)
 {
 	((t_env *)param)->mouse_last_x = x;
 	((t_env *)param)->mouse_last_y = y;
-	if (button == LEFT_CLICK || button == RIGHT_CLICK)
+	if (button == LEFT_CLICK)
 		((t_env *)param)->mouse_click_rotation = 0;
+	else if (button == RIGHT_CLICK)
+		((t_env *)param)->mouse_click_select = 0;
 	else if (button == MIDDLE_CLICK)
 		((t_env *)param)->mouse_click_translation = 0;
 	return (0);

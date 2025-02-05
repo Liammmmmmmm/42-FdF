@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/05 12:11:04 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 14:04:32 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@
 
 # define COLOR_MIN 0xFFFFFF
 # define COLOR_MAX 0x7B13AB
+
+// How many pixel from the mouse a point can be selected
+# define SELECT_RANGE 5
 
 # define ERROR_MLX "MLX initialization failed"
 
@@ -83,6 +86,7 @@ typedef enum e_keys
 	KEY_SUP = 46,
 	KEY_PLUS = 61,
 	KEY_A = 97,
+	KEY_B = 98,
 	KEY_C = 99,
 	KEY_D = 100,
 	KEY_E = 101,
@@ -93,6 +97,7 @@ typedef enum e_keys
 	KEY_J = 106,
 	KEY_K = 107,
 	KEY_L = 108,
+	KEY_N = 110,
 	KEY_O = 111,
 	KEY_P = 112,
 	KEY_Q = 113,
@@ -405,7 +410,7 @@ void	calc_cam_proj(t_env *env, t_camera *camera);
  * @param pitch The pitch angle.
  * @param roll The roll angle.
  */
-void	get_local_axes(double axes[3][3], const t_calc_trigo trigo, t_env *env);
+void	get_local_axes(double axes[3][3], t_calc_trigo trigo, t_env *env);
 
 /**
  * @brief Calculate the scale factor for the map.
@@ -754,5 +759,9 @@ void	draw_line_bresenham(t_point *point_a, t_point *point_b, t_env *env);
 
 // Threads
 void	*thread_calc_projection(void *param);
+
+// change point height
+void	save_point_at_mouse(t_env *env);
+void	edit_point(int key, t_env *env);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/04 18:14:37 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 13:21:21 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,6 +254,8 @@ typedef struct s_env
 	void			*mlx_win;
 	int				mouse_click_rotation;
 	int				mouse_click_translation;
+	int				mouse_click_select;
+	t_point			selected_point;
 	double			mouse_sensibility;
 	int				mouse_last_x;
 	int				mouse_last_y;

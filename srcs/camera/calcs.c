@@ -6,14 +6,19 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:20:17 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/05 12:13:09 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 14:05:14 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	get_local_axes(double axes[3][3], const t_calc_trigo trigo, t_env *env)
+void	get_local_axes(double axes[3][3], t_calc_trigo trigo, t_env *env)
 {
+	trigo.sin_yaw = sin(env->camera->yaw);
+	trigo.cos_yaw = cos(env->camera->yaw);
+	trigo.sin_pitch = sin(env->camera->pitch);
+	trigo.cos_pitch = cos(env->camera->pitch);
+
 	/*     Forward     */
 	axes[0][0] = trigo.cos_yaw * trigo.cos_pitch;
 	axes[0][1] = -trigo.sin_yaw * trigo.cos_pitch;
