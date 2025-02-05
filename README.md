@@ -101,7 +101,7 @@ Explore your wireframe in **free camera mode**! Move around the scene with the `
 By default, lines are drawn in the same order for every frame. This can cause visual glitches where lines that should be behind others appear in front. 
 ![z ordering problem](img/z-ordering-off.png)
 
-Toggle Z-ordering with `[Z]` to fix this issue. Note: it’s was disabled by default due to performance costs but after a lot of optimizations we have a low performance cost z ordering activated by default.
+Toggle Z-ordering with [Z] to fix this issue. After numerous optimizations, the performance impact is minimal, so it is enabled by default.
 ![z ordering on](img/z-ordering-on.png)
 
 ### Color Presets
@@ -130,9 +130,35 @@ This works for any map not just Earth. Check out the Moon in all its spherical g
 
 ![Spherical Moon Projection](img/round-moon.png) 
 
+### Adaptive Point Density
+
+To optimize rendering and improve performance when zooming out, you can adjust the number of displayed points dynamically:
+- Press `[K]` to increase the point spacing (display fewer points).
+- Press `[J]` to decrease the point spacing (display more points).
+- Press `[H]` to toggle **automatic adaptive density**, where point density adjusts based on camera distance (fewer points when zoomed out, more when zoomed in).
+
+![Adaptive Point Density](img/point-reduction.gif)
+
+### Line Rendering Algorithms
+
+Switch between different line rendering algorithms for varied visual effects:
+- **Basic (default)**: A simple slope-based algorithm.
+- **Wu’s Algorithm**: Provides anti-aliasing for smoother lines.
+- **Bresenham’s Algorithm**: A precise, efficient integer-based method.
+
+Press `[X]` to cycle through the available line rendering algorithms.
+
+![Basic Line Rendering](img/line-basic.png)
+![Anti-Aliased Line Rendering](img/line-aa.png)
+
+### Multithreaded Rendering
+
+To improve performance, line drawing and point projection calculations are now multithreaded, resulting in smoother frame rates even on large maps.
+
 ## Conclusion
 
 **FdF** is an exciting project that teaches you file parsing tricks and how to project 3D points `(x, y, z)` onto a 2D screen. You’ll sharpen your matrix calculation skills and discover the joy of bringing numbers to life. With bonuses and extra features, this project becomes even more fun and rewarding.
 
 Pick this project, dive in, and enjoy the ride!  
 ![Capybara wine](img/capy-wine.png)
+

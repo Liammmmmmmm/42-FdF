@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/04 18:32:15 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/04 18:35:33 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,16 @@
 
 # define CONTROLS "INFOS : Controls\n  Camera :\n    [ESC] Close window\n   \
 	[LMB]/[RMB] Rotate\n    [MMB] Translate\n    [SCROLL] Zoom/dezoom\n   \
-	[F] Toogle freecam\n    [W] Move forward\n    [A] Move left\n   \
+	[F] Toggle freecam\n    [W] Move forward\n    [A] Move left\n   \
 	[S] Move backward\n    [D] Move right\n    [SPACE] Move up\n   \
 	[SHIFT] Move down\n    [Q] Roll left\n    [E] Roll right\n   \
 	[<] Reduce FOV\n    [>] Increase FOV\n  Render :\n    [-] Shrink z axe\
-	\n    [+] Extend z axe\n    [G] Toogle custom color\n   \
+	\n    [+] Extend z axe\n    [G] Toggle custom color\n   \
 	[NUMPAD] Set color preset\n    [L] \"Normal\" view\n    [P] Perspective\n\
-	   [O] Toogle sphere projection\n    [Z] Toogle z ordering\n\
-	   [H] Toogle auto point reduction\n    [J] Increase amount of displayed points\n\
+	   [O] Toggle sphere projection\n    [Z] Toggle z ordering\n\
+	   [H] Toggle auto point reduction\n    [J] Increase amount of displayed points\n\
 	   [K] Decrease amount of displayed points\n  Other :\n   \
-	[C] Toogle controls menu\n    [I] Toogle informations menu"
+	[C] Toggle controls menu\n    [I] Toggle informations menu"
 
 # define LIVE_INFO "INFOS : Environment\n  Map :\n    Length : %d\n   \
 	Width  : %d\n  Camera :\n    Rotations:\n      Yaw   : %f\n     \
