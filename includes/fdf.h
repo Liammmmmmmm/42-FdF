@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/05 15:07:15 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 16:03:17 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # define ERROR_MLX "MLX initialization failed"
 
 # define CONTROLS "INFOS : Controls\n  Camera :\n    [ESC] Close window\n   \
-	[LMB]/[RMB] Rotate\n    [MMB] Translate\n    [SCROLL] Zoom/dezoom\n   \
+	[LMB] Rotate\n    [MMB] Translate\n    [SCROLL] Zoom/dezoom\n   \
 	[F] Toggle freecam\n    [W] Move forward\n    [A] Move left\n   \
 	[S] Move backward\n    [D] Move right\n    [SPACE] Move up\n   \
 	[SHIFT] Move down\n    [Q] Roll left\n    [E] Roll right\n   \
@@ -48,7 +48,8 @@
 	[NUMPAD] Set color preset\n    [L] \"Normal\" view\n    [P] Perspective\n\
 	   [O] Toggle sphere projection\n    [Z] Toggle z ordering\n\
 	   [H] Toggle auto point reduction\n    [J] Increase amount of displayed points\n\
-	   [K] Decrease amount of displayed points\n  Other :\n   \
+	   [K] Decrease amount of displayed points\n\
+	   [RMB] Select point\n    [B] Decrease point altitude\n    [N] Increase point altitude\n  Other :\n   \
 	[C] Toggle controls menu\n    [I] Toggle informations menu"
 
 # define LIVE_INFO "INFOS : Environment\n  Map :\n    Length : %d\n   \

@@ -151,6 +151,17 @@ Press `[X]` to cycle through the available line rendering algorithms.
 ![Basic Line Rendering](img/line-basic.png)
 ![Anti-Aliased Line Rendering](img/line-aa.png)
 
+### Point Editing
+
+You can modify the height of individual points in the wireframe:
+- **Right-click** on a point to select it.
+- Press `[N]` to increase its height by 1.
+- Press `[B]` to decrease its height by 1.
+
+This feature allows for real-time modifications to the terrain, making adjustments intuitive and interactive.
+
+![Edit point](img/point-edit.gif)
+
 ### Multithreaded Rendering
 
 To improve performance, line drawing and point projection calculations are now multithreaded, resulting in smoother frame rates even on large maps.

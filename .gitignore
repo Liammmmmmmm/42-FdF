@@ -13,3 +13,5 @@ fdf_linux
 
 sources.txt
 .VSCodeCounter
+a.out
+srcs/test.c

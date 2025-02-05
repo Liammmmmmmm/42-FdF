@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:51:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/05 15:14:16 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 15:49:47 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,10 +159,6 @@ void	display_infos_win(t_env *env)
 		dynamic_infos = info_string(env);
 		if (dynamic_infos)
 			string_to_img(env->img, env->font, text_pos, dynamic_infos);
-		free(dynamic_infos);
-	}
-	if (env->debug_mode)
-	{
 		free(dynamic_infos);
 	}
 	if (env->debug_mode)
