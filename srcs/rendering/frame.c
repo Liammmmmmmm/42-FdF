@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:51:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/04 18:33:13 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 12:11:15 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	calculate_every_projection(t_env *env)
 	trigo_calcs.sin_roll = sin(env->camera->roll);
 	trigo_calcs.cos_roll = cos(env->camera->roll);
 
-	get_local_axes(env->camera->local_axes, env->camera->yaw, env->camera->pitch, env->camera->roll, env);
+	get_local_axes(env->camera->local_axes, trigo_calcs, env);
 
 	if (env->perspective == 1)
 		init_perspective_matrix(env->camera->perspective, env);

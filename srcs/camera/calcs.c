@@ -6,35 +6,28 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:20:17 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/03 18:58:57 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 12:13:09 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	get_local_axes(double axes[3][3], double yaw, double pitch, double roll, t_env *env)
+void	get_local_axes(double axes[3][3], const t_calc_trigo trigo, t_env *env)
 {
-	double cos_yaw = cos(yaw);
-	double sin_yaw = sin(yaw);
-	double cos_pitch = cos(pitch);
-	double sin_pitch = sin(pitch);
-	double cos_roll = cos(roll);
-	double sin_roll = sin(roll);
+	/*     Forward     */
+	axes[0][0] = trigo.cos_yaw * trigo.cos_pitch;
+	axes[0][1] = -trigo.sin_yaw * trigo.cos_pitch;
+	axes[0][2] = -trigo.sin_pitch;
 
-	// Forward
-	axes[0][0] = cos_yaw * cos_pitch;
-	axes[0][1] = -sin_yaw * cos_pitch;
-	axes[0][2] = -sin_pitch;
+	/*       Up        */
+	axes[1][0] = -((-trigo.cos_yaw * trigo.sin_pitch * trigo.cos_roll) + (-trigo.sin_yaw * trigo.sin_roll));
+	axes[1][1] = ((-trigo.sin_yaw * trigo.sin_pitch * trigo.cos_roll) + (trigo.cos_yaw * trigo.sin_roll));
+	axes[1][2] = trigo.cos_pitch * trigo.cos_roll;
 
-	// Up
-	axes[1][0] = -((-cos_yaw * sin_pitch * cos_roll) + (-sin_yaw * sin_roll));
-	axes[1][1] = ((-sin_yaw * sin_pitch * cos_roll) + (cos_yaw * sin_roll));
-	axes[1][2] = cos_pitch * cos_roll;
-
-	// Right
-	axes[2][0] = -(-sin_yaw * cos_roll - cos_yaw * sin_pitch * sin_roll);
-	axes[2][1] = (cos_yaw * cos_roll - sin_yaw * sin_pitch * sin_roll);
-	axes[2][2] = -cos_pitch * sin_roll;
+	/*      Right      */ 
+	axes[2][0] = -(-trigo.sin_yaw * trigo.cos_roll - trigo.cos_yaw * trigo.sin_pitch * trigo.sin_roll);
+	axes[2][1] = (trigo.cos_yaw * trigo.cos_roll - trigo.sin_yaw * trigo.sin_pitch * trigo.sin_roll);
+	axes[2][2] = -trigo.cos_pitch * trigo.sin_roll;
 
 	if (env->perspective == 1)
 	{

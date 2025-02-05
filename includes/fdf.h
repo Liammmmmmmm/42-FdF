@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/04 18:35:33 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 12:11:04 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -405,7 +405,7 @@ void	calc_cam_proj(t_env *env, t_camera *camera);
  * @param pitch The pitch angle.
  * @param roll The roll angle.
  */
-void	get_local_axes(double axe[3][3], double yaw, double pitch, double roll, t_env *env);
+void	get_local_axes(double axes[3][3], const t_calc_trigo trigo, t_env *env);
 
 /**
  * @brief Calculate the scale factor for the map.
