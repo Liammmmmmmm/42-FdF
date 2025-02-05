@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:34:24 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/05 13:32:41 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 17:54:54 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void	random_values_init(t_env *env)
 	env->protect_data_races = 0;
 	env->selected_point.x = -1;
 	env->selected_point.y = -1;
+	env->points_selection.is_active = 0;
 	env->proc_amount = get_nprocs_conf();
 	init_font(env);
 	env->display_infos = 2;

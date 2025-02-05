@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/05 13:21:21 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 17:54:16 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,15 @@ typedef struct s_thread_param
 	t_calc_trigo	trigo_calcs;
 }	t_thread_param;
 
+typedef struct s_point_select
+{
+	int				start_mouse_x;
+	int				start_mouse_y;
+	t_point			*selected_points;
+	int				amount_of_points;
+	int				is_active;
+}	t_point_select;
+
 /**
  * @struct s_env
  * @brief Structure representing the environment containing all the information
@@ -256,6 +265,8 @@ typedef struct s_env
 	int				mouse_click_translation;
 	int				mouse_click_select;
 	t_point			selected_point;
+	int				is_control_down;
+	t_point_select	points_selection;
 	double			mouse_sensibility;
 	int				mouse_last_x;
 	int				mouse_last_y;

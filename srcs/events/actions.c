@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:26:16 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/05 13:35:56 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 17:26:25 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,15 @@ int	mouse_down(int button, int x, int y, void *param)
 
 int	mouse_up(int button, int x, int y, void *param)
 {
-	((t_env *)param)->mouse_last_x = x;
-	((t_env *)param)->mouse_last_y = y;
 	if (button == LEFT_CLICK)
 		((t_env *)param)->mouse_click_rotation = 0;
 	else if (button == RIGHT_CLICK)
 		((t_env *)param)->mouse_click_select = 0;
 	else if (button == MIDDLE_CLICK)
 		((t_env *)param)->mouse_click_translation = 0;
+	((t_env *)param)->mouse_last_x = x;
+	((t_env *)param)->mouse_last_y = y;
+
 	return (0);
 }
 

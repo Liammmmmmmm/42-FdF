@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:51:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/05 15:49:47 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 17:39:21 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,8 @@ void	render_frame(t_env *env)
 	draw_every_lines(env);
 	if (env->selected_point.x != -1)
 		circleBres(env->point_list[env->selected_point.y * env->map->length + env->selected_point.x].x, env->point_list[env->selected_point.y * env->map->length + env->selected_point.x].y, SELECT_RANGE, env, 0xFFFFFF);
+	if (env->is_control_down && env->mouse_click_select)
+		draw_rectangle(env, env->points_selection.start_mouse_x, env->points_selection.start_mouse_y, env->mouse_last_x, env->mouse_last_y);
 	display_infos_win(env);
 	mlx_put_image_to_window(env->mlx, env->mlx_win, env->img->img, 0, 0);
 	env->frames_gen += 1;

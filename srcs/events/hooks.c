@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:25:37 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/05 13:51:42 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 17:23:29 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,21 @@ int	keydown(int key, void *param)
 		env->line_algo = sitch_mode(env->line_algo, 2);
 	else if (key == KEY_B || key == KEY_N)
 		edit_point(key, env);
+	else if (key == KEY_CTRL_LEFT)
+		env->is_control_down = 1;
 	else if (key == NUM_0 || key == NUM_1 || key == NUM_2 || key == NUM_3 || key == NUM_4 || key == NUM_5 || key == NUM_6 || key == NUM_7 || key == NUM_8)
 		set_color_preset(key, env);
 	cam_keys(key, env);
+	return (0);
+}
+
+int	keyup(int key, void *param)
+{
+	t_env	*env;
+
+	env = (t_env *)param;
+	if (key == KEY_CTRL_LEFT)
+		env->is_control_down = 0;
 	return (0);
 }
 
@@ -98,4 +110,5 @@ void	events(t_env *env)
 	mlx_hook(env->mlx_win, ON_MOUSEMOVE, 1L << 6, mouse_move, env);
 	mlx_hook(env->mlx_win, ON_DESTROY, 0, destroy, env);
 	mlx_hook(env->mlx_win, ON_KEYDOWN, 1L << 0, keydown, env);
+	mlx_hook(env->mlx_win, ON_KEYUP, 1L << 1, keyup, env);
 }

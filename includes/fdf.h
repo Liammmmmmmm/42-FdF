@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/05 16:03:17 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 17:36:42 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,37 +38,37 @@
 
 # define ERROR_MLX "MLX initialization failed"
 
-# define CONTROLS "INFOS : Controls\n  Camera :\n    [ESC] Close window\n   \
-	[LMB] Rotate\n    [MMB] Translate\n    [SCROLL] Zoom/dezoom\n   \
-	[F] Toggle freecam\n    [W] Move forward\n    [A] Move left\n   \
-	[S] Move backward\n    [D] Move right\n    [SPACE] Move up\n   \
-	[SHIFT] Move down\n    [Q] Roll left\n    [E] Roll right\n   \
-	[<] Reduce FOV\n    [>] Increase FOV\n  Render :\n    [-] Shrink z axe\
-	\n    [+] Extend z axe\n    [G] Toggle custom color\n   \
-	[NUMPAD] Set color preset\n    [L] \"Normal\" view\n    [P] Perspective\n\
-	   [O] Toggle sphere projection\n    [Z] Toggle z ordering\n\
-	   [H] Toggle auto point reduction\n    [J] Increase amount of displayed points\n\
-	   [K] Decrease amount of displayed points\n\
-	   [RMB] Select point\n    [B] Decrease point altitude\n    [N] Increase point altitude\n  Other :\n   \
-	[C] Toggle controls menu\n    [I] Toggle informations menu"
+# define CONTROLS "INFOS : Controls\n  \033#AFE1AFCamera\033#FFFFFF :\n    \033#87CEEB[ESC]\033#FFFFFF Close window\n   \
+	\033#87CEEB[LMB]\033#FFFFFF Rotate\n    \033#87CEEB[MMB]\033#FFFFFF Translate\n    \033#87CEEB[SCROLL]\033#FFFFFF Zoom/dezoom\n   \
+	\033#87CEEB[F]\033#FFFFFF Toggle freecam\n    \033#87CEEB[W]\033#FFFFFF Move forward\n    \033#87CEEB[A]\033#FFFFFF Move left\n   \
+	\033#87CEEB[S]\033#FFFFFF Move backward\n    \033#87CEEB[D]\033#FFFFFF Move right\n    \033#87CEEB[SPACE]\033#FFFFFF Move up\n   \
+	\033#87CEEB[SHIFT]\033#FFFFFF Move down\n    \033#87CEEB[Q]\033#FFFFFF Roll left\n    \033#87CEEB[E]\033#FFFFFF Roll right\n   \
+	\033#87CEEB[<]\033#FFFFFF Reduce FOV\n    \033#87CEEB[>]\033#FFFFFF Increase FOV\n  \033#AFE1AFRender\033#FFFFFF :\n    \033#87CEEB[-]\033#FFFFFF Shrink z axe\
+	\n    \033#87CEEB[+]\033#FFFFFF Extend z axe\n    \033#87CEEB[G]\033#FFFFFF Toggle custom color\n   \
+	\033#87CEEB[NUMPAD]\033#FFFFFF Set color preset\n    \033#87CEEB[L]\033#FFFFFF \"Normal\" view\n    \033#87CEEB[P]\033#FFFFFF Perspective\n\
+	   \033#87CEEB[O]\033#FFFFFF Toggle sphere projection\n    \033#87CEEB[Z]\033#FFFFFF Toggle z ordering\n\
+	   \033#87CEEB[H]\033#FFFFFF Toggle auto point reduction\n    \033#87CEEB[J]\033#FFFFFF Increase amount of displayed points\n\
+	   \033#87CEEB[K]\033#FFFFFF Decrease amount of displayed points\n\
+	   \033#87CEEB[RMB]\033#FFFFFF Select point\n    \033#87CEEB[B]\033#FFFFFF Decrease point altitude\n    \033#87CEEB[N]\033#FFFFFF Increase point altitude\n  \033#AFE1AFOther\033#FFFFFF :\n   \
+	\033#87CEEB[C]\033#FFFFFF Toggle controls menu\n    \033#87CEEB[I]\033#FFFFFF Toggle informations menu"
 
-# define LIVE_INFO "INFOS : Environment\n  Map :\n    Length : %d\n   \
-	Width  : %d\n  Camera :\n    Rotations:\n      Yaw   : %f\n     \
-	Pitch : %f\n      Roll  : %f\n    Position :\n     \
-	Focus point : (%f, %f, %f)\n      Real point  : (%f, %f, %f)\n   \
-	Local axes :\n      F : (%f, %f, %f)\n      U : (%f, %f, %f)\n      R : (%f, %f, %f)\n   \
-	Parameters :\n      Distance      : %f\n      Scale         : %f\n     \
-	Mouse Sens.   : %f\n      FOV           : %d\n     \
-	Near Clip     : %d\n      Far Clip      : %d\n     \
-	Right/Left    : %f / %f\n      Top/Bottom    : %f / %f\n     \
-	Near/Far Plane: %f / %f\n  Global\n    Mouse :\n     \
-	Click Rotation    : %d\n      Click Translation : %d\n     \
-	Sensibility       : %f\n      Last Position     : (%d, %d)\n   \
-	Scene :\n      Frames Generated : %d\n      FPS              : %f\n      Sphere           : %d\n     \
-	Projection       : %s\n      Z Ordering       : %d\n     \
-	Freecam          : %d\n      Z axe Ratio      : %f\n     \
-	Custom color     : %d\n      Color preset     : %d\n     \
-	Auto point reduc : %d\n      Diplayed points  : 1/%d"
+# define LIVE_INFO "INFOS : Environment\n  \033#AFE1AFMap\033#FFFFFF :\n    Length : \033#DA70D6%d\033#FFFFFF\n   \
+	Width  : \033#DA70D6%d\033#FFFFFF\n  \033#AFE1AFCamera\033#FFFFFF :\n    \033#87CEEBRotations\033#FFFFFF:\n      Yaw   : \033#DA70D6%f\033#FFFFFF\n     \
+	Pitch : \033#DA70D6%f\033#FFFFFF\n      Roll  : \033#DA70D6%f\033#FFFFFF\n    \033#87CEEBPosition\033#FFFFFF :\n     \
+	Focus point : (\033#DA70D6%f\033#FFFFFF, \033#DA70D6%f\033#FFFFFF, \033#DA70D6%f\033#FFFFFF)\n      Real point  : (\033#DA70D6%f\033#FFFFFF, \033#DA70D6%f\033#FFFFFF, \033#DA70D6%f\033#FFFFFF)\n   \
+	\033#87CEEBLocal axes\033#FFFFFF :\n      F : (\033#DA70D6%f\033#FFFFFF, \033#DA70D6%f\033#FFFFFF, \033#DA70D6%f\033#FFFFFF)\n      U : (\033#DA70D6%f\033#FFFFFF, \033#DA70D6%f\033#FFFFFF, \033#DA70D6%f\033#FFFFFF)\n      R : (\033#DA70D6%f\033#FFFFFF, \033#DA70D6%f\033#FFFFFF, \033#DA70D6%f\033#FFFFFF)\n   \
+	\033#87CEEBParameters\033#FFFFFF :\n      Distance      : \033#DA70D6%f\033#FFFFFF\n      Scale         : \033#DA70D6%f\033#FFFFFF\n     \
+	Mouse Sens.   : \033#DA70D6%f\033#FFFFFF\n      FOV           : \033#DA70D6%d\033#FFFFFF\n     \
+	Near Clip     : \033#DA70D6%d\033#FFFFFF\n      Far Clip      : \033#DA70D6%d\033#FFFFFF\n     \
+	Right/Left    : \033#DA70D6%f\033#FFFFFF / \033#DA70D6%f\033#FFFFFF\n      Top/Bottom    : \033#DA70D6%f\033#FFFFFF / \033#DA70D6%f\033#FFFFFF\n     \
+	Near/Far Plane: \033#DA70D6%f\033#FFFFFF / \033#DA70D6%f\033#FFFFFF\n  \033#AFE1AFGlobal\033#FFFFFF\n    \033#87CEEBMouse\033#FFFFFF :\n     \
+	Click Rotation    : \033#DA70D6%d\033#FFFFFF\n      Click Translation : \033#DA70D6%d\033#FFFFFF\n     \
+	Sensibility       : \033#DA70D6%f\033#FFFFFF\n      Last Position     : (\033#DA70D6%d\033#FFFFFF, \033#DA70D6%d\033#FFFFFF)\n   \
+	\033#87CEEBScene\033#FFFFFF :\n      Frames Generated : \033#DA70D6%d\033#FFFFFF\n      FPS              : \033#DA70D6%f\033#FFFFFF\n      Sphere           : \033#DA70D6%d\033#FFFFFF\n     \
+	Projection       : \033#DA70D6%s\033#FFFFFF\n      Z Ordering       : \033#DA70D6%d\033#FFFFFF\n     \
+	Freecam          : \033#DA70D6%d\033#FFFFFF\n      Z axe Ratio      : \033#DA70D6%f\033#FFFFFF\n     \
+	Custom color     : \033#DA70D6%d\033#FFFFFF\n      Color preset     : \033#DA70D6%d\033#FFFFFF\n     \
+	Auto point reduc : \033#DA70D6%d\033#FFFFFF\n      Diplayed points  : 1/\033#DA70D6%d\033#FFFFFF"
 
 typedef enum e_mouse_buttons
 {
@@ -116,8 +116,9 @@ typedef enum e_keys
 	NUM_7 = 65429,
 	NUM_8 = 65431,
 	NUM_9 = 65434,
+	KEY_ESC = 65307,
 	KEY_SHIFT = 65505,
-	KEY_ESC = 65307
+	KEY_CTRL_LEFT = 65507,
 }	t_keys;
 
 typedef enum e_event
@@ -708,8 +709,7 @@ void	quicksort_lines(t_line *lines, int low, int high, int order);
  * @param p The starting position and color.
  * @param str The string to draw.
  */
-void	string_to_img(t_img *img, unsigned char font[96][5],
-			t_point p, const char *str);
+void	string_to_img(t_img *img, unsigned char font[96][5], t_point p, char *str);
 
 /**
  * @brief Draw a character in the image.
@@ -758,6 +758,7 @@ void	draw_line_wu(t_point *point_a, t_point *point_b, t_env *env);
 void	draw_line(t_point *point_a, t_point *point_b, t_env *env);
 void	draw_line_bresenham(t_point *point_a, t_point *point_b, t_env *env);
 void	circleBres(int xc, int yc, int r, t_env *env, int color);
+void	draw_rectangle(t_env *env, int start_X, int start_y, int stop_x, int stop_y);
 
 // Threads
 void	*thread_calc_projection(void *param);
