@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:22:04 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/05 13:48:42 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 14:24:20 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	save_point_at_mouse(t_env *env)
 
 void	edit_point(int key, t_env *env)
 {
+	if (env->selected_point.x == -1)
+		return ;
 	if (key == KEY_B)
 		env->map->map[env->selected_point.y][env->selected_point.x] -= 1;
 	else if (key == KEY_N)
