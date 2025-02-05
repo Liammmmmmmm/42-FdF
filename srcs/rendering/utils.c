@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:24:26 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/09 11:30:39 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/03 12:19:41 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,3 +19,5 @@ int	is_point_in_frame(t_point point)
 		return (0);
 	return (1);
 }
+
+

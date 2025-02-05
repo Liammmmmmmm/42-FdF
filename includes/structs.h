@@ -6,12 +6,38 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/15 17:25:11 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/04 18:14:37 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
+
+# include "libft.h"
+
+typedef struct s_vec3
+{
+    double	x;
+	double	y;
+	double	z;
+}	t_vec3;
+
+/**
+ * Coefficients de l'équation du plan ax + by + cz + d = 0
+ */
+typedef struct s_plane {
+    double	a;
+	double	b;
+	double	c;
+	double	d;
+}	t_plane;
+
+/**
+ * 6 plans du frustum (gauche, droit, bas, haut, proche, lointain)
+ */
+typedef struct s_frustum {
+    t_plane planes[6];
+}	t_frustum;
 
 /**
  * @struct s_img
@@ -19,6 +45,7 @@
  * 
  * @param img Pointer to identify the image.
  * @param img_str String containing all the pixels of the image.
+ * @param img_depth Contain the depth of each pixel (from camera)
  * @param bits Number of bits per pixel.
  * @param size_line Size of the img_str.
  * @param endian Indicates the endianness of the image.
@@ -27,6 +54,9 @@ typedef struct s_img
 {
 	void	*img;		/* Pointer to identify the image */
 	char	*img_str;	/* String containing all the pixels of the image */
+	float	*img_depth;	/* Contain the depth of each pixel (from camera) */
+	pthread_mutex_t	img_mutex;
+	int		is_mutex_ok;
 	int		bits;		/* Number of bits per pixel */
 	int		size_line;	/* Size of the img_str */
 	int		endian;		/* Indicates the endianness of the image */
@@ -105,6 +135,7 @@ typedef struct s_line
  * @param bottom Bottom clipping plane.
  * @param far Far clipping plane.
  * @param near Near clipping plane.
+ * @param perspective[4][4] 4x4 Matrix that store the perspective calculation
  */
 typedef struct s_camera
 {
@@ -129,6 +160,9 @@ typedef struct s_camera
 	double	bottom;				/* Bottom clipping plane. */
 	double	far;				/* Far clipping plane. */
 	double	near;				/* Near clipping plane. */
+	double	perspective[4][4];	/* The perspective matrix stored */
+	double	local_axes[3][3];	/* Camera local axes */
+	t_frustum	frustum;
 }	t_camera;
 
 /**
@@ -152,6 +186,29 @@ typedef struct s_map
 	int	highest;		/* Highest point on the map */
 	int	have_color;		/* Flag indicating if the map has color information */
 }	t_map;
+
+typedef struct s_calc_trigo
+{
+	double	sin_yaw;
+	double	cos_yaw;
+	double	sin_pitch;
+	double	cos_pitch;
+	double	sin_roll;
+	double	cos_roll;
+	
+}	t_calc_trigo;
+
+typedef struct s_env t_env;
+
+typedef struct s_thread_param
+{
+	int				start;
+	int				end;
+	int				start_ln;
+	int				end_ln;
+	t_env			*env;
+	t_calc_trigo	trigo_calcs;
+}	t_thread_param;
 
 /**
  * @struct s_env
@@ -202,6 +259,7 @@ typedef struct s_env
 	int				mouse_last_y;
 	double			z_ratio;
 	int				frames_gen;
+	size_t			timestamp_last_frame;
 	int				perspective;
 	int				z_ordering;
 	int				cam_around_focus;
@@ -210,6 +268,14 @@ typedef struct s_env
 	int				custom_color;
 	int				color_preset;
 	int				sphere_proj;
+	int				debug_mode;
+	int				points_reduction_factor;
+	int				auto_point_reduc;
+	int				line_algo;
+	int				proc_amount;
+	pthread_t		*threads;
+	t_thread_param	*threads_params;
+	int				protect_data_races;
 }	t_env;
 
 #endif

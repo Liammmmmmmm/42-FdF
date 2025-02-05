@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 16:59:26 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/15 14:48:54 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 11:04:26 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,24 @@ void	put_pixel_image(char *str, int x, int y, int color)
 	str[(x * 4) + (len * 4 * y) + 1] = g;
 	str[(x * 4) + (len * 4 * y) + 2] = r;
 	str[(x * 4) + (len * 4 * y) + 3] = 0;
+}
+
+void	put_pixel_z_ordered(t_env *env, int x, int y, int color, double depth)
+{
+	if (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT)
+        return;
+	// if (env->protect_data_races)
+	// 	pthread_mutex_lock(&env->img->img_mutex);
+	if (env->z_ordering == 1)
+	{
+		if (env->img->img_depth[y * WIN_WIDTH + x] > depth)
+		{
+			put_pixel_image(env->img->img_str, x, y, color);
+			env->img->img_depth[y * WIN_WIDTH + x] = depth;
+		}
+	}
+	else
+		put_pixel_image(env->img->img_str, x, y, color);
+	// if (env->protect_data_races)
+	// 	pthread_mutex_unlock(&env->img->img_mutex);
 }

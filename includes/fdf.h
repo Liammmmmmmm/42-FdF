@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/17 12:27:47 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 12:11:04 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 # include "mlx.h"
 # include <fcntl.h>
 # include <math.h>
+# include <sys/time.h>
+# include <float.h>
+# include <sys/sysinfo.h>
+# include <pthread.h>
 
 # define PI_10D 3.1415926535
 
@@ -33,19 +37,22 @@
 
 # define CONTROLS "INFOS : Controls\n  Camera :\n    [ESC] Close window\n   \
 	[LMB]/[RMB] Rotate\n    [MMB] Translate\n    [SCROLL] Zoom/dezoom\n   \
-	[F] Toogle freecam\n    [W] Move forward\n    [A] Move left\n   \
+	[F] Toggle freecam\n    [W] Move forward\n    [A] Move left\n   \
 	[S] Move backward\n    [D] Move right\n    [SPACE] Move up\n   \
 	[SHIFT] Move down\n    [Q] Roll left\n    [E] Roll right\n   \
 	[<] Reduce FOV\n    [>] Increase FOV\n  Render :\n    [-] Shrink z axe\
-	\n    [+] Extend z axe\n    [G] Toogle custom color\n   \
+	\n    [+] Extend z axe\n    [G] Toggle custom color\n   \
 	[NUMPAD] Set color preset\n    [L] \"Normal\" view\n    [P] Perspective\n\
-	   [O] Toogle sphere projection\n    [Z] Enable z ordering\n  Other :\n   \
-	[C] Toogle controls menu\n    [I] Toogle informations menu"
+	   [O] Toggle sphere projection\n    [Z] Toggle z ordering\n\
+	   [H] Toggle auto point reduction\n    [J] Increase amount of displayed points\n\
+	   [K] Decrease amount of displayed points\n  Other :\n   \
+	[C] Toggle controls menu\n    [I] Toggle informations menu"
 
 # define LIVE_INFO "INFOS : Environment\n  Map :\n    Length : %d\n   \
 	Width  : %d\n  Camera :\n    Rotations:\n      Yaw   : %f\n     \
 	Pitch : %f\n      Roll  : %f\n    Position :\n     \
 	Focus point : (%f, %f, %f)\n      Real point  : (%f, %f, %f)\n   \
+	Local axes :\n      F : (%f, %f, %f)\n      U : (%f, %f, %f)\n      R : (%f, %f, %f)\n   \
 	Parameters :\n      Distance      : %f\n      Scale         : %f\n     \
 	Mouse Sens.   : %f\n      FOV           : %d\n     \
 	Near Clip     : %d\n      Far Clip      : %d\n     \
@@ -53,10 +60,11 @@
 	Near/Far Plane: %f / %f\n  Global\n    Mouse :\n     \
 	Click Rotation    : %d\n      Click Translation : %d\n     \
 	Sensibility       : %f\n      Last Position     : (%d, %d)\n   \
-	Scene :\n      Frames Generated : %d\n      Sphere           : %d\n     \
+	Scene :\n      Frames Generated : %d\n      FPS              : %f\n      Sphere           : %d\n     \
 	Projection       : %s\n      Z Ordering       : %d\n     \
 	Freecam          : %d\n      Z axe Ratio      : %f\n     \
-	Custom color     : %d\n      Color preset     : %d"
+	Custom color     : %d\n      Color preset     : %d\n     \
+	Auto point reduc : %d\n      Diplayed points  : 1/%d"
 
 typedef enum e_mouse_buttons
 {
@@ -80,13 +88,17 @@ typedef enum e_keys
 	KEY_E = 101,
 	KEY_F = 102,
 	KEY_G = 103,
+	KEY_H = 104,
 	KEY_I = 105,
+	KEY_J = 106,
+	KEY_K = 107,
 	KEY_L = 108,
 	KEY_O = 111,
 	KEY_P = 112,
 	KEY_Q = 113,
 	KEY_S = 115,
 	KEY_W = 119,
+	KEY_X = 120,
 	KEY_Z = 122,
 	NUM_0 = 65438,
 	NUM_1 = 65436,
@@ -114,8 +126,10 @@ typedef enum e_event
 }	t_event;
 
 /*╔══════════════════════════════════════════════════════════════════════════╗*/
-/*║                                   ENV                                   ║*/
+/*║                                   ENV                                    ║*/
 /*╚══════════════════════════════════════════════════════════════════════════╝*/
+
+size_t	get_time(void);
 
 /**
  * @brief Parse the map file.
@@ -193,6 +207,8 @@ void	exit_free(t_env *env);
  */
 int		flip_flop(int nb);
 
+int	sitch_mode(int nb, int max);
+
 /**
  * @brief Get the larger of two integers.
  *
@@ -255,7 +271,7 @@ int		malloc_line_map(t_map *map, int i);
  * @param matrix[3][3] The 3x3 matrix to initialize.
  * @param yaw The yaw angle in radians.
  */
-void	init_yaw_matrix(double matrix[3][3], double yaw);
+void	init_yaw_matrix(double matrix[3][3], t_calc_trigo trigo_calcs);
 
 /**
  * @brief Initializes the roll matrix.
@@ -265,7 +281,7 @@ void	init_yaw_matrix(double matrix[3][3], double yaw);
  * @param matrix[3][3] The 3x3 matrix to initialize.
  * @param roll The roll angle in radians.
  */
-void	init_roll_matrix(double matrix[3][3], double roll);
+void	init_roll_matrix(double matrix[3][3], t_calc_trigo trigo_calcs);
 
 /**
  * @brief Initializes the pitch matrix.
@@ -275,7 +291,7 @@ void	init_roll_matrix(double matrix[3][3], double roll);
  * @param matrix[3][3] The 3x3 matrix to initialize.
  * @param pitch The pitch angle in radians.
  */
-void	init_pitch_matrix(double matrix[3][3], double pitch);
+void	init_pitch_matrix(double matrix[3][3], t_calc_trigo trigo_calcs);
 
 /**
  * @brief Initializes the perspective projection matrix.
@@ -331,6 +347,8 @@ void	vector_multiply_matrix_4x4(double matrix[4][4], double vector[4]);
  */
 void	multiply_matrix_3x3(double res[3][3], double a[3][3], double b[3][3]);
 
+void	multiply_matrix_4x4(double res[4][4], double a[4][4], double b[4][4]);
+
 /**
  * @brief Calculates the projection of a point.
  *
@@ -346,7 +364,7 @@ void	multiply_matrix_3x3(double res[3][3], double a[3][3], double b[3][3]);
  * @param y The y-coordinate of the point in the map.
  * @param env The environment variable
  */
-void	calculate_point_projection(int x, int y, t_env *env);
+void	calculate_point_projection(int x, int y, t_env *env, const t_calc_trigo trigo_calcs);
 
 /**
  * @brief Get the color defined for a point
@@ -387,7 +405,7 @@ void	calc_cam_proj(t_env *env, t_camera *camera);
  * @param pitch The pitch angle.
  * @param roll The roll angle.
  */
-void	get_local_axes(double axe[3][3], double yaw, double pitch, double roll);
+void	get_local_axes(double axes[3][3], const t_calc_trigo trigo, t_env *env);
 
 /**
  * @brief Calculate the scale factor for the map.
@@ -559,6 +577,21 @@ void	events(t_env *env);
 void	put_pixel_image(char *str, int x, int y, int color);
 
 /**
+ * @brief Put a pixel in the image if it is in front of the last one.
+ *
+ * This function sets the color of a pixel at the specified coordinates in the
+ * image. If there is alredy a pixel, it will only replace it if it's depth is
+ * smaller.
+ *
+ * @param str The image data string.
+ * @param x The x-coordinate of the pixel.
+ * @param y The y-coordinate of the pixel.
+ * @param color The color of the pixel.
+ * @param depth The depth of the pixel.
+ */
+void	put_pixel_z_ordered(t_env *env, int x, int y, int color, double depth);
+
+/**
  * @brief Calculate the gradient color between two points.
  *
  * This function calculates the gradient color between two points based on the
@@ -709,5 +742,17 @@ void	init_font(t_env *env);
  * @param env The environment structure.
  */
 void	render_frame(t_env *env);
+
+void	extract_frustum_planes(t_frustum *frustum, double matrix[4][4]);
+int		is_point_in_frustum(const t_frustum *frustum, const t_vec3 *point);
+void	init_view_matrix(double view[4][4], const double axes[3][3], t_env *env);
+
+// Lines
+void	draw_line_wu(t_point *point_a, t_point *point_b, t_env *env);
+void	draw_line(t_point *point_a, t_point *point_b, t_env *env);
+void	draw_line_bresenham(t_point *point_a, t_point *point_b, t_env *env);
+
+// Threads
+void	*thread_calc_projection(void *param);
 
 #endif

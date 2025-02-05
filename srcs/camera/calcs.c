@@ -6,33 +6,51 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:20:17 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/14 11:50:15 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/05 12:13:09 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	get_local_axes(double axes[3][3], double yaw, double pitch, double roll)
+void	get_local_axes(double axes[3][3], const t_calc_trigo trigo, t_env *env)
 {
-	double	yaw_matrix[3][3];
-	double	pitch_matrix[3][3];
-	double	roll_matrix[3][3];
-	double	temp_matrix[3][3];
+	/*     Forward     */
+	axes[0][0] = trigo.cos_yaw * trigo.cos_pitch;
+	axes[0][1] = -trigo.sin_yaw * trigo.cos_pitch;
+	axes[0][2] = -trigo.sin_pitch;
 
-	init_pitch_matrix(yaw_matrix, yaw);
-	init_yaw_matrix(pitch_matrix, pitch);
-	init_roll_matrix(roll_matrix, roll);
-	multiply_matrix_3x3(temp_matrix, yaw_matrix, pitch_matrix);
-	multiply_matrix_3x3(axes, temp_matrix, roll_matrix);
+	/*       Up        */
+	axes[1][0] = -((-trigo.cos_yaw * trigo.sin_pitch * trigo.cos_roll) + (-trigo.sin_yaw * trigo.sin_roll));
+	axes[1][1] = ((-trigo.sin_yaw * trigo.sin_pitch * trigo.cos_roll) + (trigo.cos_yaw * trigo.sin_roll));
+	axes[1][2] = trigo.cos_pitch * trigo.cos_roll;
+
+	/*      Right      */ 
+	axes[2][0] = -(-trigo.sin_yaw * trigo.cos_roll - trigo.cos_yaw * trigo.sin_pitch * trigo.sin_roll);
+	axes[2][1] = (trigo.cos_yaw * trigo.cos_roll - trigo.sin_yaw * trigo.sin_pitch * trigo.sin_roll);
+	axes[2][2] = -trigo.cos_pitch * trigo.sin_roll;
+
+	if (env->perspective == 1)
+	{
+		axes[0][2] = -axes[0][2];
+		axes[1][2] = -axes[1][2];
+		axes[2][0] = -axes[2][0];
+		axes[2][1] = -axes[2][1];
+		axes[2][2] = -axes[2][2];
+	}
 }
 
 void	calc_cam_proj(t_env *env, t_camera *cam)
 {
 	if (env->cam_around_focus == 1)
 	{
-		cam->proj_x = cam->x + cam->distance * cos(cam->yaw) * cos(cam->pitch);
-		cam->proj_y = cam->y + cam->distance * cos(cam->yaw) * sin(cam->pitch);
-		cam->proj_z = cam->z + cam->distance * sin(cam->yaw);
+		cam->proj_x = cam->x + cam->distance * cos(cam->pitch) * cos(cam->yaw);
+		cam->proj_y = cam->y + cam->distance * cos(cam->pitch) * sin(cam->yaw);
+		cam->proj_z = cam->z + cam->distance * sin(cam->pitch);
+		if (env->perspective == 1)
+		{
+			cam->proj_x = -cam->proj_x;
+			cam->proj_z = -cam->proj_z;
+		}
 	}
 	else
 	{
