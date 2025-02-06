@@ -6,7 +6,7 @@
 #    By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/19 13:55:49 by lilefebv          #+#    #+#              #
-#    Updated: 2025/02/06 14:25:31 by lilefebv         ###   ########lyon.fr    #
+#    Updated: 2025/02/06 16:47:47 by lilefebv         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,9 +66,10 @@ SRCS     = fdf.c console.c utils.c free.c                                       
            rendering/utils.c rendering/pixel.c rendering/frame.c rendering/draw_lines.c rendering/utils_lines.c rendering/draw_string.c rendering/frustum_culling.c               \
 		   rendering/lines_algo/anti_aliasing.c rendering/lines_algo/basic_slope.c rendering/lines_algo/bresenham.c rendering/lines_algo/circle.c rendering/lines_algo/rectangle.c \
 		   events/actions.c events/hooks.c                                                                                                                                          \
-		   env/inits.c env/parsing.c env/map_line.c env/font.c                                                                                                                       \
+		   env/inits.c env/parsing.c env/map_line.c env/font.c env/init_buttons.c                                                                                                    \
 		   camera/calcs.c camera/movements.c camera/key_movements.c                                                                                                                   \
-		   edition/move_point.c edition/painter.c edition/select.c
+		   edition/move_point.c edition/painter.c edition/select.c                                                                                                                     \
+		   components/button.c components/slider_int.c
 		   
 
 SRCS_BONUS = 

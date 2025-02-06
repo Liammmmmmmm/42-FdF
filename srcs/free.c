@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:05:37 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/06 10:51:56 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/06 15:55:13 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	free_lns(t_env *env, int free_env)
 
 void	exit_free(t_env *env)
 {
+	int	i;
+
 	free_lns(env, 0);
 	if (env->img->img)
 		mlx_destroy_image(env->mlx, env->img->img);
@@ -69,6 +71,9 @@ void	exit_free(t_env *env)
 		free(env->points_selection.selected_points);
 		env->points_selection.is_active = 0;
 	}
+	i = -1;
+	while (++i < 16)
+		free(env->color_buttons[i].param);
 	free(env);
 	env = NULL;
 }

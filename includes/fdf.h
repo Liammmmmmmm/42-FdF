@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/06 14:39:07 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/06 16:53:00 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -760,8 +760,10 @@ void	init_view_matrix(double view[4][4], const double axes[3][3], t_env *env);
 void	draw_line_wu(t_point *point_a, t_point *point_b, t_env *env);
 void	draw_line(t_point *point_a, t_point *point_b, t_env *env);
 void	draw_line_bresenham(t_point *point_a, t_point *point_b, t_env *env);
-void	circleBres(int xc, int yc, int r, t_env *env, int color);
+void	circle_bres(int xc, int yc, int r, t_env *env, int color);
+void	circle_bres_comp(int xc, int yc, int r, t_img *img, int color);
 void	draw_rectangle(t_env *env, int start_X, int start_y, int stop_x, int stop_y);
+void	draw_filled_circle(int xc, int yc, int r, t_img *img, int color);
 
 // Threads
 void	*thread_calc_projection(void *param);
@@ -771,5 +773,10 @@ void	save_point_at_mouse(t_env *env);
 void	edit_point(int key, t_env *env);
 void	mouse_up_select(t_env *env);
 void	paint_area(t_env *env);
+void	change_brush_color(void *color);
+
+// components
+int		init_buttons(t_env *env);
+void	init_slider(t_env *env);
 
 #endif

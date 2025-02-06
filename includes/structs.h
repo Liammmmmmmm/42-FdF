@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/06 14:38:21 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/06 16:43:52 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define STRUCTS_H
 
 # include "libft.h"
+# include "components.h"
 
 typedef struct s_vec3
 {
@@ -38,29 +39,6 @@ typedef struct s_plane {
 typedef struct s_frustum {
     t_plane planes[6];
 }	t_frustum;
-
-/**
- * @struct s_img
- * @brief Structure representing an image with its properties.
- * 
- * @param img Pointer to identify the image.
- * @param img_str String containing all the pixels of the image.
- * @param img_depth Contain the depth of each pixel (from camera)
- * @param bits Number of bits per pixel.
- * @param size_line Size of the img_str.
- * @param endian Indicates the endianness of the image.
- */
-typedef struct s_img
-{
-	void	*img;		/* Pointer to identify the image */
-	char	*img_str;	/* String containing all the pixels of the image */
-	float	*img_depth;	/* Contain the depth of each pixel (from camera) */
-	pthread_mutex_t	img_mutex;
-	int		is_mutex_ok;
-	int		bits;		/* Number of bits per pixel */
-	int		size_line;	/* Size of the img_str */
-	int		endian;		/* Indicates the endianness of the image */
-}	t_img;
 
 /**
  * @struct s_color
@@ -200,6 +178,12 @@ typedef struct s_calc_trigo
 
 typedef struct s_env t_env;
 
+typedef struct s_brush_c
+{
+	int				color;
+	t_env			*env;
+}	t_brush_c;
+
 typedef struct s_thread_param
 {
 	int				start;
@@ -297,6 +281,8 @@ typedef struct s_env
 	t_thread_param	*threads_params;
 	int				protect_data_races;
 	t_painter		painter;
+	t_button		color_buttons[16];
+	t_int_slider	brush_size_slider;
 }	t_env;
 
 #endif

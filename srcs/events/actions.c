@@ -6,11 +6,25 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:26:16 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/06 10:36:08 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/06 15:45:55 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+int	check_every_buttons(t_env *env)
+{
+	int	i;
+
+	i = 0;
+	while (i < 16)
+	{
+		if (button_action(env->color_buttons[i], env->mouse_last_x, env->mouse_last_y) == 1)
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 int	mouse_down(int button, int x, int y, void *param)
 {
@@ -19,7 +33,11 @@ int	mouse_down(int button, int x, int y, void *param)
 	if (button == SCROLL_DOWN || button == SCROLL_UP)
 		zoom(param, button);
 	else if (button == LEFT_CLICK)
+	{
+		if(check_every_buttons((t_env *)param) == 1)
+			return (0);
 		((t_env *)param)->mouse_click_rotation = 1;
+	}
 	else if (button == RIGHT_CLICK)
 	{
 		((t_env *)param)->mouse_click_select = 1;
