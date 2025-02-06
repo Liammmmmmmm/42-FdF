@@ -6,13 +6,14 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/06 11:38:46 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/06 14:39:07 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
+# include "components.h"
 # include "structs.h"
 
 # include "libft.h"
@@ -103,6 +104,7 @@ typedef enum e_keys
 	KEY_P = 112,
 	KEY_Q = 113,
 	KEY_S = 115,
+	KEY_T = 116,
 	KEY_V = 118,
 	KEY_W = 119,
 	KEY_X = 120,
@@ -764,9 +766,10 @@ void	draw_rectangle(t_env *env, int start_X, int start_y, int stop_x, int stop_y
 // Threads
 void	*thread_calc_projection(void *param);
 
-// change point height
+// change point height / draw
 void	save_point_at_mouse(t_env *env);
 void	edit_point(int key, t_env *env);
 void	mouse_up_select(t_env *env);
+void	paint_area(t_env *env);
 
 #endif

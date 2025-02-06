@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/05 17:54:16 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/06 14:38:21 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,6 +219,13 @@ typedef struct s_point_select
 	int				is_active;
 }	t_point_select;
 
+typedef struct s_painter
+{
+	int				radius;
+	int				color;
+	int				is_active;
+}	t_painter;
+
 /**
  * @struct s_env
  * @brief Structure representing the environment containing all the information
@@ -289,6 +296,7 @@ typedef struct s_env
 	pthread_t		*threads;
 	t_thread_param	*threads_params;
 	int				protect_data_races;
+	t_painter		painter;
 }	t_env;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:25:37 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/06 12:07:11 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/06 14:03:37 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,15 @@ int	keydown(int key, void *param)
 		env->custom_color = flip_flop(env->custom_color);
 	else if (key == KEY_H)
 		env->auto_point_reduc = flip_flop(env->auto_point_reduc);
+	else if (key == KEY_T)
+	{
+		env->painter.is_active = flip_flop(env->painter.is_active);
+		if (env->points_selection.is_active)
+		{
+			free(env->points_selection.selected_points);
+			env->points_selection.is_active = 0;
+		}
+	}
 	else if (key == KEY_X)
 		env->line_algo = sitch_mode(env->line_algo, 2);
 	else if (key == KEY_B || key == KEY_N || key == KEY_V)
