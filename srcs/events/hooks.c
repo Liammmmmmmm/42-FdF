@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:25:37 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/05 17:23:29 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/06 12:07:11 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,30 @@ int	keydown(int key, void *param)
 	else if (key == KEY_I && env->display_infos != 1)
 		env->display_infos = 1;
 	else if (key == KEY_J && env->points_reduction_factor > 1)
+	{
 		env->points_reduction_factor -= 1;
+		if (env->points_selection.is_active)
+		{
+			free(env->points_selection.selected_points);
+			env->points_selection.is_active = 0;
+		}
+	}
 	else if (key == KEY_K)
+	{
 		env->points_reduction_factor += 1;
+		if (env->points_selection.is_active)
+		{
+			free(env->points_selection.selected_points);
+			env->points_selection.is_active = 0;
+		}
+	}
 	else if (key == KEY_G)
 		env->custom_color = flip_flop(env->custom_color);
 	else if (key == KEY_H)
 		env->auto_point_reduc = flip_flop(env->auto_point_reduc);
 	else if (key == KEY_X)
 		env->line_algo = sitch_mode(env->line_algo, 2);
-	else if (key == KEY_B || key == KEY_N)
+	else if (key == KEY_B || key == KEY_N || key == KEY_V)
 		edit_point(key, env);
 	else if (key == KEY_CTRL_LEFT)
 		env->is_control_down = 1;

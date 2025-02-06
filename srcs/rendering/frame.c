@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:51:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/05 17:39:21 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/06 10:59:17 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,33 @@ void initZBuffer(float *zBuffer, size_t pixel_amount)
     }
 }
 
+void	display_selected_points(t_env *env)
+{
+	int	i;
+
+	if (env->selected_point.x != -1)
+	{
+		circleBres(
+			env->point_list[env->selected_point.y * env->map->length + env->selected_point.x].x,
+			env->point_list[env->selected_point.y * env->map->length + env->selected_point.x].y,
+			SELECT_RANGE, env, 0xFFFFFF
+		);
+	}
+	if (env->points_selection.is_active == 1)
+	{
+		i = 0;
+		while (i < env->points_selection.amount_of_points)
+		{
+			circleBres(
+				env->point_list[env->points_selection.selected_points[i].y * env->map->length + env->points_selection.selected_points[i].x].x,
+				env->point_list[env->points_selection.selected_points[i].y * env->map->length + env->points_selection.selected_points[i].x].y,
+				SELECT_RANGE, env, 0xFFFFFF
+			);
+			i++;
+		}
+	}
+}
+
 void	render_frame(t_env *env)
 {
 	ft_bzero(env->img->img_str, WIN_WIDTH * WIN_HEIGHT * (env->img->bits / 8));
@@ -193,8 +220,7 @@ void	render_frame(t_env *env)
 	calculate_every_projection(env);
 	save_lines(env);
 	draw_every_lines(env);
-	if (env->selected_point.x != -1)
-		circleBres(env->point_list[env->selected_point.y * env->map->length + env->selected_point.x].x, env->point_list[env->selected_point.y * env->map->length + env->selected_point.x].y, SELECT_RANGE, env, 0xFFFFFF);
+	display_selected_points(env);
 	if (env->is_control_down && env->mouse_click_select)
 		draw_rectangle(env, env->points_selection.start_mouse_x, env->points_selection.start_mouse_y, env->mouse_last_x, env->mouse_last_y);
 	display_infos_win(env);

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:05:37 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/04 17:45:18 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/06 10:51:56 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,11 @@ void	exit_free(t_env *env)
 	mlx_destroy_display(env->mlx);
 	free(env->mlx);
 	env->mlx = NULL;
+	if (env->points_selection.is_active)
+	{
+		free(env->points_selection.selected_points);
+		env->points_selection.is_active = 0;
+	}
 	free(env);
 	env = NULL;
 }
