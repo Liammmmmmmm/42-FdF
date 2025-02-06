@@ -157,10 +157,15 @@ You can modify the height of individual points in the wireframe:
 - **Right-click** on a point to select it.
 - Press `[N]` to increase its height by 1.
 - Press `[B]` to decrease its height by 1.
+- Press `[V]` to set its height to 0.
 
 This feature allows for real-time modifications to the terrain, making adjustments intuitive and interactive.
 
 ![Edit point](img/point-edit.gif)
+
+And because editing point 1 by 1 isn't really fun, you can also select multiples points by holding left control and right click
+
+![Edit points](img/points-edit.gif)
 
 ### Multithreaded Rendering
 
