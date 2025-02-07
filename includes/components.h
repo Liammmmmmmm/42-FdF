@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 14:39:10 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/07 15:47:04 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/07 16:26:38 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,6 @@ typedef struct s_text_input
 
 void	display_text_input(t_img *img, t_text_input *text_input, unsigned char font[96][5]);
 int		text_input_focus(t_text_input *text_input, int mouse_x, int mouse_y);
-int		text_input_type(t_text_input *text_input, int key);
+int		text_input_type(t_text_input *text_input, int key, int is_shift_down);
 
 #endif

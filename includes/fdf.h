@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/07 16:11:59 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/07 16:30:47 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ typedef enum e_keys
 	NUM_9 = 65434,
 	KEY_ESC = 65307,
 	KEY_SHIFT = 65505,
+	KEY_RSHIFT = 65506,
 	KEY_CTRL_LEFT = 65507,
 }	t_keys;
 

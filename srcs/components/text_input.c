@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:19:59 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/07 16:21:04 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/07 16:27:47 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	text_input_focus(t_text_input *text_input, int mouse_x, int mouse_y)
 	return (0);
 }
 
-int	text_input_type(t_text_input *text_input, int key)
+int	text_input_type(t_text_input *text_input, int key, int is_shift_down)
 {
 	if (text_input->is_focused)
 	{
@@ -79,7 +79,10 @@ int	text_input_type(t_text_input *text_input, int key)
 		{
 			if (text_input->cursor_pos >= 255 || text_input->cursor_pos >= text_input->max_char)
 				return (1);
-			text_input->text[text_input->cursor_pos] = key;
+			if (is_shift_down)
+				text_input->text[text_input->cursor_pos] = ft_toupper(key);
+			else
+				text_input->text[text_input->cursor_pos] = key;
 			text_input->cursor_pos++;
 			if (text_input->cursor_pos >= 256)
 				text_input->text[text_input->cursor_pos] = 0;

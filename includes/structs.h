@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/07 15:37:54 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/07 16:29:54 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,6 +262,8 @@ typedef struct s_env
 	int				mouse_click_select;
 	t_point			selected_point;
 	int				is_control_down;
+	int				is_shift_down;
+	int				is_rshift_down;
 	t_point_select	points_selection;
 	double			mouse_sensibility;
 	int				mouse_last_x;
