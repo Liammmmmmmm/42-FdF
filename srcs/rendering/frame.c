@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:51:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/06 16:46:32 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/07 09:36:55 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,11 @@ void	display_painter_components(t_env *env)
 
 	if (env->painter.is_active)
 	{
+		circle_bres(
+			env->mouse_last_x,
+			env->mouse_last_y,
+			env->painter.radius, env, 0xFFFFFF
+		);
 		display_slider_int(env->img, env->brush_size_slider);
 		i = 0;
 		while (i < 16)

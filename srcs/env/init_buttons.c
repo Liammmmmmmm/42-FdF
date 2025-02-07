@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:00:24 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/06 16:55:51 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/07 09:41:57 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,5 @@ void	init_slider(t_env *env)
 	env->brush_size_slider.max = 200;
 	env->brush_size_slider.point_color = 0x1193d9;
 	env->brush_size_slider.value = &env->painter.radius;
+	env->brush_size_slider.is_clicked = 0;
 }

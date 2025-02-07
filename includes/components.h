@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 14:39:10 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/06 16:42:14 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/07 09:41:49 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,12 @@ typedef struct s_int_slider
 	int	min;
 	int	max;
 	int *value;
+	int	is_clicked;
 }	t_int_slider;
 
 void	display_slider_int(t_img *img, const t_int_slider slider);
-int		slider_mouse_down(const t_button button, int mouse_x, int mouse_y);
-int		slider_mouse_up(const t_button button, int mouse_x, int mouse_y);
-int		slider_mouse_move(const t_button button, int mouse_x, int mouse_y);
+int		slider_mouse_down(t_int_slider *slider, int mouse_x, int mouse_y);
+int		slider_mouse_up(t_int_slider *slider);
+int		slider_mouse_move(t_int_slider *slider, int mouse_x);
 
 #endif

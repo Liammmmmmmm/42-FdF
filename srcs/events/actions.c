@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:26:16 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/06 15:45:55 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/07 09:31:54 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ int	mouse_down(int button, int x, int y, void *param)
 		zoom(param, button);
 	else if (button == LEFT_CLICK)
 	{
-		if(check_every_buttons((t_env *)param) == 1)
+		if (check_every_buttons((t_env *)param) == 1)
+			return (0);
+		if (slider_mouse_down(&((t_env *)param)->brush_size_slider, x, y) == 1)
 			return (0);
 		((t_env *)param)->mouse_click_rotation = 1;
 	}
@@ -53,7 +55,11 @@ int	mouse_up(int button, int x, int y, void *param)
 	((t_env *)param)->mouse_last_x = x;
 	((t_env *)param)->mouse_last_y = y;
 	if (button == LEFT_CLICK)
+	{
+		if (slider_mouse_up(&((t_env *)param)->brush_size_slider) == 1)
+			return (0);
 		((t_env *)param)->mouse_click_rotation = 0;
+	}
 	else if (button == RIGHT_CLICK)
 	{
 		((t_env *)param)->mouse_click_select = 0;
@@ -68,6 +74,7 @@ int	mouse_up(int button, int x, int y, void *param)
 
 int	mouse_move(int x, int y, void *param)
 {
+	slider_mouse_move(&((t_env *)param)->brush_size_slider, x);
 	if (((t_env *)param)->mouse_click_rotation)
 		rotate(x, y, (t_env *)param);
 	if (((t_env *)param)->mouse_click_translation)
