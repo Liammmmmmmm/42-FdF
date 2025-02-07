@@ -42,16 +42,16 @@ Want to try FdF on your own? Follow these steps:
 
 1. Clone the repository and its submodules:
    ```bash
-   git clone https://github.com/Liammmmmmmm/42-FdF.git --recurse-submodules
+   git clone https://github.com/Liammmmmmmm/42-FdF.git
    ```
-   If you’ve already cloned the repository, initialize the submodules with:
+   Then initialize the submodules with:
    ```bash
    git submodule update --init --recursive
    ```
 
-2. Build the project:
+2. Build the project (fast flag is pretty important if you want it to be fluid on big maps):
    ```bash
-   make all
+   make fast
    ```
 
 3. Run the program with a map file:
@@ -64,6 +64,8 @@ That’s it! You’re ready to explore your wireframe world. 🌟
 ---
 
 ## Features
+
+Because FdF isn't enough, I've added quite a lot of features, here are a lot of them:
 
 ### Controls & informations
 
@@ -166,6 +168,12 @@ This feature allows for real-time modifications to the terrain, making adjustmen
 And because editing point 1 by 1 isn't really fun, you can also select multiples points by holding left control and right click
 
 ![Edit points](img/points-edit.gif)
+
+**And why limiting ourself at editing point height ?? You can now use [T] to enter in edit mode, you can paint and change point height from there.**
+
+You can watch the youtube video if you want to see it with a good quality https://youtu.be/fW34TYyRYEc
+
+ <!-- add gif later -->
 
 ### Multithreaded Rendering
 

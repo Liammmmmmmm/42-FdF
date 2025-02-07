@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:36:03 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/07 10:32:46 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/07 17:36:02 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(int argc, char **argv)
 	events(env);
 	mlx_loop_hook(env->mlx, render_next_frame, env);
 	mlx_loop(env->mlx);
-	display_infos(env);
+	// display_infos(env);
 	exit_free(env);
 	return (0);
 }
