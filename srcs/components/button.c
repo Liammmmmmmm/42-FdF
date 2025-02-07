@@ -6,16 +6,17 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 14:47:09 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/06 16:46:52 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/07 12:21:46 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	display_button(t_img *img, const t_button button)
+void	display_button(t_img *img, const t_button button, unsigned char font[96][5])
 {
 	int	i;
 	int	j;
+	t_point start;
 
 	i = button.x;
 	while (i <= button.x + button.width)
@@ -36,6 +37,13 @@ void	display_button(t_img *img, const t_button button)
 			j++;
 		}
 		i++;
+	}
+	if (button.text)
+	{
+		start.x = button.x + button.width / 2 - (string_size(button.text) / 2);
+		start.y = button.y + button.height / 2 - 3;
+		start.color = 0;
+		string_to_img(img, font, start, button.text);
 	}
 }
 

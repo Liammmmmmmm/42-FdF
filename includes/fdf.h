@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/06 16:53:00 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/07 12:43:39 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -714,6 +714,8 @@ void	quicksort_lines(t_line *lines, int low, int high, int order);
  */
 void	string_to_img(t_img *img, unsigned char font[96][5], t_point p, char *str);
 
+int		string_size(char *str);
+
 /**
  * @brief Draw a character in the image.
  *
@@ -772,8 +774,9 @@ void	*thread_calc_projection(void *param);
 void	save_point_at_mouse(t_env *env);
 void	edit_point(int key, t_env *env);
 void	mouse_up_select(t_env *env);
-void	paint_area(t_env *env);
+void	paint_area(t_env *env, int x, int y);
 void	change_brush_color(void *color);
+void	change_brush_mode(void *color);
 
 // components
 int		init_buttons(t_env *env);

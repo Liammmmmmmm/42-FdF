@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:34:24 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/06 16:45:56 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/07 12:24:01 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ void	random_values_init(t_env *env)
 	env->painter.is_active = 0;
 	env->painter.color = 0x00ff00;
 	env->painter.radius = 25;
+	env->painter.intensity = 100;
+	env->painter.mode = 0;
 	init_slider(env);
 	if (init_buttons(env) == 0)
 	{

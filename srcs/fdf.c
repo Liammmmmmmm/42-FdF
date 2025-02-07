@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:36:03 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/06 14:30:32 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/07 10:32:46 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	render_next_frame(t_env *env)
 {
-	paint_area(env);
+	paint_area(env, 0, 0);
 	render_frame(env);
 	return (1);
 }

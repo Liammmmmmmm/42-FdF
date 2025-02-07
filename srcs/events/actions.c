@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:26:16 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/07 09:31:54 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/07 12:39:57 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	check_every_buttons(t_env *env)
 	int	i;
 
 	i = 0;
-	while (i < 16)
+	while (i < 51)
 	{
 		if (button_action(env->color_buttons[i], env->mouse_last_x, env->mouse_last_y) == 1)
 			return (1);
@@ -31,17 +31,37 @@ int	mouse_down(int button, int x, int y, void *param)
 	((t_env *)param)->mouse_last_x = x;
 	((t_env *)param)->mouse_last_y = y;
 	if (button == SCROLL_DOWN || button == SCROLL_UP)
-		zoom(param, button);
+	{
+		if (((t_env *)param)->painter.is_active && ((t_env *)param)->is_control_down)
+		{
+			if (button == SCROLL_DOWN)
+				((t_env *)param)->painter.radius += 2;
+			else if (button == SCROLL_UP)
+				((t_env *)param)->painter.radius -= 2;
+			if (((t_env *)param)->painter.radius < ((t_env *)param)->brush_size_slider.min)
+				((t_env *)param)->painter.radius = ((t_env *)param)->brush_size_slider.min;
+			else if (((t_env *)param)->painter.radius > ((t_env *)param)->brush_size_slider.max)
+				((t_env *)param)->painter.radius = ((t_env *)param)->brush_size_slider.max;
+		}
+		else
+			zoom(param, button);
+	}
 	else if (button == LEFT_CLICK)
 	{
-		if (check_every_buttons((t_env *)param) == 1)
-			return (0);
-		if (slider_mouse_down(&((t_env *)param)->brush_size_slider, x, y) == 1)
-			return (0);
+		if (((t_env *)param)->painter.is_active)
+		{
+			if (check_every_buttons((t_env *)param) == 1)
+				return (0);
+			if (slider_mouse_down(&((t_env *)param)->brush_size_slider, x, y) == 1)
+				return (0);
+			if (slider_mouse_down(&((t_env *)param)->brush_intensity_slider, x, y) == 1)
+				return (0);
+		}
 		((t_env *)param)->mouse_click_rotation = 1;
 	}
 	else if (button == RIGHT_CLICK)
 	{
+		paint_area((t_env *)param, -1, -1);
 		((t_env *)param)->mouse_click_select = 1;
 		save_point_at_mouse((t_env *)param);
 	}
@@ -52,22 +72,29 @@ int	mouse_down(int button, int x, int y, void *param)
 
 int	mouse_up(int button, int x, int y, void *param)
 {
-	((t_env *)param)->mouse_last_x = x;
-	((t_env *)param)->mouse_last_y = y;
+	t_env *env;
+
+	env = ((t_env *)param);
+	env->mouse_last_x = x;
+	env->mouse_last_y = y;
 	if (button == LEFT_CLICK)
 	{
-		if (slider_mouse_up(&((t_env *)param)->brush_size_slider) == 1)
+		if (slider_mouse_up(&env->brush_size_slider) == 1)
 			return (0);
-		((t_env *)param)->mouse_click_rotation = 0;
+		if (slider_mouse_up(&env->brush_intensity_slider) == 1)
+			return (0);
+		env->mouse_click_rotation = 0;
 	}
 	else if (button == RIGHT_CLICK)
 	{
-		((t_env *)param)->mouse_click_select = 0;
-		if (((t_env *)param)->is_control_down)
-			mouse_up_select((t_env *)param);
+		env->mouse_click_select = 0;
+		if (env->is_control_down)
+			mouse_up_select(env);
+		if (env->painter.is_active)
+			ft_bzero(env->map->edited, env->map->height * env->map->length);
 	}
 	else if (button == MIDDLE_CLICK)
-		((t_env *)param)->mouse_click_translation = 0;
+		env->mouse_click_translation = 0;
 
 	return (0);
 }
@@ -75,6 +102,7 @@ int	mouse_up(int button, int x, int y, void *param)
 int	mouse_move(int x, int y, void *param)
 {
 	slider_mouse_move(&((t_env *)param)->brush_size_slider, x);
+	slider_mouse_move(&((t_env *)param)->brush_intensity_slider, x);
 	if (((t_env *)param)->mouse_click_rotation)
 		rotate(x, y, (t_env *)param);
 	if (((t_env *)param)->mouse_click_translation)

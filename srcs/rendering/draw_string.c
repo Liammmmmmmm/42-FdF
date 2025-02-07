@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:03:37 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/05 16:54:37 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/07 12:17:00 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,35 @@ void	string_to_img(t_img *img, unsigned char font[96][5], t_point p, char *str)
 		}
 		str++;
 	}
+}
+
+int	string_size(char *str)
+{
+	int	xstart;
+	int	i;
+	int	size;
+
+	xstart = 0;
+	size = 0;
+	while (*str)
+	{
+		if (*str == '\033' && *(str + 1))
+		{
+			if (*(str + 1) == '#' && *(str + 2))
+			{
+				i = 0;
+				while (ft_strchr("0123456789ABCDEF", str[2 + i]) && i < 6)
+					i++;
+				str = str + i + 1;
+			}
+		}
+		else if (*str == '\n')
+			return (size);
+		else
+			size += 6;
+		str++;
+	}
+	if (size > 0)
+		size--;
+	return (size);
 }

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:05:37 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/06 15:55:13 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/07 12:01:09 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,12 @@ void	exit_free(t_env *env)
 		env->points_selection.is_active = 0;
 	}
 	i = -1;
-	while (++i < 16)
+	while (++i < 51)
+	{
 		free(env->color_buttons[i].param);
+		if (env->color_buttons[i].text)
+			free(env->color_buttons[i].text);
+	}
 	free(env);
 	env = NULL;
 }

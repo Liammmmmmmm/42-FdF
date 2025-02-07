@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 14:39:10 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/07 09:41:49 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/07 12:21:08 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,12 @@ typedef struct s_button
 	int		height;
 	int		border_color;
 	int		background_color;
+	char	*text;
 	void	*param;
 	void	(*action)(void *);
 }	t_button;
 
-void	display_button(t_img *img, const t_button button);
+void	display_button(t_img *img, const t_button button, unsigned char font[96][5]);
 int		button_action(const t_button button, int mouse_x, int mouse_y);
 
 typedef struct s_int_slider

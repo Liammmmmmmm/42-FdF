@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/06 16:43:52 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/07 12:43:45 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "libft.h"
 # include "components.h"
+
+typedef unsigned char t_bool;
 
 typedef struct s_vec3
 {
@@ -157,12 +159,13 @@ typedef struct s_camera
  */
 typedef struct s_map
 {
-	int	**map;			/* 2D array of integers representing the map */
-	int	**color_map;	/* 2D array representing the colors of the map */
-	int	length;			/* Length of the map */
-	int	height;			/* Height of the map */
-	int	highest;		/* Highest point on the map */
-	int	have_color;		/* Flag indicating if the map has color information */
+	int		**map;			/* 2D array of integers representing the map */
+	int		**color_map;	/* 2D array representing the colors of the map */
+	t_bool	*edited;
+	int		length;			/* Length of the map */
+	int		height;			/* Height of the map */
+	int		highest;		/* Highest point on the map */
+	int		have_color;		/* Flag indicating if the map has color information */
 }	t_map;
 
 typedef struct s_calc_trigo
@@ -205,9 +208,11 @@ typedef struct s_point_select
 
 typedef struct s_painter
 {
-	int				radius;
-	int				color;
-	int				is_active;
+	int	radius;
+	int	color;
+	int	is_active;
+	int	intensity;
+	int	mode;
 }	t_painter;
 
 /**
@@ -281,8 +286,9 @@ typedef struct s_env
 	t_thread_param	*threads_params;
 	int				protect_data_races;
 	t_painter		painter;
-	t_button		color_buttons[16];
+	t_button		color_buttons[51];
 	t_int_slider	brush_size_slider;
+	t_int_slider	brush_intensity_slider;
 }	t_env;
 
 #endif

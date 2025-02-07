@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 10:42:51 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/15 11:20:10 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/07 12:37:24 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@ int	init_map_values(char *map_name, t_map *map)
 		return (print_error("error opening file"), 0);
 	map->map = malloc(sizeof(int *) * map->height);
 	map->color_map = malloc(sizeof(int *) * map->height);
+	map->edited = malloc(sizeof(char) * map->height * map->length);
 	line = get_next_line(fd);
-	if (!map->map || !map->color_map || !line)
-		return (free(map->map), free(map->color_map), free(line), 0);
+	if (!map->map || !map->color_map || !line || !map->edited)
+		return (free(map->map), free(map->color_map), free(line), free(map->edited), 0);
 	i = 0;
 	while (line)
 	{
@@ -77,5 +78,6 @@ t_map	*parse_map(char	*map_name)
 	else if (map_init_ret != map->height)
 		return (ft_free_tab_int(map->color_map, map_init_ret),
 			ft_free_tab_int(map->map, map_init_ret), free(map), NULL);
+	ft_bzero(map->edited, map->height * map->length);
 	return (map);
 }
