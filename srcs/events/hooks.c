@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:25:37 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/06 14:03:37 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/07 16:03:30 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	keydown(int key, void *param)
 	env = (t_env *)param;
 	if (key == KEY_ESC)
 		mlx_loop_end(env->mlx);
+	else if (text_input_type(&env->save_input, key))
+		return (0);
 	else if (key == KEY_MINUS || key == KEY_PLUS)
 		change_z_ratio(key, env);
 	else if (key == KEY_Z)
@@ -110,6 +112,8 @@ int	keydown(int key, void *param)
 		edit_point(key, env);
 	else if (key == KEY_CTRL_LEFT)
 		env->is_control_down = 1;
+	else if (key == KEY_R)
+		save_map("test.fdf", env);
 	else if (key == NUM_0 || key == NUM_1 || key == NUM_2 || key == NUM_3 || key == NUM_4 || key == NUM_5 || key == NUM_6 || key == NUM_7 || key == NUM_8)
 		set_color_preset(key, env);
 	cam_keys(key, env);

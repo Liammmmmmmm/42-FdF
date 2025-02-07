@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/07 12:43:39 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/07 16:11:59 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ typedef enum e_keys
 	KEY_O = 111,
 	KEY_P = 112,
 	KEY_Q = 113,
+	KEY_R = 114,
 	KEY_S = 115,
 	KEY_T = 116,
 	KEY_V = 118,
@@ -781,5 +782,10 @@ void	change_brush_mode(void *color);
 // components
 int		init_buttons(t_env *env);
 void	init_slider(t_env *env);
+void	init_text_input(t_env *env);
+
+// Save
+void	save_map(const char *filename, t_env *env);
+void    save_map_button(void *param);
 
 #endif

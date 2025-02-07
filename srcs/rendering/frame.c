@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:51:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/07 12:21:18 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/07 16:12:44 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,20 +218,20 @@ void	display_painter_components(t_env *env)
 	{
 		if (!(env->is_control_down && env->mouse_click_select))
 		{
-			circle_bres(
-				env->mouse_last_x,
-				env->mouse_last_y,
-				env->painter.radius, env, 0xFFFFFF
-			);
+			if (env->painter.mode == 0)
+				circle_bres(env->mouse_last_x, env->mouse_last_y, env->painter.radius, env, env->painter.color);
+			else
+				circle_bres(env->mouse_last_x, env->mouse_last_y, env->painter.radius, env, 0xFFFFFF);
 		}
 		display_slider_int(env->img, env->brush_size_slider);
 		display_slider_int(env->img, env->brush_intensity_slider);
 		i = 0;
-		while (i < 51)
+		while (i < 52)
 		{
 			display_button(env->img, env->color_buttons[i], env->font);
 			i++;
 		}
+		display_text_input(env->img, &env->save_input, env->font);
 	}	
 }
 

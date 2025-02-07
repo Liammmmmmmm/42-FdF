@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:34:24 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/07 12:24:01 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/07 15:54:41 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void	random_values_init(t_env *env)
 	env->painter.intensity = 100;
 	env->painter.mode = 0;
 	init_slider(env);
+	init_text_input(env);
 	if (init_buttons(env) == 0)
 	{
 		// gestion d'erreur

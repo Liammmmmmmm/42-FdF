@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:00:24 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/07 12:07:53 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/07 16:14:07 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	init_color_button(t_env *env, int i, int color)
 {
 	env->color_buttons[i].background_color = color;
 	env->color_buttons[i].border_color = 0xffffff;
+	env->color_buttons[i].background_color_on_click = color;
+	env->color_buttons[i].border_color_on_click = 0x5c5c5c;
 	env->color_buttons[i].height = 20;
 	env->color_buttons[i].width = 30;
 	env->color_buttons[i].x = 1880 - 40 * (i / 16);
@@ -35,6 +37,8 @@ int	init_setmode_button(t_env *env, int i, char *text)
 	i += 48;
 	env->color_buttons[i].background_color = 0xaaa5b0;
 	env->color_buttons[i].border_color = 0xffffff;
+	env->color_buttons[i].background_color_on_click = 0xcac5d1;
+	env->color_buttons[i].border_color_on_click = 0xe4dfeb;
 	env->color_buttons[i].height = 20;
 	env->color_buttons[i].width = 110;
 	env->color_buttons[i].x = 1800;
@@ -46,6 +50,25 @@ int	init_setmode_button(t_env *env, int i, char *text)
 	((t_brush_c *)env->color_buttons[i].param)->color = i - 47;
 	((t_brush_c *)env->color_buttons[i].param)->env = env;
 	env->color_buttons[i].action = &change_brush_mode;
+	return (1);
+}
+
+int	init_save_button(t_env *env, int i)
+{
+	env->color_buttons[i].background_color = 0xaaa5b0;
+	env->color_buttons[i].border_color = 0xffffff;
+	env->color_buttons[i].background_color_on_click = 0xcac5d1;
+	env->color_buttons[i].border_color_on_click = 0xe4dfeb;
+	env->color_buttons[i].height = 20;
+	env->color_buttons[i].width = 150;
+	env->color_buttons[i].x = 1750;
+	env->color_buttons[i].y = 1040;
+	env->color_buttons[i].param = malloc(sizeof(t_brush_c));
+	env->color_buttons[i].text = ft_strdup("Save!");
+	if (!env->color_buttons[i].param || !env->color_buttons[i].text)
+		return (0); // AJOUTER GESTION ERREUR
+	((t_brush_c *)env->color_buttons[i].param)->env = env;
+	env->color_buttons[i].action = &save_map_button;
 	return (1);
 }
 
@@ -118,6 +141,7 @@ int	init_buttons(t_env *env)
 	init_setmode_button(env, 0, "UP");
 	init_setmode_button(env, 1, "DOWN");
 	init_setmode_button(env, 2, "FLATTERN");
+	init_save_button(env, 51);
 	return (1);
 }
 
@@ -144,4 +168,19 @@ void	init_slider(t_env *env)
 	env->brush_intensity_slider.point_color = 0x1193d9;
 	env->brush_intensity_slider.value = &env->painter.intensity;
 	env->brush_intensity_slider.is_clicked = 0;
+}
+
+void	init_text_input(t_env *env)
+{
+	env->save_input.background_color = 0xbfbfbf;
+	env->save_input.border_color = 0xf0f0f0;
+	env->save_input.border_color_focus = 0x1193d9;
+	env->save_input.height = 20;
+	env->save_input.width = 150;
+	env->save_input.x = 1750;
+	env->save_input.y = 1010;
+	ft_strlcpy(env->save_input.placeholder, "File name", 256);
+	env->save_input.max_char = 20;
+	env->save_input.padding_left = 4;
+	env->save_input.text_color = 0x0;
 }
