@@ -6,11 +6,16 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 22:08:13 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/08 23:28:53 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/08 23:56:25 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 //#include "fdf.h"
+
+// idée de folie, des sliders centrés a 0 : comme les sliders sauf que y'a pas de
+// limite de début ou fin. Imaginons je met le slider full a droite, ça va augmenter
+// ma var de 100 et remettre le slider au centre, si je refait a droit ça refait 100 de plus
+// comme ça je peux faire des sliders pour l'offset x et y de la map
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,9 +24,9 @@
 #define WIDTH 256
 #define HEIGHT 256
 #define GRID_SIZE 16
-#define SCALE ((float)WIDTH / WIDTH)
+#define SCALE 16.0f
 
-#define OCTAVES 6
+#define OCTAVES 4
 #define PERSISTENCE 0.5f
 
 float gradientX[GRID_SIZE + 1][GRID_SIZE + 1];
