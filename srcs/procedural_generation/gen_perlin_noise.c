@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 22:08:13 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/08 23:56:25 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/09 23:48:03 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,42 +21,86 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define WIDTH 256
-#define HEIGHT 256
-#define GRID_SIZE 16
-#define SCALE 16.0f
+typedef struct s_perlin_noise
+{
+	unsigned int	seed;
+	int				width;
+	int				height;
+	int				min;
+	int				max;
+	int				x_offset;
+	int				y_offset;
+	float			scale;
+	int				octaves;
+	float			persistence;
+	float			frequency;
+	float			*gradientX;
+	float			*gradientY;
+	float			*noise;
+	int				*heightmap;
+	int				vector_grid_size_x;
+	int				vector_grid_size_y;
+	int				vector_grid_size_total;
+	int				vector_grid_division;
+	float			min_val;
+	float			max_val;
+	float			temp_frequency;
+}	t_perlin_noise;
 
-#define OCTAVES 4
-#define PERSISTENCE 0.5f
-
-float gradientX[GRID_SIZE + 1][GRID_SIZE + 1];
-float gradientY[GRID_SIZE + 1][GRID_SIZE + 1];
-
-// Génère des gradients unitaires aléatoires
-void generate_gradients() {
-    for (int y = 0; y <= GRID_SIZE; y++) {
-        for (int x = 0; x <= GRID_SIZE; x++) {
-            float angle = ((float)rand() / RAND_MAX) * 2.0f * M_PI;
-            gradientX[y][x] = cos(angle);
-            gradientY[y][x] = sin(angle);
-        }
-    }
+unsigned int hash(int x, int y, unsigned int seed) {
+    unsigned int h = seed;
+    h ^= x * 374761393U;
+    h ^= y * 668265263U;
+    h *= 3284157443U;
+    h ^= h >> 13;
+    h *= 1911520717U;
+    h ^= h >> 16;
+    return h;
 }
 
-// Fonction fade de Perlin pour un meilleur lissage
-float fade(float t) {
+int	generate_vectors(t_perlin_noise *perlin)
+{
+	int		gridsize;
+	int		i;
+	float	angle;
+
+	perlin->vector_grid_division = 32;
+	perlin->vector_grid_size_x = perlin->width / perlin->vector_grid_division + 1;
+	perlin->vector_grid_size_y = perlin->height / perlin->vector_grid_division + 1;
+	perlin->vector_grid_size_total = (perlin->vector_grid_size_x + 1) * (perlin->vector_grid_size_y + 1);
+	perlin->gradientX = malloc(sizeof(float) * perlin->vector_grid_size_total);
+	perlin->gradientY = malloc(sizeof(float) * perlin->vector_grid_size_total);
+	if (!perlin->gradientX || !perlin->gradientY)
+		return (free(perlin->gradientX), free(perlin->gradientY), 0);
+	i = 0;
+	while (i < perlin->vector_grid_size_total)
+	{
+		angle = (hash(i % (perlin->vector_grid_size_x + 1) + perlin->x_offset / perlin->vector_grid_division, i / (perlin->vector_grid_size_x + 1) + perlin->y_offset / perlin->vector_grid_division, perlin->seed) % 360) * (M_PI / 180.0f);
+		perlin->gradientX[i] = cos(angle);
+		perlin->gradientY[i] = sin(angle);
+		i++;
+	}
+	return (1);
+}
+
+float fade(float t)
+{
     return t * t * t * (t * (t * 6 - 15) + 10);
 }
 
 // Produit scalaire entre un gradient et le vecteur relatif
-float dot_grid_gradient(int ix, int iy, float x, float y) {
+float dot_grid_gradient(t_perlin_noise *perlin, int ix, int iy, float x, float y)
+{
     float dx = x - (float)ix;
     float dy = y - (float)iy;
-    return (dx * gradientX[iy][ix] + dy * gradientY[iy][ix]);
+	if (ix < 0 || iy < 0 || ix >= perlin->vector_grid_size_x || iy >= perlin->vector_grid_size_y)
+        return 0.0f;
+    return (dx * perlin->gradientX[iy * (perlin->vector_grid_size_x + 1) + ix] + dy * perlin->gradientY[iy * (perlin->vector_grid_size_x + 1) + ix]);
 }
 
 // Génération du bruit de Perlin 2D
-float perlin_noise(float x, float y) {
+float perlin_noise(t_perlin_noise *perlin, float x, float y)
+{
     int x0 = (int)floor(x);
     int x1 = x0 + 1;
     int y0 = (int)floor(y);
@@ -67,63 +111,108 @@ float perlin_noise(float x, float y) {
 
     float n0, n1, ix0, ix1;
 
-    n0 = dot_grid_gradient(x0, y0, x, y);
-    n1 = dot_grid_gradient(x1, y0, x, y);
+    n0 = dot_grid_gradient(perlin, x0, y0, x, y);
+    n1 = dot_grid_gradient(perlin, x1, y0, x, y);
     ix0 = (1.0f - sx) * n0 + sx * n1;
 
-    n0 = dot_grid_gradient(x0, y1, x, y);
-    n1 = dot_grid_gradient(x1, y1, x, y);
+    n0 = dot_grid_gradient(perlin, x0, y1, x, y);
+    n1 = dot_grid_gradient(perlin, x1, y1, x, y);
     ix1 = (1.0f - sx) * n0 + sx * n1;
 
     return ((1.0f - sy) * ix0 + sy * ix1);
 }
 
-// Bruit de Perlin multi-octaves
-float perlin_noise_multi(float x, float y) {
-    float total = 0;
-    float amplitude = 1.0f;
-    float frequency = 0.3f;
-    float max_value = 0;
+float perlin_noise_multi(t_perlin_noise *perlin, float x, float y)
+{
+    float	total = 0;
+    float	amplitude = 1.0f;
+    float	max_value = 0;
+	int		i;
 
-    for (int i = 0; i < OCTAVES; i++) {
-        total += perlin_noise(x * frequency, y * frequency) * amplitude;
+	perlin->temp_frequency = perlin->frequency;
+    for (int i = 0; i < perlin->octaves; i++) {
+        total += perlin_noise(perlin, x * perlin->temp_frequency, y * perlin->temp_frequency) * amplitude;
         max_value += amplitude;
-        amplitude *= PERSISTENCE;
-        frequency *= 2.0f;
+        amplitude *= perlin->persistence;
+        perlin->temp_frequency *= 2.0f;
     }
 
     return total / max_value;
 }
 
-// Génère la heightmap en normalisant les valeurs entre 0 et 255
-void generate_heightmap(unsigned char heightmap[WIDTH][HEIGHT], int x_offset, int y_offset) {
-    float min_val = 1e6, max_val = -1e6;
-    float noise[WIDTH][HEIGHT];
+int		create_noise(t_perlin_noise *perlin)
+{
+	int		stop;
+	int		i;
 
-    for (int y = 0; y < HEIGHT; y++) {
-        for (int x = 0; x < WIDTH; x++) {
-            noise[y][x] = perlin_noise_multi((x + x_offset) / SCALE, (y + y_offset) / SCALE);
-            if (noise[y][x] < min_val) min_val = noise[y][x];
-            if (noise[y][x] > max_val) max_val = noise[y][x];
-        }
-    }
-
-    // Normalisation entre 0 et 255
-    for (int y = 0; y < HEIGHT; y++) {
-        for (int x = 0; x < WIDTH; x++) {
-            heightmap[y][x] = (unsigned char)(255.0f * (noise[y][x] - min_val) / (max_val - min_val));
-        }
-    }
+	stop = perlin->width * perlin->height;
+	perlin->noise = malloc(sizeof(float) * stop);
+	if (!perlin->noise)
+		return (0);
+	i = 0;
+	while (i < stop)
+	{
+		perlin->noise[i] = perlin_noise_multi(perlin, (i % perlin->width + perlin->x_offset % perlin->vector_grid_division) / perlin->scale, (i / perlin->width + perlin->y_offset % perlin->vector_grid_division) / perlin->scale);
+		if (perlin->noise[i] < perlin->min_val)
+			perlin->min_val = perlin->noise[i];
+		else if (perlin->noise[i] > perlin->max_val)
+			perlin->max_val = perlin->noise[i];
+		i++;
+	}
+	return (1);
 }
 
-// Affichage ASCII amélioré
-void print_heightmap(unsigned char heightmap[WIDTH][HEIGHT]) {
+void	normalize_heightmap(t_perlin_noise *perlin)
+{
+	int		i;
+	int		stop;
+
+	i = 0;
+	stop = perlin->width * perlin->height;
+	while (i < stop)
+	{
+		perlin->heightmap[i] = (perlin->max - perlin->min) * (perlin->noise[i] - perlin->min_val) / (perlin->max_val - perlin->min_val) + perlin->min;
+		i++;
+	}
+}
+
+
+void	debug_print_vectors(t_perlin_noise *perlin)
+{
+	int		i;
+
+	i = 0;
+	while (i < perlin->vector_grid_size_total)
+	{
+		printf("Gradient %d: (%f, %f)\n", i, perlin->gradientX[i], perlin->gradientY[i]);
+		i++;
+	}
+}
+
+int	generate_perlin_noise(t_perlin_noise *perlin)
+{
+	srand(perlin->seed);
+	if (generate_vectors(perlin) == 0)
+		return (0);
+	// debug_print_vectors(perlin);
+	perlin->heightmap = malloc(sizeof(int) * perlin->width * perlin->height);
+	if (!perlin->heightmap)
+		return (free(perlin->gradientX), free(perlin->gradientY), 0);
+	perlin->min_val = 1e6;
+	perlin->max_val = -1e6;
+	if (create_noise(perlin) == 0)
+		return (free(perlin->gradientX), free(perlin->gradientY), free(perlin->heightmap), 0);
+	normalize_heightmap(perlin);
+	return (1);
+}
+
+void print_heightmap2(t_perlin_noise *perlin) {
     const char levels[] = " .:-=+*#%@";
     int num_levels = sizeof(levels) - 1;
 
-    for (int y = 0; y < HEIGHT; y += 8) {
-        for (int x = 0; x < WIDTH; x += 4) {
-            int val = heightmap[y][x];
+    for (int y = 0; y < perlin->height; y += 8) {
+        for (int x = 0; x < perlin->width; x += 4) {
+            int val = perlin->heightmap[perlin->width * y + x];
             char c = levels[(val * num_levels) / 256];
             printf("%c", c);
         }
@@ -131,17 +220,38 @@ void print_heightmap(unsigned char heightmap[WIDTH][HEIGHT]) {
     }
 }
 
+void	clean_perlin(t_perlin_noise *perlin)
+{
+	free(perlin->gradientX);
+	free(perlin->gradientY);
+	free(perlin->noise);
+	free(perlin->heightmap);
+}
+
 int main() {
-    unsigned char heightmap[WIDTH][HEIGHT];
+	t_perlin_noise	perlin;
 
-    srand(42);
-    generate_gradients();
-    generate_heightmap(heightmap, 0, 0);
-    print_heightmap(heightmap);
-	// generate_heightmap(heightmap, 0, 200);
-    // print_heightmap(heightmap);
-	// generate_heightmap(heightmap, 0, 400);
-    // print_heightmap(heightmap);
+	perlin.seed = 42;
+	perlin.width = 256;
+	perlin.height = 256;
+	perlin.min = 0;
+	perlin.max = 255;
+	perlin.x_offset = 40;
+	perlin.y_offset = 0;
+	perlin.scale = 48.0f;
+	perlin.octaves = 14;
+	perlin.persistence = 0.5f;
+	perlin.frequency = 1.0f;
+	perlin.gradientX = NULL;
+	perlin.gradientY = NULL;
+	perlin.noise = NULL;
+	perlin.heightmap = NULL;
+	perlin.vector_grid_size_x = 0;
+	perlin.vector_grid_size_y = 0;
 
+	generate_perlin_noise(&perlin);
+	print_heightmap2(&perlin);
+
+	clean_perlin(&perlin);
     return 0;
 }
