@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/07 16:29:54 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/10 12:16:44 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,8 @@ typedef struct s_map
 {
 	int		**map;			/* 2D array of integers representing the map */
 	int		**color_map;	/* 2D array representing the colors of the map */
+	int		*mapl;			/* 1D array of integers representing the map */
+	int		*color_mapl;	/* 1D array representing the colors of the map */
 	t_bool	*edited;
 	int		length;			/* Length of the map */
 	int		height;			/* Height of the map */
@@ -214,6 +216,40 @@ typedef struct s_painter
 	int	intensity;
 	int	mode;
 }	t_painter;
+
+typedef struct s_perlin_noise
+{
+	unsigned int	seed;
+	unsigned int	width;
+	unsigned int	height;
+	int				min;
+	int				max;
+	int				x_offset;
+	int				y_offset;
+	float			scale;
+	int				octaves;
+	float			persistence;
+	float			frequency;
+	float			*gradientX;
+	float			*gradientY;
+	float			*noise;
+	int				*heightmap;
+	int				vector_grid_size_x;
+	int				vector_grid_size_y;
+	int				vector_grid_size_total;
+	int				vector_grid_division;
+	float			min_val;
+	float			max_val;
+}	t_perlin_noise;
+
+typedef struct s_perlin_map
+{
+	int				is_perlin_map;
+	t_perlin_noise	perlin_noise;
+	
+}	t_perlin_map;
+
+
 
 /**
  * @struct s_env
@@ -292,6 +328,7 @@ typedef struct s_env
 	t_int_slider	brush_size_slider;
 	t_int_slider	brush_intensity_slider;
 	t_text_input	save_input;
+	t_perlin_map	procedural;
 }	t_env;
 
 #endif

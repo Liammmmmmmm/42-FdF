@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:05:37 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/07 16:13:27 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/10 11:53:48 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	exit_free(t_env *env)
 		if (env->color_buttons[i].text)
 			free(env->color_buttons[i].text);
 	}
+	clean_perlin(&env->procedural.perlin_noise);
 	free(env);
 	env = NULL;
 }

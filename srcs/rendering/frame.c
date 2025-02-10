@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:51:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/07 16:54:12 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/10 11:55:42 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ char	*info_string(t_env *env)
 			env->mouse_last_x, env->mouse_last_y, env->frames_gen,
 			1.0 / ((double)(env->timestamp_last_frame - last_frame_tmstp) / 1000000.0),
 			env->sphere_proj, perspective, env->z_ordering,
-			!env->cam_around_focus, env->z_ratio, env->color_preset,
+			!env->cam_around_focus, env->z_ratio, env->custom_color,
 			env->color_preset, env->auto_point_reduc, env->points_reduction_factor));
 }
 

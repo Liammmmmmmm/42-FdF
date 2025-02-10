@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:36:03 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/07 17:36:02 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/10 10:51:15 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ int	main(int argc, char **argv)
 {
 	t_env	*env;
 
-	if (argc != 2)
+	if (argc < 2)
 		return (print_error("Please provide a map (fdf <mapname.fdf>)"), 1);
 	env = calloc(sizeof(t_env), 1);
 	if (!env)
 		return (print_error("An error occured"), 1);
-	if (init_all(env, argv) == 0)
+	if (init_all(env, argc, argv) == 0)
 		return (1);
 	if (env->map->highest == 0)
 		env->map->highest = 1;

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/07 16:30:47 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/10 11:17:58 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ t_map	*parse_map(char	*map_name);
  * @param argv The command-line arguments.
  * @return 1 on success, 0 on failure.
  */
-int		init_all(t_env *env, char **argv);
+int		init_all(t_env *env, int argc, char **argv);
 
 /**
  * @brief Print an error message.
@@ -174,6 +174,15 @@ int		init_all(t_env *env, char **argv);
  * @param str The error message to print.
  */
 void	print_error(char *str);
+
+/**
+ * @brief Print an info message.
+ *
+ * This function prints an info message to the console.
+ *
+ * @param str The info message to print.
+ */
+void	print_info(char *str);
 
 /**
  * @brief Display information about the environment.
@@ -788,5 +797,11 @@ void	init_text_input(t_env *env);
 // Save
 void	save_map(const char *filename, t_env *env);
 void    save_map_button(void *param);
+
+// procedural map
+int		generate_perlin_noise(t_perlin_noise *perlin);
+void	clean_perlin(t_perlin_noise *perlin);
+t_map	*procedural_map(t_env *env, int argc, char **argv);
+
 
 #endif

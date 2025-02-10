@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 10:57:10 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/01/14 11:47:21 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/10 11:17:25 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,10 @@ void	display_infos(t_env *env)
 
 void	print_error(char *str)
 {
-	ft_printf("%s[Error]%s %s\n", RED, NC, str);
+	ft_printf(RED "[Error]" NC " %s\n", str);
+}
+
+void	print_info(char *str)
+{
+	ft_printf(BLUE "[INFO]" NC " %s\n", str);
 }

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:34:24 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/07 15:54:41 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/10 11:46:14 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,11 +120,30 @@ void	random_values_init(t_env *env)
 	env->custom_color = !env->map->have_color;
 }
 
-int	init_all(t_env *env, char **argv)
+int	init_map(t_env *env, int argc, char **argv)
 {
-	env->map = parse_map(argv[1]);
-	if (!env->map)
-		return (print_error("Map initialization failed"), free(env), 0);
+	if (ft_strncmp("procedural\0", argv[1], 11) != 0)
+	{
+		if (argc > 2)
+			return (print_error("Invalid arg amount. "), free(env), 0);
+		env->map = parse_map(argv[1]);
+		if (!env->map)
+			return (print_error("Map initialization failed"), free(env), 0);
+	}
+	else
+	{
+		env->map = procedural_map(env, argc, argv);
+		if (!env->map)
+			return (print_error("Procedural map initialization error"), free(env), 0);
+	}
+	return (1);
+}
+
+int	init_all(t_env *env, int argc, char **argv)
+{
+	
+	if (init_map(env, argc, argv) == 0)
+		return (0);
 	random_values_init(env);
 	if (init_camera(env) == 0)
 		return (print_error("Camera initialization failed"), fr_map(env, 1), 0);
