@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 22:10:56 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/10 16:11:05 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/10 17:35:29 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ void	init_default_perlin(t_perlin_noise *perlin, t_uint width, t_uint height, t_
 	perlin->seed = seed;
 	perlin->width = width;
 	perlin->height = height;
-	perlin->min = 000;
-	perlin->max = 255;
+	perlin->min = -10;
+	perlin->max = 10;
 	perlin->x_offset = 0;
 	perlin->y_offset = 0;
 	perlin->scale = 128.0f;
 	perlin->octaves = 4;
-	perlin->persistence = 1.2f;
+	perlin->persistence = 0.5f;
 	perlin->frequency = 1.0f;
 	perlin->gradientX = NULL;
 	perlin->gradientY = NULL;
@@ -113,46 +113,98 @@ void	init_height_perlin(t_perlin_noise *perlin, t_uint width, t_uint height, t_u
 	perlin->vector_grid_size_y = 0;
 }
 
+float lerp(float a, float b, float t)
+{
+    return a + t * (b - a);
+}
+
+float apply_biome_modification(float base_height, t_biome biome)
+{
+    switch (biome)
+    {
+        case FROZEN_OCEAN:
+			return 62;
+        case COLD_OCEAN:
+		case TEMPERED_OCEAN:
+        case WARM_OCEAN:
+            return 36 + (base_height / 60) * 32;
+        
+        case TEMPERED_PLAIN:
+        case SNOWY_PLAIN:
+            return base_height * 0.4f + 75 * 0.6f; // Plat, recentré vers 75
+        
+        case DESERT:
+            return base_height + 5 * sinf(base_height * 0.1f); // Dunes légères
+        
+        case FOREST:
+            return base_height * 0.8f + 5 * sinf(base_height * 0.3f); // Légères ondulations 
+        
+        case COLD_MOUNTAIN:
+        case TEMPERED_MOUNTAIN:
+        case WARM_MOUNTAIN:
+            return base_height + 15 * sinf(base_height * 0.5f) + 10 * cosf(base_height * 0.3f); // Rugueux
+        
+        default:
+            return base_height; // Sécurité
+    }
+}
+
+float get_final_height(float perlin_value, t_biome biome, t_biome neighbor_biome, float blend_factor)
+{
+    float base_height = perlin_value; // Conversion du bruit en altitude (exemple)
+
+    float height_a = apply_biome_modification(base_height, biome);
+    float height_b = apply_biome_modification(base_height, neighbor_biome);
+
+    return lerp(height_a, height_b, blend_factor);
+}
+
+
 int	save_one_line(t_map *map, t_perlin_map *perlin_map, int i)
 {
 	int	x;
 
 	map->map[i] = malloc(sizeof(int) * map->length);
 	map->color_map[i] = malloc(sizeof(int) * map->length);
-	if (!map->map[i])
+	if (!map->map[i] || !map->color_map[i])
 		return (ft_free_tab_int(map->map, i + 1), ft_free_tab_int(map->color_map, i + 1), 0);
+	
 	x = 0;
 	while (x < map->length)
 	{
-		//map->map[i][x] = perlin->heightmap[i * map->length + x];
-		map->map[i][x] = 0;
-		t_biome biome = get_biome(perlin_map->temperature.heightmap[i * map->length + x], perlin_map->biome_height.heightmap[i * map->length + x], perlin_map->humidity.heightmap[i * map->length + x]);
-		int color;
-		if (biome == FROZEN_OCEAN)
-			color = 0xD0F1FF;
-		else if (biome == COLD_OCEAN)
-			color = 0x3335D1;
-		else if (biome == TEMPERED_OCEAN)
-			color = 0x3372D1;
-		else if (biome == WARM_OCEAN)
-			color = 0x00C8FF;
-		else if (biome == TEMPERED_PLAIN)
-			color = 0x7BDD6F;
-		else if (biome == SNOWY_PLAIN)
-			color = 0xD9F5D6;
-		else if (biome == DESERT)
-			color = 0xEEEE86;
-		else if (biome == FOREST)
-			color = 0x2CB55A;
-		else if (biome == COLD_MOUNTAIN)
-			color = 0xF1FBFF;
-		else if (biome == TEMPERED_MOUNTAIN)
-			color = 0x888C8D;
-		else if (biome == WARM_MOUNTAIN)
-			color = 0xEBC958;
-		else
-			color = 0x0;
+		t_biome biome = perlin_map->biome_map[i * map->length + x];
+		t_biome neighbor_biome = biome;
+		if (x + 1 < map->length) 
+			neighbor_biome = get_biome(
+				perlin_map->temperature.heightmap[i * map->length + x + 1],
+				perlin_map->humidity.heightmap[i * map->length + x + 1],
+				perlin_map->biome_height.heightmap[i * map->length + x + 1]
+			);
 
+		// Déterminer le facteur de blend
+		float blend_factor = 0.5f; // Valeur arbitraire, pourrait être améliorée avec une carte de transition
+		
+		// Obtenir la hauteur finale
+		float perlin_value = perlin_map->perlin_noise.heightmap[i * map->length + x] + perlin_map->biome_height.heightmap[i * map->length + x];
+		map->map[i][x] = get_final_height(perlin_value, biome, neighbor_biome, blend_factor);
+
+		// Attribution de la couleur en fonction du biome
+		int color;
+		switch (biome)
+		{
+			case FROZEN_OCEAN: color = 0xD0F1FF; break;
+			case COLD_OCEAN: color = 0x3335D1; break;
+			case TEMPERED_OCEAN: color = 0x3372D1; break;
+			case WARM_OCEAN: color = 0x00C8FF; break;
+			case TEMPERED_PLAIN: color = 0x7BDD6F; break;
+			case SNOWY_PLAIN: color = 0xD9F5D6; break;
+			case DESERT: color = 0xEEEE86; break;
+			case FOREST: color = 0x2CB55A; break;
+			case COLD_MOUNTAIN: color = 0xF1FBFF; break;
+			case TEMPERED_MOUNTAIN: color = 0x888C8D; break;
+			case WARM_MOUNTAIN: color = 0xEBC958; break;
+			default: color = 0x0;
+		}
 		map->color_map[i][x] = color;
 		x++;
 	}
@@ -170,9 +222,18 @@ int	save_to_map(t_map *map, t_perlin_map *perlin_map)
 
 	map->map = malloc(sizeof(int *) * map->height);
 	map->color_map = malloc(sizeof(int *) * map->height);
+	perlin_map->biome_map = malloc(sizeof(t_biome) * map->height * map->length);
 	map->edited = malloc(sizeof(char) * map->height * map->length);
-	if (!map->map || !map->color_map || !map->edited)
-		return (free(map->map), free(map->color_map), free(map->edited), 0);
+	if (!map->map || !map->color_map || !perlin_map->biome_map || !map->edited)
+		return (free(map->map), free(map->color_map), free(perlin_map->biome_map), free(map->edited), 0);
+	
+	i = map->height * map->length;
+	while (i > 0)
+	{
+		i--;
+		perlin_map->biome_map[i] = get_biome(perlin_map->temperature.heightmap[i], perlin_map->humidity.heightmap[i], perlin_map->biome_height.heightmap[i]);
+	}
+
 	i = 0;
 	while (i < map->height)
 	{
@@ -182,6 +243,7 @@ int	save_to_map(t_map *map, t_perlin_map *perlin_map)
 	}
 	return (1);
 }
+
 
 int	setup_perlins(t_env *env, int argc, char **argv)
 {

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:22:04 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/06 14:24:22 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/10 17:23:55 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	save_point_at_mouse(t_env *env)
 				{
 					env->selected_point.x = i % env->map->length;
 					env->selected_point.y = i / env->map->length;
-					return ;
+					return ((void)ft_printf("Selected point : (%d, %d, %d), #%X\n", env->selected_point.x, env->selected_point.y, env->map->map[env->selected_point.y][env->selected_point.x], env->map->color_map[env->selected_point.y][env->selected_point.x]));
 				}
 				i++;	
 			}
