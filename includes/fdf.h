@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 15:33:07 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/10 11:17:58 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/10 14:46:00 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "components.h"
 # include "structs.h"
+# include "procedural.h"
 
 # include "libft.h"
 # include "mlx.h"

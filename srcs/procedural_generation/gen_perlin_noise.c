@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 22:08:13 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/10 12:46:55 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/10 15:22:08 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	generate_vectors(t_perlin_noise *perlin)
 	int		i;
 	float	angle;
 
-	perlin->vector_grid_division = 8;
+	perlin->vector_grid_division = 16;
 	perlin->vector_grid_size_x = perlin->width / perlin->vector_grid_division + 1;
 	perlin->vector_grid_size_y = perlin->height / perlin->vector_grid_division + 1;
 	perlin->vector_grid_size_total = (perlin->vector_grid_size_x + 1) * (perlin->vector_grid_size_y + 1);
@@ -189,14 +189,21 @@ int	generate_perlin_noise(t_perlin_noise *perlin)
 }
 
 void print_heightmap2(t_perlin_noise *perlin) {
-    const char levels[] = " .:-=+*#%@";
+    const char levels[] = " .-:*+=%#@";
     int num_levels = sizeof(levels) - 1;
 
     for (unsigned int y = 0; y < perlin->height; y += 2) {
         for (unsigned int x = 0; x < perlin->width; x += 1) {
             int val = perlin->heightmap[perlin->width * y + x];
-            char c = levels[(val * num_levels) / 256];
+            char c = levels[(val * num_levels) / 100];
             printf("%c", c);
+
+			// if (val <= 40)
+			// 	printf(" ");
+			// else if (val <= 75)
+			// 	printf("-");
+			// else
+			// 	printf("@");
         }
         printf("\n");
     }
@@ -213,15 +220,15 @@ void	clean_perlin(t_perlin_noise *perlin)
 // int main() {
 // 	t_perlin_noise	perlin;
 
-// 	perlin.seed = 42;
+// 	perlin.seed = 44;
 // 	perlin.width = 256;
 // 	perlin.height = 256;
 // 	perlin.min = 0;
-// 	perlin.max = 255;
+// 	perlin.max = 100;
 // 	perlin.x_offset = 0;
-// 	perlin.y_offset = 0;
-// 	perlin.scale = 16.0f;
-// 	perlin.octaves = 8;
+// 	perlin.y_offset = 256;
+// 	perlin.scale = 128.0f;
+// 	perlin.octaves = 4;
 // 	perlin.persistence = 0.5f;
 // 	perlin.frequency = 1.0f;
 // 	perlin.gradientX = NULL;
@@ -237,3 +244,35 @@ void	clean_perlin(t_perlin_noise *perlin)
 // 	clean_perlin(&perlin);
 //     return 0;
 // }
+
+
+/*
+
+Oceans/plaines/montagnes
+
+perlin.seed = 44;
+perlin.width = 256;
+perlin.height = 512;
+perlin.min = 0;
+perlin.max = 100;
+perlin.x_offset = 0;
+perlin.y_offset = 0;
+perlin.scale = 128.0f;
+perlin.octaves = 4;
+perlin.persistence = 0.5f;
+perlin.frequency = 1.0f;
+perlin.gradientX = NULL;
+perlin.gradientY = NULL;
+perlin.noise = NULL;
+perlin.heightmap = NULL;
+perlin.vector_grid_size_x = 0;
+perlin.vector_grid_size_y = 0;
+
+if (val <= 40)
+	printf(" ");
+else if (val <= 75)
+	printf("-");
+else
+	printf("@");
+
+*/

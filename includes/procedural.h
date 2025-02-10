@@ -1,23 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   edit_map.c                                         :+:      :+:    :+:   */
+/*   procedural.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 12:58:09 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/10 13:20:03 by lilefebv         ###   ########lyon.fr   */
+/*   Created: 2025/02/06 14:39:10 by lilefebv          #+#    #+#             */
+/*   Updated: 2025/02/10 16:06:19 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#ifndef PROCEDURAL_H
+# define PROCEDURAL_H
 
-void	edit_values(t_env *env)
+typedef enum e_biome
 {
-	
-}
+	FROZEN_OCEAN,
+	COLD_OCEAN,
+	TEMPERED_OCEAN,
+	WARM_OCEAN,
+	TEMPERED_PLAIN,
+	SNOWY_PLAIN,
+	DESERT,
+	FOREST,
+	COLD_MOUNTAIN,
+	TEMPERED_MOUNTAIN,
+	WARM_MOUNTAIN
+}	t_biome;
 
-int	edit_size(t_env *env)
-{
-	
-}
+t_biome	get_biome(int temperature, int humidity, int biome_height);
+
+#endif

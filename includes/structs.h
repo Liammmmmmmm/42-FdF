@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/10 12:16:44 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/10 15:50:29 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "libft.h"
 # include "components.h"
+# include "procedural.h"
 
 typedef unsigned char t_bool;
 
@@ -246,10 +247,11 @@ typedef struct s_perlin_map
 {
 	int				is_perlin_map;
 	t_perlin_noise	perlin_noise;
-	
+	t_perlin_noise	humidity;
+	t_perlin_noise	temperature;
+	t_perlin_noise	biome_height;
+	t_biome			*biome_map;
 }	t_perlin_map;
-
-
 
 /**
  * @struct s_env
