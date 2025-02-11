@@ -1,4 +1,11 @@
-[![wakatime](https://wakatime.com/badge/user/7d36b55a-b5ff-46c4-b7fd-57604568d382/project/1506d4b3-5b1c-46e7-93b4-8a636ce4e5d7.svg)](https://wakatime.com/badge/user/7d36b55a-b5ff-46c4-b7fd-57604568d382/project/1506d4b3-5b1c-46e7-93b4-8a636ce4e5d7)
+<p align='center'>
+   <a href="https://www.linux.org/">
+      <img src="https://img.shields.io/badge/OS-Linux-blue?logo=linux&logoColor=white"
+            alt="OS - Linux"></a>
+   <a href="https://wakatime.com/badge/user/7d36b55a-b5ff-46c4-b7fd-57604568d382/project/1506d4b3-5b1c-46e7-93b4-8a636ce4e5d7">
+      <img src="https://wakatime.com/badge/user/7d36b55a-b5ff-46c4-b7fd-57604568d382/project/1506d4b3-5b1c-46e7-93b4-8a636ce4e5d7.svg"
+            alt="wakatime"></a>
+</p>
 
 # FdF
 

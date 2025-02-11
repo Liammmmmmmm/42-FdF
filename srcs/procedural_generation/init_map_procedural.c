@@ -6,28 +6,11 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 22:10:56 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/11 13:30:39 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/11 16:33:53 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-int	color_preset_procedural(int z)
-{
-	if (z < 30)
-		return (0x000060);
-	if (z < 62)
-		return (calc_gradiant_color(0x000060, 0x1E90FF, (z - 30) / 32.0));
-	if (z < 70)
-		return (calc_gradiant_color(0x1E90FF, 0xC2B280, (z - 62) / 8.0));
-	if (z < 100)
-		return (calc_gradiant_color(0xC2B280, 0x228B22, (z - 70) / 30.0));
-	if (z < 140)
-		return (calc_gradiant_color(0x228B22, 0x888C8D, (z - 100) / 40.0));
-	if (z < 180)
-		return (calc_gradiant_color(0x888C8D, 0xA9A9A9, (z - 140) / 40.0));
-	return (0xFFFFFF);
-}
 
 void	init_default_perlin(t_perlin_noise *perlin, t_uint width, t_uint height, t_uint seed)
 {
@@ -220,6 +203,139 @@ float get_final_height(float perlin_value, t_map *map, t_perlin_map *perlin_map,
 		return lerp(height_a, height_c, blend_factor);
 }
 
+int	color_by_biome_only(const t_biome biome)
+{
+	int color;
+
+	switch (biome)
+	{
+		case FROZEN_OCEAN: color = 0xD0F1FF; break;
+		case COLD_OCEAN: color = 0x3335D1; break;
+		case TEMPERED_OCEAN: color = 0x3372D1; break;
+		case WARM_OCEAN: color = 0x00C8FF; break;
+		case TEMPERED_PLAIN: color = 0x7BDD6F; break;
+		case SNOWY_PLAIN: color = 0xD9F5D6; break;
+		case DESERT: color = 0xEEEE86; break;
+		case FOREST: color = 0x2CB55A; break;
+		case COLD_MOUNTAIN: color = 0xF1FBFF; break;
+		case TEMPERED_MOUNTAIN: color = 0x888C8D; break;
+		case WARM_MOUNTAIN: color = 0xEBC958; break;
+		default: color = 0x0;
+	}
+	return (color);
+}
+
+int get_ocean_color(int x, int y, int linelength, t_biome *biome_map)
+{
+    t_biome current_biome = biome_map[y * linelength + x];
+
+    int base_color;
+    if (current_biome == COLD_OCEAN)
+        base_color = 0x3335D1;
+    else if (current_biome == TEMPERED_OCEAN)
+        base_color = 0x3372D1;
+    else if (current_biome == WARM_OCEAN)
+        base_color = 0x00C8FF;
+    else
+        return 0;
+
+    int closest_dist = 6;
+    int target_color = base_color;
+
+    for (int dy = -5; dy <= 5; dy++)
+	{
+        for (int dx = -5; dx <= 5; dx++)
+		{
+            int nx = x + dx;
+            int ny = y + dy;
+
+            if (nx < 0 || ny < 0 || nx >= linelength || ny >= linelength)
+                continue ;
+
+            t_biome neighbor_biome = biome_map[ny * linelength + nx];
+
+            if (neighbor_biome != current_biome && (neighbor_biome == COLD_OCEAN || neighbor_biome == TEMPERED_OCEAN || neighbor_biome == WARM_OCEAN))
+            {
+                int neighbor_color;
+                if (neighbor_biome == COLD_OCEAN)
+                    neighbor_color = 0x3335D1;
+                else if (neighbor_biome == TEMPERED_OCEAN)
+                    neighbor_color = 0x3372D1;
+                else
+                    neighbor_color = 0x00C8FF;
+
+                int dist = abs(dx) + abs(dy);
+                if (dist < closest_dist)
+				{
+                    closest_dist = dist;
+                    target_color = neighbor_color;
+                }
+            }
+        }
+    }
+
+    if (closest_dist <= 5)
+        return calc_gradiant_color(base_color, target_color, (5.0 - closest_dist) / 10.0);
+
+    return base_color;
+}
+
+
+int	get_point_color(float base_height, t_biome biome, int x, int y, t_perlin_map *perlin_map)
+{
+	if (perlin_map->color_by_biome_only)
+		return (color_by_biome_only(biome));
+	(void)base_height;
+	switch (biome)
+	{
+		case FROZEN_OCEAN:
+		{
+			return 0xD0F1FF;
+		}
+		case COLD_OCEAN:
+		{
+			return get_ocean_color(x, y, perlin_map->temperature.width, perlin_map->biome_map);
+		}
+		case TEMPERED_OCEAN:
+		{
+			return get_ocean_color(x, y, perlin_map->temperature.width, perlin_map->biome_map);
+		}
+		case WARM_OCEAN:
+		{
+			return get_ocean_color(x, y, perlin_map->temperature.width, perlin_map->biome_map);
+		}
+		case TEMPERED_PLAIN:
+		{
+			return 0x7BDD6F;
+		}
+		case SNOWY_PLAIN:
+		{
+			return 0xD9F5D6;
+		}
+		case DESERT:
+		{
+			return 0xEEEE86;
+		}
+		case FOREST:
+		{
+			return 0x2CB55A;
+		}
+		case COLD_MOUNTAIN:
+		{
+			return 0xF1FBFF;
+		}
+		case TEMPERED_MOUNTAIN:
+		{
+			return 0x888C8D;
+		}
+		case WARM_MOUNTAIN:
+		{
+			return 0xEBC958;
+		}
+		default:
+			return 0x0;
+	}
+}
 
 int	save_one_line(t_map *map, t_perlin_map *perlin_map, int i)
 {
@@ -240,23 +356,7 @@ int	save_one_line(t_map *map, t_perlin_map *perlin_map, int i)
 		float perlin_value = perlin_map->perlin_noise.heightmap[i * map->length + x] + perlin_map->biome_height.heightmap[i * map->length + x];
 		map->map[i][x] = get_final_height(perlin_value, map, perlin_map, blend_factor, x, i);
 
-		int color;
-		switch (biome)
-		{
-			case FROZEN_OCEAN: color = 0xD0F1FF; break;
-			case COLD_OCEAN: color = 0x3335D1; break;
-			case TEMPERED_OCEAN: color = 0x3372D1; break;
-			case WARM_OCEAN: color = 0x00C8FF; break;
-			case TEMPERED_PLAIN: color = 0x7BDD6F; break;
-			case SNOWY_PLAIN: color = 0xD9F5D6; break;
-			case DESERT: color = 0xEEEE86; break;
-			case FOREST: color = 0x2CB55A; break;
-			case COLD_MOUNTAIN: color = 0xF1FBFF; break;
-			case TEMPERED_MOUNTAIN: color = 0x888C8D; break;
-			case WARM_MOUNTAIN: color = 0xEBC958; break;
-			default: color = 0x0;
-		}
-		map->color_map[i][x] = color;
+		map->color_map[i][x] = get_point_color(perlin_value, biome, x, i, perlin_map);
 		x++;
 	}
 	return (1);
@@ -269,6 +369,7 @@ int	save_to_map(t_map *map, t_perlin_map *perlin_map)
 	map->height = perlin_map->perlin_noise.height;
 	map->length = perlin_map->perlin_noise.width;
 	map->have_color = 1;
+	perlin_map->color_by_biome_only = 0;
 	map->highest = -2147483648;
 
 	map->map = malloc(sizeof(int *) * map->height);

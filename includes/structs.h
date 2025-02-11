@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/10 16:44:46 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/11 15:18:32 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,6 +251,7 @@ typedef struct s_perlin_map
 	t_perlin_noise	temperature;
 	t_perlin_noise	biome_height;
 	t_biome			*biome_map;
+	int				color_by_biome_only;
 }	t_perlin_map;
 
 /**

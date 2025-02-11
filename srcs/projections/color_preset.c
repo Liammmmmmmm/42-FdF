@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:26:43 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/07 17:12:40 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/11 15:08:37 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,23 @@ static int	color_preset3(int z)
 	return (0xFFFFFF);
 }
 
+int	color_preset_procedural(int z)
+{
+	if (z < 30)
+		return (0x000060);
+	if (z < 62)
+		return (calc_gradiant_color(0x000060, 0x1E90FF, (z - 30) / 32.0));
+	if (z < 70)
+		return (calc_gradiant_color(0x1E90FF, 0xC2B280, (z - 62) / 8.0));
+	if (z < 100)
+		return (calc_gradiant_color(0xC2B280, 0x228B22, (z - 70) / 30.0));
+	if (z < 140)
+		return (calc_gradiant_color(0x228B22, 0x888C8D, (z - 100) / 40.0));
+	if (z < 180)
+		return (calc_gradiant_color(0x888C8D, 0xA9A9A9, (z - 140) / 40.0));
+	return (0xFFFFFF);
+}
+
 int	get_color_by_preset(t_env *env, int x, int y)
 {
 	int	z;
@@ -87,5 +104,7 @@ int	get_color_by_preset(t_env *env, int x, int y)
 		return (color_preset2(z));
 	else if (env->color_preset == 3)
 		return (color_preset3(z));
+	else if (env->color_preset == 4)
+		return (color_preset_procedural(z));
 	return (0xFFFFFF);
 }
