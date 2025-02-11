@@ -1,3 +1,5 @@
+[![wakatime](https://wakatime.com/badge/user/7d36b55a-b5ff-46c4-b7fd-57604568d382/project/1506d4b3-5b1c-46e7-93b4-8a636ce4e5d7.svg)](https://wakatime.com/badge/user/7d36b55a-b5ff-46c4-b7fd-57604568d382/project/1506d4b3-5b1c-46e7-93b4-8a636ce4e5d7)
+
 # FdF
 
 **FdF** is a project from 42 School where we transform a file containing a grid of height values into a 3D wireframe using the MiniLibX graphics library. Think of it as turning numbers into art!

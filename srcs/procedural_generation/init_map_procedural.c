@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 22:10:56 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/11 13:28:37 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/11 13:30:39 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,9 +174,7 @@ float apply_biome_modification(float base_height, t_biome biome, int x, int y)
 		case SNOWY_PLAIN:
 			return base_height * 0.4f + 75 * 0.6f + 1;
 		case DESERT:
-		{
 			return base_height * 0.4f + 75 * 0.6f + dune_height(x + sqrt(y * y + x * x));
-		}
 
 		case FOREST:
 			return base_height * 0.4f + 75 * 0.6f + fabs(2 * sinf((float)hash(x, y, base_height))) + 2;
