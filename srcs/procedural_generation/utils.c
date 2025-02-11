@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   procedural.h                                       :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/06 14:39:10 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/11 10:54:35 by lilefebv         ###   ########lyon.fr   */
+/*   Created: 2025/02/11 10:53:59 by lilefebv          #+#    #+#             */
+/*   Updated: 2025/02/11 10:55:00 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PROCEDURAL_H
-# define PROCEDURAL_H
+#include "fdf.h"
 
-typedef enum e_biome
+unsigned int hash(int x, int y, unsigned int seed)
 {
-	FROZEN_OCEAN,
-	COLD_OCEAN,
-	TEMPERED_OCEAN,
-	WARM_OCEAN,
-	TEMPERED_PLAIN,
-	SNOWY_PLAIN,
-	DESERT,
-	FOREST,
-	COLD_MOUNTAIN,
-	TEMPERED_MOUNTAIN,
-	WARM_MOUNTAIN
-}	t_biome;
+	unsigned int h;
 
-t_biome	get_biome(int temperature, int humidity, int biome_height);
-
-unsigned int hash(int x, int y, unsigned int seed);
-
-#endif
+	h = seed;
+	h ^= x * 374761393U;
+	h ^= y * 668265263U;
+	h *= 3284157443U;
+	h ^= h >> 13;
+	h *= 1911520717U;
+	h ^= h >> 16;
+	return (h);
+}

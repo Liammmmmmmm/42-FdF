@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 22:08:13 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/10 15:22:08 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/11 10:58:30 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,7 @@
 // ma var de 100 et remettre le slider au centre, si je refait a droit ça refait 100 de plus
 // comme ça je peux faire des sliders pour l'offset x et y de la map
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-
-unsigned int hash(int x, int y, unsigned int seed) {
-	unsigned int h = seed;
-	h ^= x * 374761393U;
-	h ^= y * 668265263U;
-	h *= 3284157443U;
-	h ^= h >> 13;
-	h *= 1911520717U;
-	h ^= h >> 16;
-	return h;
-}
+#include "stdio.h"
 
 int	generate_vectors(t_perlin_noise *perlin)
 {
@@ -61,7 +48,6 @@ float fade(float t)
     return t * t * t * (t * (t * 6 - 15) + 10);
 }
 
-// Produit scalaire entre un gradient et le vecteur relatif
 float dot_grid_gradient(t_perlin_noise *perlin, int ix, int iy, float x, float y)
 {
     float dx = x - (float)ix;
