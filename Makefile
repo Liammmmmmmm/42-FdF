@@ -6,7 +6,7 @@
 #    By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/19 13:55:49 by lilefebv          #+#    #+#              #
-#    Updated: 2025/02/11 10:56:08 by lilefebv         ###   ########lyon.fr    #
+#    Updated: 2025/02/12 10:21:17 by lilefebv         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,7 @@ SRCS     = fdf.c console.c utils.c free.c                                       
 		   camera/calcs.c camera/movements.c camera/key_movements.c                                                                                                                   \
 		   edition/move_point.c edition/painter.c edition/select.c                                                                                                                     \
 		   components/button.c components/slider_int.c components/text_input.c                                                                                                          \
-		   procedural_generation/gen_perlin_noise.c procedural_generation/init_map_procedural.c procedural_generation/biomes.c procedural_generation/utils.c
+		   procedural_generation/gen_perlin_noise.c procedural_generation/init_map_procedural.c procedural_generation/biomes.c procedural_generation/utils.c procedural_generation/rivers.c
 		   
 
 SRCS_BONUS = 

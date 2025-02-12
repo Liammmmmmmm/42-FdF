@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/11 15:18:32 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/12 10:46:40 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,23 @@
 
 # include "libft.h"
 # include "components.h"
-# include "procedural.h"
 
 typedef unsigned char t_bool;
+
+typedef enum e_biome
+{
+	FROZEN_OCEAN,
+	COLD_OCEAN,
+	TEMPERED_OCEAN,
+	WARM_OCEAN,
+	TEMPERED_PLAIN,
+	SNOWY_PLAIN,
+	DESERT,
+	FOREST,
+	COLD_MOUNTAIN,
+	TEMPERED_MOUNTAIN,
+	WARM_MOUNTAIN
+}	t_biome;
 
 typedef struct s_vec3
 {
@@ -161,6 +175,7 @@ typedef struct s_camera
 typedef struct s_map
 {
 	int		**map;			/* 2D array of integers representing the map */
+	int		**rivers;
 	int		**color_map;	/* 2D array representing the colors of the map */
 	int		*mapl;			/* 1D array of integers representing the map */
 	int		*color_mapl;	/* 1D array representing the colors of the map */

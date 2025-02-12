@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 22:10:56 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/12 10:13:13 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/12 10:49:35 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -414,8 +414,9 @@ int	save_one_line(t_map *map, t_perlin_map *perlin_map, int i)
 
 	map->map[i] = malloc(sizeof(int) * map->length);
 	map->color_map[i] = malloc(sizeof(int) * map->length);
+	map->rivers[i] = malloc(sizeof(int) * map->length);
 	if (!map->map[i] || !map->color_map[i])
-		return (ft_free_tab_int(map->map, i + 1), ft_free_tab_int(map->color_map, i + 1), 0);
+		return (ft_free_tab_int(map->map, i + 1), ft_free_tab_int(map->rivers, i + 1), ft_free_tab_int(map->color_map, i + 1), 0);
 	
 	x = 0;
 	while (x < map->length)
@@ -434,7 +435,7 @@ int	save_one_line(t_map *map, t_perlin_map *perlin_map, int i)
 	return (1);
 }
 
-int	save_to_map(t_map *map, t_perlin_map *perlin_map)
+int	save_to_map(t_env *env, t_map *map, t_perlin_map *perlin_map)
 {
 	int	i;
 
@@ -445,11 +446,12 @@ int	save_to_map(t_map *map, t_perlin_map *perlin_map)
 	map->highest = -2147483648;
 
 	map->map = malloc(sizeof(int *) * map->height);
+	map->rivers = malloc(sizeof(int *) * map->height);
 	map->color_map = malloc(sizeof(int *) * map->height);
 	perlin_map->biome_map = malloc(sizeof(t_biome) * map->height * map->length);
 	map->edited = malloc(sizeof(char) * map->height * map->length);
 	if (!map->map || !map->color_map || !perlin_map->biome_map || !map->edited)
-		return (free(map->map), free(map->color_map), free(perlin_map->biome_map), free(map->edited), 0);
+		return (free(map->map), free(map->rivers), free(map->color_map), free(perlin_map->biome_map), free(map->edited), 0);
 	
 	i = map->height * map->length;
 	while (i > 0)
@@ -465,6 +467,9 @@ int	save_to_map(t_map *map, t_perlin_map *perlin_map)
 			return (free(map->edited), 0);
 		i++;
 	}
+	generate_rivers(env, map);
+	set_rivers(map);
+	ft_free_tab_int(map->rivers, map->height);
 	return (1);
 }
 
@@ -522,6 +527,6 @@ t_map	*procedural_map(t_env *env, int argc, char **argv)
 		return (free_perlin_map(&env->procedural), NULL);
 	if (generate_perlin_noise(&env->procedural.biome_height) == 0)
 		return (free_perlin_map(&env->procedural), NULL);
-	save_to_map(map, &env->procedural);
+	save_to_map(env, map, &env->procedural);
 	return (map);
 }
