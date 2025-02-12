@@ -34,6 +34,7 @@
   - [And Because FdF isn't enough](#and-because-fdf-isnt-enough)
     - [Point Editing](#point-editing)
       - [Tools](#tools)
+    - [Procedural generation](#procedural-generation)
   - [Conclusion](#conclusion)
 
 
@@ -200,39 +201,103 @@ You can modify the height of individual points in the wireframe:
 - **Right-click** on a point to select it.
 - Press `[N]` to increase its height by 1.
 - Press `[B]` to decrease its height by 1.
-- Press `[V]` to set its height to 0.
+- Press `[V]` to reset its height to 0.
 
 This feature allows for real-time modifications to the terrain, making adjustments intuitive and interactive.
 
 ![Edit point](img/point-edit.gif)
 
-And because editing point 1 by 1 isn't really fun, you can also select multiples points by holding left control and right click
+And since editing points one by one isn't exactly fun, you can also select multiple points by holding **Left Control** and **Right-Clicking**.
 
 ![Edit points](img/points-edit.gif)
 
-**And why limiting ourself at editing point height ?? You can now use [T] to enter in edit mode, you can paint and change point height from there.**
+**But why limit ourselves to just editing point heights?? Press `[T]` to enter Edit Mode, where you can paint and modify terrain heights dynamically!**
 
-You can watch the youtube video if you want to see it with a good quality https://youtu.be/fW34TYyRYEc
+Want to see it in action? Watch the YouTube video in high quality: [Watch here](https://youtu.be/fW34TYyRYEc)
 
 [![Editor mode](img/editor-mode.gif)](https://youtu.be/fW34TYyRYEc)
 
 #### Tools
-1. Sliders
-   - Intensity :
-     - 100% apply the color selected (OR up/down point by 10, OR flattern at 0)
-     - 50% apply the color selected with 50% opacity (OR up/down point by 5, OR flattern at 50% of the actual height)
-     - etc.
-   - Brush radius : 
-     - change the radius of the brush (to pain/edit) larger or smaler zones. You can also edit the slider with CTRL+MOUSE UP/DOWN
-2. Colors
-   - Click on a color to select it. The brush size indicator will take the color selected
-3. Points height
-   - UP : increase the points height depending on the intensity
-   - DOWN : decrease the points height depending on the intensity
-   - FLATTERN : Bring the point to the height 0, depending on the intensity
-4. Save
-   - Give the name for your file and save it (you can include folder but there is a maximum characters limit in the field)
 
+1. **Sliders**
+   - **Intensity:**
+     - 100% applies the selected color (OR raises/lowers the point by 10, OR flattens it to 0).
+     - 50% applies the selected color with 50% opacity (OR raises/lowers the point by 5, OR flattens it to 50% of its current height).
+     - etc.
+   - **Brush Radius:**
+     - Adjusts the brush size for painting/editing larger or smaller areas. You can also modify it with `CTRL + MOUSE UP/DOWN`.
+
+2. **Colors**
+   - Click on a color to select it. The brush size indicator will display the selected color.
+
+3. **Point Height Adjustments**
+   - **UP:** Increases point height based on intensity.
+   - **DOWN:** Decreases point height based on intensity.
+   - **FLATTEN:** Brings the point towards height 0, depending on intensity.
+
+4. **Save**
+   - Enter a filename and save your work (folder paths are allowed, but the field has a character limit).
+
+---
+
+### Procedural generation
+
+Another major feature! Using only pregenerated maps is pretty borring, so why not adding a procedural generation ?
+
+![Procedural Generation](img/procedural.png)
+
+> But, how does it work ?
+
+The key element here is **Perlin noise**:
+
+<img src="img/perlin.png" alt="perlin noise example" width="300"/>
+<img src="img/perlin2.png" alt="perlin noise example" width="300"/>
+
+There are different types of Perlin noise, here are some examples.
+
+If you want to understand how Perlin noise is generated, try to understand `procedural_generation/gen_perlin_noise.c`, or read this [Wikipedia article](https://en.wikipedia.org/wiki/Perlin_noise) for a clear and simple explanation.
+
+> How Do We Create a Custom Map from These Noisy Images?
+
+There isn't a single "correct" method, but here's how I approached it.
+
+To generate the map, I first create **four Perlin noise layers**:
+- **Global height map** – Defines mountains, oceans, and plains.
+- **Temperature map** – Influences biome distribution.
+- **Humidity map** – Influences biome distribution to.
+- **Surface variation map** – Adds small terrain details.
+
+Based on the first three layers, I determine the biome. If the global height indicates an ocean, the temperature and humidity decide between these four ocean biomes:
+
+![Biomes Ocean](img/biome-oceans.png)
+
+The same applies to plains:
+
+![Biomes Plain](img/biome-plains.png)
+
+And for mountains:
+
+![Biomes Mountain](img/biome-mountains.png)
+
+And the combinaison of everything give something like that :
+
+![Biomes map](img/biome-map.png)
+
+Each biome applies different transformations to the global height map. For instance:
+- **Mountains** get increased elevation and more height variation.
+- **Frozen oceans** flatten all points to water level.
+- **Deserts** get a dune like effect.
+
+And you can also appreciate more details like
+- **Smooth transitions** between oceans biomes.
+- **Details like flowers, rocks** to improve the tempered plain.
+
+To make maps even more dynamic, I implemented rivers:
+- Rivers **start in the mountains** and follow the slope **until they can't anymore**.
+
+With all these elements combined, the generated maps look great! Each **seed** produces a unique world, and running the program twice with the same seed will generate **exactly the same map**.
+
+![Map example](img/map-example.png)
 
 ## Conclusion
 
