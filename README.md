@@ -11,6 +11,32 @@
 
 **FdF** is a project from 42 School where we transform a file containing a grid of height values into a 3D wireframe using the MiniLibX graphics library. Think of it as turning numbers into art!
 
+## Table of contents
+- [FdF](#fdf)
+  - [Table of contents](#table-of-contents)
+  - [Project Overview](#project-overview)
+    - [Example](#example)
+    - [Larger Maps in Action](#larger-maps-in-action)
+  - [Try It Yourself](#try-it-yourself)
+  - [Features](#features)
+    - [Controls \& informations](#controls--informations)
+    - [Z-Axis Scaling](#z-axis-scaling)
+    - [Perspective Projection](#perspective-projection)
+    - [Free Camera Mode](#free-camera-mode)
+    - [Z-ordering](#z-ordering)
+    - [Color Presets](#color-presets)
+      - [Earth Preset](#earth-preset)
+      - [Moon Preset](#moon-preset)
+    - [Spherical Projection](#spherical-projection)
+    - [Adaptive Point Density](#adaptive-point-density)
+    - [Line Rendering Algorithms](#line-rendering-algorithms)
+    - [Multithreaded Rendering](#multithreaded-rendering)
+  - [And Because FdF isn't enough](#and-because-fdf-isnt-enough)
+    - [Point Editing](#point-editing)
+      - [Tools](#tools)
+  - [Conclusion](#conclusion)
+
+
 ## Project Overview
 
 The main goal of FdF is to read a file with height values arranged in a grid and render it as a stunning 3D wireframe model. We use the **MiniLibX** library to handle graphics rendering.
@@ -162,6 +188,12 @@ Press `[X]` to cycle through the available line rendering algorithms.
 ![Basic Line Rendering](img/line-basic.png)
 ![Anti-Aliased Line Rendering](img/line-aa.png)
 
+### Multithreaded Rendering
+
+To improve performance, line drawing and point projection calculations are now multithreaded, resulting in smoother frame rates even on large maps.
+
+## And Because FdF isn't enough
+
 ### Point Editing
 
 You can modify the height of individual points in the wireframe:
@@ -182,11 +214,25 @@ And because editing point 1 by 1 isn't really fun, you can also select multiples
 
 You can watch the youtube video if you want to see it with a good quality https://youtu.be/fW34TYyRYEc
 
- <!-- add gif later -->
+[![Editor mode](img/editor-mode.gif)](https://youtu.be/fW34TYyRYEc)
 
-### Multithreaded Rendering
+#### Tools
+1. Sliders
+   - Intensity :
+     - 100% apply the color selected (OR up/down point by 10, OR flattern at 0)
+     - 50% apply the color selected with 50% opacity (OR up/down point by 5, OR flattern at 50% of the actual height)
+     - etc.
+   - Brush radius : 
+     - change the radius of the brush (to pain/edit) larger or smaler zones. You can also edit the slider with CTRL+MOUSE UP/DOWN
+2. Colors
+   - Click on a color to select it. The brush size indicator will take the color selected
+3. Points height
+   - UP : increase the points height depending on the intensity
+   - DOWN : decrease the points height depending on the intensity
+   - FLATTERN : Bring the point to the height 0, depending on the intensity
+4. Save
+   - Give the name for your file and save it (you can include folder but there is a maximum characters limit in the field)
 
-To improve performance, line drawing and point projection calculations are now multithreaded, resulting in smoother frame rates even on large maps.
 
 ## Conclusion
 

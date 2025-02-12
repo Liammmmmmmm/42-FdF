@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 22:10:56 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/12 10:49:35 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/12 13:20:53 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,7 +250,7 @@ int	dune_color(int x)
 	return (0xd7d09b);
 }
 
-int get_ocean_color(int x, int y, int linelength, t_biome *biome_map)
+int get_ocean_color(int x, int y, int linelength, int ylength, t_biome *biome_map)
 {
     t_biome current_biome = biome_map[y * linelength + x];
 
@@ -274,7 +274,7 @@ int get_ocean_color(int x, int y, int linelength, t_biome *biome_map)
             int nx = x + dx;
             int ny = y + dy;
 
-            if (nx < 0 || ny < 0 || nx >= linelength || ny >= linelength)
+            if (nx < 0 || ny < 0 || nx >= linelength || ny >= ylength)
                 continue ;
 
             t_biome neighbor_biome = biome_map[ny * linelength + nx];
@@ -319,15 +319,15 @@ int	get_point_color(float base_height, int actual_height, t_biome biome, int x, 
 		}
 		case COLD_OCEAN:
 		{
-			return get_ocean_color(x, y, perlin_map->temperature.width, perlin_map->biome_map);
+			return get_ocean_color(x, y, perlin_map->temperature.width, perlin_map->temperature.height, perlin_map->biome_map);
 		}
 		case TEMPERED_OCEAN:
 		{
-			return get_ocean_color(x, y, perlin_map->temperature.width, perlin_map->biome_map);
+			return get_ocean_color(x, y, perlin_map->temperature.width, perlin_map->temperature.height, perlin_map->biome_map);
 		}
 		case WARM_OCEAN:
 		{
-			return get_ocean_color(x, y, perlin_map->temperature.width, perlin_map->biome_map);
+			return get_ocean_color(x, y, perlin_map->temperature.width, perlin_map->temperature.height, perlin_map->biome_map);
 		}
 		case TEMPERED_PLAIN:
 		{
@@ -427,7 +427,7 @@ int	save_one_line(t_map *map, t_perlin_map *perlin_map, int i)
 		
 		float perlin_value = perlin_map->perlin_noise.heightmap[i * map->length + x] + perlin_map->biome_height.heightmap[i * map->length + x];
 		map->map[i][x] = get_final_height(perlin_value, map, perlin_map, blend_factor, x, i);
-
+		map->rivers[i][x] = 0;
 		map->color_map[i][x] = get_point_color(perlin_value, map->map[i][x], biome, x, i, perlin_map);
 		x++;
 		

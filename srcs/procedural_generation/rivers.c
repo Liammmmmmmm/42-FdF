@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 10:20:48 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/12 13:01:26 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/12 13:16:16 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	generate_river(t_map *map, int x, int y, int river_length)
 	if (y > 0)
 		if (map->map[y][x] + 1 >= map->map[y - 1][x] && map->rivers[y - 1][x] == 0)
 			ym1 = map->map[y][x] - map->map[y - 1][x] + 2;
-	if (x < map->height - 1)
+	if (y < map->height - 1)
 		if (map->map[y][x] + 1 >= map->map[y + 1][x] && map->rivers[y + 1][x] == 0)
 			yp1 = map->map[y][x] - map->map[y + 1][x] + 2;
 
