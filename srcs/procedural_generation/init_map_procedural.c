@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 22:10:56 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/11 16:33:53 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/12 10:13:13 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,18 @@ float apply_biome_modification(float base_height, t_biome biome, int x, int y)
 			return base_height > 30 ? 36 + (base_height / 60) * 32 : 36 + (base_height / 60) * 32 + (base_height - 30) * 0.7;
 
 		case TEMPERED_PLAIN:
+		{
+			if (hash(x, y, base_height) % 200 == 0)
+				return base_height * 0.4f + 75 * 0.6f + 1;
+			else if (hash(x, y, base_height) % 2 == 0)
+			{
+				if (hash(x - 1, y, base_height) % 200 == 0)
+					return base_height * 0.4f + 75 * 0.6f + 1;
+				if (hash(x, y - 1, base_height) % 200 == 0)
+					return base_height * 0.4f + 75 * 0.6f + 1;
+			}
 			return base_height * 0.4f + 75 * 0.6f;
+		}
 		case SNOWY_PLAIN:
 			return base_height * 0.4f + 75 * 0.6f + 1;
 		case DESERT:
@@ -163,9 +174,9 @@ float apply_biome_modification(float base_height, t_biome biome, int x, int y)
 			return base_height * 0.4f + 75 * 0.6f + fabs(2 * sinf((float)hash(x, y, base_height))) + 2;
 
 		case COLD_MOUNTAIN:
-			return ((base_height * 0.4f + 75 * 0.6f) - 75) * 2 + base_height + 2;
+			return ((base_height * 0.4f + 75 * 0.6f) - 75) * 2 + base_height + 4;
 		case TEMPERED_MOUNTAIN:
-			return ((base_height * 0.4f + 75 * 0.6f) - 75) * 2 + base_height + fabs(sinf((float)hash(x, y, base_height)));
+			return ((base_height * 0.4f + 75 * 0.6f) - 75) * 2 + base_height + fabs(sinf((float)hash(x, y, base_height))) + 2;
 		case WARM_MOUNTAIN:
 			return round_up_to_next_ten(((base_height * 0.4f + 75 * 0.6f) - 75) * 2 + base_height) + ((int)(((base_height * 0.4f + 75 * 0.6f) - 75) * 2 + base_height) % 10) / 4 - 4;
 
@@ -225,6 +236,20 @@ int	color_by_biome_only(const t_biome biome)
 	return (color);
 }
 
+int	dune_color(int x)
+{
+	int t = x % 25;
+
+	switch (t)
+	{
+		case 15: return (0xbab488);
+		case 16: return (0xbab488);
+		case 17: return (0xbab488);
+		case 18: return (0xbab488);
+	}
+	return (0xd7d09b);
+}
+
 int get_ocean_color(int x, int y, int linelength, t_biome *biome_map)
 {
     t_biome current_biome = biome_map[y * linelength + x];
@@ -281,7 +306,7 @@ int get_ocean_color(int x, int y, int linelength, t_biome *biome_map)
 }
 
 
-int	get_point_color(float base_height, t_biome biome, int x, int y, t_perlin_map *perlin_map)
+int	get_point_color(float base_height, int actual_height, t_biome biome, int x, int y, t_perlin_map *perlin_map)
 {
 	if (perlin_map->color_by_biome_only)
 		return (color_by_biome_only(biome));
@@ -306,19 +331,48 @@ int	get_point_color(float base_height, t_biome biome, int x, int y, t_perlin_map
 		}
 		case TEMPERED_PLAIN:
 		{
-			return 0x7BDD6F;
+			if (perlin_map->humidity.heightmap[y * perlin_map->humidity.width + x] > 40 && perlin_map->temperature.heightmap[y * perlin_map->temperature.width + x] < 50)
+			{
+				t_uint hashv = hash(x, y, perlin_map->perlin_noise.seed) % 70;
+				if (hashv == 0)
+					return (0xde4028);
+				if (hashv == 1)
+					return (0xd47aeb);
+			}
+			if (hash(x, y, base_height) % 200 == 0)
+				return (0x888C8D);
+			else if (hash(x, y, base_height) % 2 == 0)
+			{
+				if (hash(x - 1, y, base_height) % 200 == 0)
+					return (0x888C8D);
+				if (hash(x, y - 1, base_height) % 200 == 0)
+					return (0x888C8D);
+			}
+			if (hash(x, y, base_height) % 3)
+				return (0x63c768);
+			return (0x7BDD6F);
 		}
 		case SNOWY_PLAIN:
 		{
-			return 0xD9F5D6;
+			t_uint hashv = hash(x, y, perlin_map->perlin_noise.seed) % 3;
+			if (hashv == 0)
+				return (0xcdebca);
+			if (hashv == 1)
+				return (0xdcedda);
+			return (0xD9F5D6);
 		}
 		case DESERT:
+			return dune_color(x + sqrt(y * y + x * x));
+		case FOREST: 
 		{
-			return 0xEEEE86;
-		}
-		case FOREST:
-		{
-			return 0x2CB55A;
+			t_uint hashv = hash(x, y, perlin_map->perlin_noise.seed) % 4;
+			if (hashv == 0)
+				return (0x249e4d);
+			if (hashv == 1)
+				return (0x28944c);
+			if (hashv == 2)
+				return (0x33b05d);
+			return (0x2CB55A);
 		}
 		case COLD_MOUNTAIN:
 		{
@@ -326,11 +380,28 @@ int	get_point_color(float base_height, t_biome biome, int x, int y, t_perlin_map
 		}
 		case TEMPERED_MOUNTAIN:
 		{
+			t_uint hashv = hash(x, y, perlin_map->perlin_noise.seed) % 4;
+			if (hashv == 0)
+				return (0x717475);
+			if (hashv == 1)
+				return (0x828a8c);
+			if (hashv == 2)
+				return (0x959a9c);
 			return 0x888C8D;
 		}
 		case WARM_MOUNTAIN:
 		{
-			return 0xEBC958;
+			if (actual_height <= 80)
+				return (0xbb6520);
+			if (actual_height == 87)
+				return (0x412920);
+			if (actual_height == 97 || actual_height == 98)
+				return (0x722f24);
+			if (actual_height == 107)
+				return (0xa28b7c);
+			if (actual_height == 108)
+				return (0x412920);
+			return 0x774935;
 		}
 		default:
 			return 0x0;
@@ -356,8 +427,9 @@ int	save_one_line(t_map *map, t_perlin_map *perlin_map, int i)
 		float perlin_value = perlin_map->perlin_noise.heightmap[i * map->length + x] + perlin_map->biome_height.heightmap[i * map->length + x];
 		map->map[i][x] = get_final_height(perlin_value, map, perlin_map, blend_factor, x, i);
 
-		map->color_map[i][x] = get_point_color(perlin_value, biome, x, i, perlin_map);
+		map->color_map[i][x] = get_point_color(perlin_value, map->map[i][x], biome, x, i, perlin_map);
 		x++;
+		
 	}
 	return (1);
 }
