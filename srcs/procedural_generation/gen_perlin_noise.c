@@ -6,18 +6,12 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 22:08:13 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/11 10:58:30 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/13 12:15:00 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-// idée de folie, des sliders centrés a 0 : comme les sliders sauf que y'a pas de
-// limite de début ou fin. Imaginons je met le slider full a droite, ça va augmenter
-// ma var de 100 et remettre le slider au centre, si je refait a droit ça refait 100 de plus
-// comme ça je peux faire des sliders pour l'offset x et y de la map
-
-#include "stdio.h"
+#include <stdio.h>
 
 int	generate_vectors(t_perlin_noise *perlin)
 {
@@ -81,7 +75,7 @@ float perlin_noise(t_perlin_noise *perlin, float x, float y)
 }
 
 float perlin_noise_multi(t_perlin_noise *perlin, float x, float y)
-{
+{ 
     float	total = 0;
     float	amplitude = 1.0f;
     float	max_value = 0;
@@ -162,7 +156,6 @@ int	generate_perlin_noise(t_perlin_noise *perlin)
 	srand(perlin->seed);
 	if (generate_vectors(perlin) == 0)
 		return (0);
-	//debug_print_vectors(perlin);
 	perlin->heightmap = malloc(sizeof(int) * perlin->width * perlin->height);
 	if (!perlin->heightmap)
 		return (free(perlin->gradientX), free(perlin->gradientY), 0);
@@ -175,14 +168,14 @@ int	generate_perlin_noise(t_perlin_noise *perlin)
 }
 
 void print_heightmap2(t_perlin_noise *perlin) {
-    const char levels[] = " .-:*+=%#@";
-    int num_levels = sizeof(levels) - 1;
+	const char levels[] = " .-:*+=%#@";
+	int num_levels = sizeof(levels) - 1;
 
-    for (unsigned int y = 0; y < perlin->height; y += 2) {
-        for (unsigned int x = 0; x < perlin->width; x += 1) {
-            int val = perlin->heightmap[perlin->width * y + x];
-            char c = levels[(val * num_levels) / 100];
-            printf("%c", c);
+	for (unsigned int y = 0; y < perlin->height; y += 2) {
+		for (unsigned int x = 0; x < perlin->width; x += 1) {
+			int val = perlin->heightmap[perlin->width * y + x];
+			char c = levels[(val * num_levels) / 100];
+			printf("%c", c);
 
 			// if (val <= 40)
 			// 	printf(" ");
@@ -190,9 +183,9 @@ void print_heightmap2(t_perlin_noise *perlin) {
 			// 	printf("-");
 			// else
 			// 	printf("@");
-        }
-        printf("\n");
-    }
+		}
+		printf("\n");
+	}
 }
 
 void	clean_perlin(t_perlin_noise *perlin)
@@ -230,35 +223,3 @@ void	clean_perlin(t_perlin_noise *perlin)
 // 	clean_perlin(&perlin);
 //     return 0;
 // }
-
-
-/*
-
-Oceans/plaines/montagnes
-
-perlin.seed = 44;
-perlin.width = 256;
-perlin.height = 512;
-perlin.min = 0;
-perlin.max = 100;
-perlin.x_offset = 0;
-perlin.y_offset = 0;
-perlin.scale = 128.0f;
-perlin.octaves = 4;
-perlin.persistence = 0.5f;
-perlin.frequency = 1.0f;
-perlin.gradientX = NULL;
-perlin.gradientY = NULL;
-perlin.noise = NULL;
-perlin.heightmap = NULL;
-perlin.vector_grid_size_x = 0;
-perlin.vector_grid_size_y = 0;
-
-if (val <= 40)
-	printf(" ");
-else if (val <= 75)
-	printf("-");
-else
-	printf("@");
-
-*/
