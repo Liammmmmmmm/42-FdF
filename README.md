@@ -229,6 +229,8 @@ Want to see it in action? Watch the YouTube video in high quality: [Watch here](
    - **UP:** Increases point height based on intensity.
    - **DOWN:** Decreases point height based on intensity.
    - **FLATTEN:** Brings the point towards height 0, depending on intensity.
+   - **SMOOTH UP:** Smooth the points and increase their height.
+   - **SMOOTH DOWN:** Smooth the points. A lot of repeated smooth down will often result in a flat terrain.
 
 4. **Save**
    - Enter a filename and save your work (folder paths are allowed, but the field has a character limit).
