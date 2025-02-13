@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:15:01 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/12 10:46:40 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/13 10:53:24 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -342,7 +342,7 @@ typedef struct s_env
 	t_thread_param	*threads_params;
 	int				protect_data_races;
 	t_painter		painter;
-	t_button		color_buttons[52];
+	t_button		color_buttons[54];
 	t_int_slider	brush_size_slider;
 	t_int_slider	brush_intensity_slider;
 	t_text_input	save_input;

@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:26:16 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/07 16:14:54 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/13 10:58:05 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	check_every_buttons(t_env *env)
 	int	i;
 
 	i = 0;
-	while (i < 52)
+	while (i < 54)
 	{
 		if (button_action(&env->color_buttons[i], env->mouse_last_x, env->mouse_last_y) == 1)
 			return (1);
@@ -31,7 +31,7 @@ int	release_every_buttons(t_env *env)
 	int	i;
 
 	i = 0;
-	while (i < 52)
+	while (i < 54)
 	{
 		button_release(&env->color_buttons[i]);
 		i++;

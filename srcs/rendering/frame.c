@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 10:51:34 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/10 11:55:42 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/13 11:52:36 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,7 +226,7 @@ void	display_painter_components(t_env *env)
 		display_slider_int(env->img, env->brush_size_slider);
 		display_slider_int(env->img, env->brush_intensity_slider);
 		i = 0;
-		while (i < 52)
+		while (i < 54)
 		{
 			display_button(env->img, env->color_buttons[i], env->font);
 			i++;

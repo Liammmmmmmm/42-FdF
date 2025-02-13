@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 14:25:42 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/07 12:43:10 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/13 10:59:32 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,95 @@ void	flattern_point(t_env *env)
 				env->map->map[i / env->map->length][i % env->map->length] = 0 + env->map->map[i / env->map->length][i % env->map->length] * (1 - (double)env->painter.intensity / 100);
 			}
 		}
-		i++;	
+		i++;
+	}
+}
+
+int	get_neighbours_average(t_env *env, int x, int y)
+{
+	int	neighbouramount = 0;
+	int	added_height = 0;
+	
+	if (x > 0)
+	{
+		added_height += env->map->map[y][x - 1];
+		neighbouramount++;
+	}
+	if (x < env->map->length - 1)
+	{
+		added_height += env->map->map[y][x + 1];
+		neighbouramount++;
+	}
+	if (y > 0)
+	{
+		added_height += env->map->map[y - 1][x];
+		neighbouramount++;
+	}
+	if (y < env->map->height - 1)
+	{
+		added_height += env->map->map[y + 1][x];
+		neighbouramount++;
+	}
+	if (neighbouramount == 0)
+		return (env->map->map[y][x]);
+	return (added_height / neighbouramount);
+}
+
+void	smoothup_point(t_env *env)
+{
+	size_t		point_amount;
+	size_t		i;
+	int			dx;
+	int			dy;
+	int			distance;
+
+	point_amount = env->map->height * env->map->length;
+	i = 0;
+	while (i < point_amount)
+	{
+		dx = env->point_list[i].x - env->mouse_last_x;
+		dy = env->point_list[i].y - env->mouse_last_y;
+		distance = sqrt(dx * dx + dy * dy);
+		if (distance <= env->painter.radius)
+		{
+			if ((i % env->map->length) % env->points_reduction_factor == 0
+				&& (i / env->map->length) % env->points_reduction_factor == 0
+				&& env->map->edited[i] == 0)
+			{
+				env->map->edited[i] = 1;
+				env->map->map[i / env->map->length][i % env->map->length] = (1 - (float)env->painter.intensity / 100) * env->map->map[i / env->map->length][i % env->map->length] + ((float)env->painter.intensity / 100) * get_neighbours_average(env, i % env->map->length, i / env->map->length) + 1;
+			}
+		}
+		i++;
+	}
+}
+
+void	smoothdown_point(t_env *env)
+{
+	size_t		point_amount;
+	size_t		i;
+	int			dx;
+	int			dy;
+	int			distance;
+
+	point_amount = env->map->height * env->map->length;
+	i = 0;
+	while (i < point_amount)
+	{
+		dx = env->point_list[i].x - env->mouse_last_x;
+		dy = env->point_list[i].y - env->mouse_last_y;
+		distance = sqrt(dx * dx + dy * dy);
+		if (distance <= env->painter.radius)
+		{
+			if ((i % env->map->length) % env->points_reduction_factor == 0
+				&& (i / env->map->length) % env->points_reduction_factor == 0
+				&& env->map->edited[i] == 0)
+			{
+				env->map->edited[i] = 1;
+				env->map->map[i / env->map->length][i % env->map->length] = (1 - (float)env->painter.intensity / 100) * env->map->map[i / env->map->length][i % env->map->length] + ((float)env->painter.intensity / 100) * get_neighbours_average(env, i % env->map->length, i / env->map->length);
+			}
+		}
+		i++;
 	}
 }
 
@@ -150,6 +238,10 @@ void	paint_area(t_env *env, int x, int y)
 		down_point(env);
 	else if (env->painter.mode == 3)
 		flattern_point(env);
+	else if (env->painter.mode == 4)
+		smoothup_point(env);
+	else if (env->painter.mode == 5)
+		smoothdown_point(env);
 	last_x = env->mouse_last_x;
 	last_y = env->mouse_last_y;
 }

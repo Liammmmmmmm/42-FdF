@@ -6,7 +6,7 @@
 /*   By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:00:24 by lilefebv          #+#    #+#             */
-/*   Updated: 2025/02/07 16:14:07 by lilefebv         ###   ########lyon.fr   */
+/*   Updated: 2025/02/13 11:01:52 by lilefebv         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,9 @@ int	init_buttons(t_env *env)
 	init_setmode_button(env, 0, "UP");
 	init_setmode_button(env, 1, "DOWN");
 	init_setmode_button(env, 2, "FLATTERN");
-	init_save_button(env, 51);
+	init_setmode_button(env, 3, "SMOOTH UP");
+	init_setmode_button(env, 4, "SMOOTH DOWN");
+	init_save_button(env, 53);
 	return (1);
 }
 
