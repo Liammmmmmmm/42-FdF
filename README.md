@@ -12,25 +12,30 @@
 **FdF** is a project from 42 School where we transform a file containing a grid of height values into a 3D wireframe using the MiniLibX graphics library. Think of it as turning numbers into art!
 
 ## Table of contents
-- [Project Overview](#project-overview)
-   - [Example](#example)
-   - [Larger Maps in Action](#larger-maps-in-action)
-- [Try It Yourself](#try-it-yourself)
-- [Features](#features)
-   - [Controls \& informations](#controls--informations)
-   - [Z-Axis Scaling](#z-axis-scaling)
-   - [Perspective Projection](#perspective-projection)
-   - [Free Camera Mode](#free-camera-mode)
-   - [Z-ordering](#z-ordering)
-   - [Color Presets](#color-presets)
-   - [Spherical Projection](#spherical-projection)
-   - [Adaptive Point Density](#adaptive-point-density)
-   - [Line Rendering Algorithms](#line-rendering-algorithms)
-   - [Multithreaded Rendering](#multithreaded-rendering)
-- [And Because FdF isn't enough](#and-because-fdf-isnt-enough)
-   - [Point Editing](#point-editing)
-   - [Procedural generation](#procedural-generation)
-- [Conclusion](#conclusion)
+- [FdF](#fdf)
+  - [Table of contents](#table-of-contents)
+  - [Project Overview](#project-overview)
+    - [Example](#example)
+    - [Larger Maps in Action](#larger-maps-in-action)
+  - [Try It Yourself](#try-it-yourself)
+  - [Features](#features)
+    - [Controls \& informations](#controls--informations)
+    - [Z-Axis Scaling](#z-axis-scaling)
+    - [Perspective Projection](#perspective-projection)
+    - [Free Camera Mode](#free-camera-mode)
+    - [Z-ordering](#z-ordering)
+    - [Color Presets](#color-presets)
+      - [Earth Preset](#earth-preset)
+      - [Moon Preset](#moon-preset)
+    - [Spherical Projection](#spherical-projection)
+    - [Adaptive Point Density](#adaptive-point-density)
+    - [Line Rendering Algorithms](#line-rendering-algorithms)
+    - [Multithreaded Rendering](#multithreaded-rendering)
+  - [And Because FdF isn't enough](#and-because-fdf-isnt-enough)
+    - [Point Editing](#point-editing)
+      - [Tools](#tools)
+    - [Procedural generation](#procedural-generation)
+  - [Conclusion](#conclusion)
 
 
 ## Project Overview
@@ -295,6 +300,8 @@ To make maps even more dynamic, I implemented rivers:
 With all these elements combined, the generated maps look great! Each **seed** produces a unique world, and running the program twice with the same seed will generate **exactly the same map**.
 
 ![Map example](img/map-example.png)
+
+If you want to see more in a video demo, [here you can](https://youtu.be/T4Wj9XFwBCA?si=xbZFg1VwfcrK1Nz8)
 
 ## Conclusion
 
