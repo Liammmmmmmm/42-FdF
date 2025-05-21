@@ -6,7 +6,7 @@
 #    By: lilefebv <lilefebv@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/19 13:55:49 by lilefebv          #+#    #+#              #
-#    Updated: 2025/02/13 12:08:31 by lilefebv         ###   ########lyon.fr    #
+#    Updated: 2025/05/21 10:21:23 by lilefebv         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,11 +34,11 @@ ERASE    = \033[2K\r
 ERASE2   = $(ERASE)\033[F$(ERASE)
 
 # Compiler and flags
-CC       = cc
-CFLAGS   = -Wall -Wextra -Werror
+CC       = gcc
+CFLAGS   = -Wall -Wextra #-Werror
 LDFLAGS  = -L$(MINILIBXDIR) -lXext -lX11 -lm
 DEBUG_FLAGS = -g3
-FAST_FLAGS = -Ofast
+FAST_FLAGS = -O3 -flto -march=native -mtune=native -funroll-loops -ffast-math -falign-functions=32 -falign-loops=16
 
 ifeq ($(MAKECMDGOALS), debug)
 	CFLAGS += $(DEBUG_FLAGS)
